@@ -2,9 +2,10 @@
 
 import { useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import { type ContactFormValues, WEB3FORMS_ENDPOINT } from "@/constants/contact";
+import type { ContactFormValues } from "@/constants/contact";
 import { env } from "@/env";
 import { trackContactSubmitError } from "@/libs/analytics";
+import { api } from "@/services/api";
 
 type Props = {
   form: UseFormReturn<ContactFormValues>;
@@ -31,30 +32,21 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
     setSubmitting(true);
     setError(null);
 
-    try {
-      const res = await fetch(WEB3FORMS_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          access_key: env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-          ...values,
-        }),
-      });
+    const result = await api.contact({
+      access_key: env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+      ...values,
+    });
 
-      if (!res.ok) throw new Error("送信に失敗しました");
+    submittingRef.current = false;
+    setSubmitting(false);
 
-      const data = await res.json();
-      if (!data.success) throw new Error("送信に失敗しました");
-
-      onComplete();
-    } catch (e) {
-      const message = e instanceof Error ? e.message : "送信に失敗しました。時間をおいて再度お試しください。";
-      setError(message);
+    if (!result.ok) {
+      setError("送信に失敗しました。時間をおいて再度お試しください。");
       trackContactSubmitError("submission_failed");
-    } finally {
-      submittingRef.current = false;
-      setSubmitting(false);
+      return;
     }
+
+    onComplete();
   };
 
   return (

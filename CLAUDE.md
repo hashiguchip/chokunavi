@@ -30,7 +30,8 @@ src/
 │   ├── sections/     # ページセクション (JobHeader, Skills, Projects, etc.)
 │   └── layout/       # レイアウト (Header, Footer, SectionNav, Breadcrumb)
 ├── constants/        # 定数定義
-├── libs/             # 内部ライブラリ (global-modal)
+├── libs/             # 内部ライブラリ (http, global-modal, analytics)
+├── services/         # 外部サービスとの通信層 (API Layer)
 └── stores/           # Zustand ストア
 ```
 
