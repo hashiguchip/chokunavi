@@ -32,9 +32,11 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
     setSubmitting(true);
     setError(null);
 
+    const { company, ...rest } = values;
     const result = await api.contact({
       access_key: env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
-      ...values,
+      ...rest,
+      ...(company ? { company } : {}),
     });
 
     submittingRef.current = false;

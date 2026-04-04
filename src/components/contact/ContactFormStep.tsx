@@ -18,7 +18,14 @@ export function ContactFormStep({ form, onNext }: Props) {
   return (
     <form onSubmit={handleSubmit(onNext)} noValidate>
       {/* honeypot */}
-      <input type="checkbox" className="hidden" tabIndex={-1} autoComplete="off" {...register("botcheck")} />
+      <input
+        type="checkbox"
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        {...register("botcheck")}
+      />
 
       <div className="space-y-6">
         <div>
