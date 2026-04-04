@@ -72,7 +72,8 @@
         "src/app/**/error.tsx",
         "src/app/**/template.tsx",
         "next.config.ts",
-        "postcss.config.mjs"
+        "postcss.config.mjs",
+        "commitlint.config.mjs"
       ],
       "linter": {
         "rules": {
