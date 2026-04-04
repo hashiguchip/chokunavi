@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 function SwooshMark() {
   return (
     <svg width="80" height="28" viewBox="0 0 80 28" fill="currentColor" aria-hidden="true">
@@ -9,7 +11,7 @@ function SwooshMark() {
 
 export function Logo() {
   return (
-    <a href="#top" className="flex items-center gap-1 no-underline">
+    <Link href="/" className="flex items-center gap-1 no-underline">
       {/* スウッシュマーク */}
       <span className="text-primary-500">
         <SwooshMark />
@@ -18,6 +20,6 @@ export function Logo() {
       <span className="font-extrabold font-rounded text-[13px] text-primary-500 leading-none tracking-wide">
         チョクナビ
       </span>
-    </a>
+    </Link>
   );
 }
