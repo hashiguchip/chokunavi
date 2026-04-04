@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { type ContactFormValues, WEB3FORMS_ENDPOINT } from "@/constants/contact";
 import { env } from "@/env";
@@ -21,8 +21,11 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
   const values = form.getValues();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const submittingRef = useRef(false);
 
   const handleSubmit = async () => {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     setSubmitting(true);
     setError(null);
 
@@ -47,6 +50,7 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
       setError(message);
       trackContactSubmitError(message);
     } finally {
+      submittingRef.current = false;
       setSubmitting(false);
     }
   };
