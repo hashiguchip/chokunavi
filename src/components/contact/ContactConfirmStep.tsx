@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { type ContactFormValues, WEB3FORMS_ENDPOINT } from "@/constants/contact";
@@ -10,7 +12,7 @@ type Props = {
   onComplete: () => void;
 };
 
-const FIELD_LABELS: { key: keyof ContactFormValues; label: string }[] = [
+const FIELD_LABELS: { key: Exclude<keyof ContactFormValues, "botcheck">; label: string }[] = [
   { key: "company", label: "会社名・組織名" },
   { key: "name", label: "お名前" },
   { key: "email", label: "メールアドレス" },
@@ -42,7 +44,7 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
       if (!res.ok) throw new Error("送信に失敗しました");
 
       const data = await res.json();
-      if (!data.success) throw new Error(data.message || "送信に失敗しました");
+      if (!data.success) throw new Error("送信に失敗しました");
 
       onComplete();
     } catch (e) {

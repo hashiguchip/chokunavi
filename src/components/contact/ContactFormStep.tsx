@@ -1,3 +1,5 @@
+"use client";
+
 import type { UseFormReturn } from "react-hook-form";
 import type { ContactFormValues } from "@/constants/contact";
 
