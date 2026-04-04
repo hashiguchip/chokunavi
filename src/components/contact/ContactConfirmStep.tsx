@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { type ContactFormValues, WEB3FORMS_ENDPOINT } from "@/constants/contact";
+import { env } from "@/env";
 import { trackContactSubmitError } from "@/libs/analytics";
 
 type Props = {
@@ -30,7 +31,7 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
+          access_key: env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
           ...values,
         }),
       });

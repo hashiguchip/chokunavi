@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { env } from "@/env";
 
 type TrialPattern = {
   label: string;
@@ -31,7 +32,7 @@ export const usePricingStore = create<PricingStore>()((set) => ({
   pricing: null,
   loading: false,
   fetchPricing: async (code: string) => {
-    const apiUrl = process.env.NEXT_PUBLIC_PRICING_API_URL;
+    const apiUrl = env.NEXT_PUBLIC_PRICING_API_URL;
     if (!apiUrl) return;
 
     set({ loading: true });
