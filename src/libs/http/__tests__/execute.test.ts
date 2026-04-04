@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import { createHttpClient } from "../client";
+import { createHttpClient } from "@/libs/http";
 
 const mockFetch = vi.fn<typeof globalThis.fetch>();
 

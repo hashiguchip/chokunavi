@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { type HttpError, Result } from "../types";
+import { type HttpError, Result } from "@/libs/http";
 
 describe("Result", () => {
   describe("ok", () => {

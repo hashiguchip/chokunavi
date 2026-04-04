@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createHttpClient } from "../client";
+import { createHttpClient } from "@/libs/http";
 
 const mockFetch = vi.fn<typeof globalThis.fetch>();
 
@@ -37,8 +37,9 @@ describe("withRetry (via createHttpClient)", () => {
   it("retries GET on timeout error and succeeds", async () => {
     const timeoutError = new DOMException("Signal timed out", "TimeoutError");
     const abortedSignal = AbortSignal.abort(timeoutError);
+    const normalSignal = AbortSignal.timeout(10_000); // spy の前に本物を呼ぶ
 
-    vi.spyOn(AbortSignal, "timeout").mockReturnValueOnce(abortedSignal).mockReturnValue(AbortSignal.timeout(10_000));
+    vi.spyOn(AbortSignal, "timeout").mockReturnValueOnce(abortedSignal).mockReturnValue(normalSignal);
 
     // 1回目: signal が既に abort 済み → fetch が即 reject → timeout error
     mockFetch
