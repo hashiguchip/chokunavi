@@ -36,7 +36,7 @@ const web3ResponseSchema = z.object({ success: z.boolean() });
 export const api = {
   /** 単価情報を取得する */
   pricing: (code: string) =>
-    http.get(env.NEXT_PUBLIC_PRICING_API_URL, {
+    http.get(env.NEXT_PUBLIC_PRICING_API_URL!, {
       schema: pricingDataSchema,
       headers: { "X-Referral-Code": code },
       retries: 2,

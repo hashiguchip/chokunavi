@@ -4,7 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
   client: {
     NEXT_PUBLIC_GA_ID: z.string().min(1),
-    NEXT_PUBLIC_PRICING_API_URL: z.string().url().default("https://example.com"),
+    NEXT_PUBLIC_PRICING_API_URL: z.string().url().optional(),
     NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY: z.string().min(1),
   },
   runtimeEnv: {
