@@ -34,8 +34,9 @@ const web3ResponseSchema = z.object({ success: z.boolean() });
 // ---------------------------------------------------------------------------
 
 export const api = {
-  /** 単価情報を取得する */
+  /** 単価情報を取得する — 呼び出し前に pricing store でガード済み */
   pricing: (code: string) =>
+    // biome-ignore lint/style/noNonNullAssertion: guarded by usePricingStore.fetchPricing
     http.get(env.NEXT_PUBLIC_PRICING_API_URL!, {
       schema: pricingDataSchema,
       headers: { "X-Referral-Code": code },
