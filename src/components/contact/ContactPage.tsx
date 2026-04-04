@@ -3,11 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { ContactCompleteStep } from "@/components/contact/ContactCompleteStep";
+import { ContactConfirmStep } from "@/components/contact/ContactConfirmStep";
+import { ContactFormStep } from "@/components/contact/ContactFormStep";
 import { type ContactFormValues, contactSchema } from "@/constants/contact";
 import { trackContactComplete, trackContactConfirm } from "@/libs/analytics";
-import { ContactCompleteStep } from "./ContactCompleteStep";
-import { ContactConfirmStep } from "./ContactConfirmStep";
-import { ContactFormStep } from "./ContactFormStep";
 
 type Step = "input" | "confirm" | "complete";
 
