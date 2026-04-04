@@ -121,3 +121,21 @@ LGTM / Changes Suggested (N items)
 
 - Findings が 0 件なら「No issues found.」と表示
 - severity 別にグループ化（error → warning → info の順）
+
+### 5. GitHub へのレビュー投稿（条件付き）
+
+error / warning の指摘が **1件もない** 場合（info のみ or 指摘ゼロ）:
+
+- `gh pr review $ARGUMENTS --comment --body "..."` で PR にレビューコメントを投稿:
+
+```
+✅ AI Review Passed
+
+No errors or warnings found.
+🤖 Reviewed by Claude Code
+```
+
+error / warning が **1件以上ある** 場合:
+
+- GitHub には投稿しない（ターミナル出力のみ）
+- Verdict に「⚠️ error/warning の指摘があるため GitHub への投稿はスキップしました」と追記
