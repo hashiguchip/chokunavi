@@ -58,11 +58,32 @@ src/
 - `create<T>()(...)` パターンで型安全に定義
 - ストアファイルは `src/stores/` に配置
 
-### Commit Message
+### Commit Message (Conventional Commits)
 
-- Format: `<type>: <description>` (Conventional Commits, no scope)
+- Format: `<type>(<scope>): <description>` — scope は任意
 - Language: English
-- Types: `feat`, `fix`, `refactor`, `style`, `docs`, `chore`, `test`
+
+#### Types
+
+| Type | 用途 | changelog |
+|------|------|-----------|
+| `feat` | 新機能 | 表示 |
+| `fix` | バグ修正 | 表示 |
+| `docs` | ドキュメントのみ | 非表示 |
+| `style` | コードの意味に影響しない変更（空白、フォーマット等） | 非表示 |
+| `refactor` | バグ修正でも機能追加でもないコード変更 | 非表示 |
+| `perf` | パフォーマンス改善 | 非表示 |
+| `test` | テストの追加・修正 | 非表示 |
+| `build` | ビルド設定・本番依存の変更 | 非表示 |
+| `ci` | CI/CD 設定の変更 | 非表示 |
+| `chore` | 上記に当てはまらない雑務（dev依存、設定ファイル等） | 非表示 |
+
+#### Examples
+
+- `feat: add skills section`
+- `fix(modal): prevent scroll on open`
+- `chore: add /pr skill and PR template`
+- `ci: add deploy workflow`
 
 ### Content
 

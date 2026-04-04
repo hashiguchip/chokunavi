@@ -11,7 +11,9 @@
       "Bash(git status:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
-      "Skill(check)"
+      "Skill(check)",
+      "Skill(pr)",
+      "Bash(gh:*)"
     ],
     "deny": ["Bash(rm -rf:*)", "Bash(git push --force:*)", "Bash(git reset --hard:*)"]
   },
