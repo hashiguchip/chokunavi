@@ -8,8 +8,8 @@ commit-msg:
   commands:
     conventional-commit:
       run: |
-        head -1 "{1}" | grep -qE '^(feat|fix|refactor|style|docs|chore|test): .+' || {
-          echo "ERROR: Commit message must match '<type>: <description>'"
-          echo "  types: feat, fix, refactor, style, docs, chore, test"
+        head -1 "{1}" | grep -qE '^(feat|fix|refactor|style|docs|chore|test|build|ci|perf)(\(.+\))?: .+' || {
+          echo "ERROR: Commit message must match '<type>(<scope>): <description>'"
+          echo "  types: feat, fix, refactor, style, docs, chore, test, build, ci, perf"
           exit 1
         }
