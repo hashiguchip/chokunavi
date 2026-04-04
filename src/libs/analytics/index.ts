@@ -16,3 +16,18 @@ export function trackAuthSuccess(source: string): void {
   setAuthUser(source);
   window.gtag("event", "auth_success", { auth_source: source });
 }
+
+export function trackContactConfirm(): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "contact_confirm");
+}
+
+export function trackContactComplete(): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "contact_complete");
+}
+
+export function trackContactSubmitError(message: string): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "contact_submit_error", { error_message: message });
+}

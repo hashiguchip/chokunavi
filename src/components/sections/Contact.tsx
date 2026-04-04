@@ -1,22 +1,11 @@
 "use client";
 
-import { showPopover } from "@/libs/global-popover";
+import Link from "next/link";
 import { showDummyPopover } from "@/utils/showDummyPopover";
-
-const comingSoonContent = (
-  <>
-    <p>現在準備中です 🙏</p>
-    <p className="mt-1 text-[#aaa]">もう少々お待ちください！</p>
-  </>
-);
 
 export function Contact() {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     showDummyPopover(e.currentTarget);
-  };
-
-  const handleApplyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    showPopover({ content: comingSoonContent, anchor: e.currentTarget });
   };
 
   return (
@@ -32,13 +21,12 @@ export function Contact() {
               <br />
               書類選考なし・カジュアル面談歓迎です。
             </p>
-            <button
-              type="button"
-              onClick={handleApplyClick}
-              className="mb-3 inline-block w-full max-w-sm cursor-pointer rounded bg-primary-500 py-4 font-bold text-[16px] text-white transition hover:bg-primary-700"
+            <Link
+              href="/contact"
+              className="mb-3 inline-block w-full max-w-sm rounded bg-primary-500 py-4 font-bold text-[16px] text-white transition hover:bg-primary-700"
             >
               応募フォームへ進む
-            </button>
+            </Link>
             <p className="mb-6 text-[#999] text-[11px]">※ 応募から面談まで最短即日で対応いたします</p>
             <div className="flex justify-center gap-5 text-[13px]">
               <a href="https://github.com/hashiguchip" className="text-primary-500 underline">
