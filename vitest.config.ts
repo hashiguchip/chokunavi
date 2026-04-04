@@ -8,6 +8,6 @@ export default defineConfig({
   test: {
     globals: false,
     restoreMocks: true,
-    unstubAllGlobals: true,
+    unstubGlobals: true,
   },
 });

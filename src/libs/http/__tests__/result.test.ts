@@ -58,7 +58,8 @@ describe("Result", () => {
 
     it("returns fallback on failure", () => {
       const error: HttpError = { type: "network", message: "fail" };
-      expect(Result.unwrapOr(Result.err(error), 0)).toBe(0);
+      const result: Result<number> = Result.err(error);
+      expect(Result.unwrapOr(result, 0)).toBe(0);
     });
   });
 
