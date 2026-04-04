@@ -36,15 +36,16 @@ async function execute<T>(
       signal,
     });
   } catch {
-    // ユーザーによる明示的キャンセルと timeout を区別する
-    if (options?.signal?.aborted) {
+    // 合成シグナルの reason で最初に発火した原因を正確に判別する
+    if (signal.aborted) {
+      const isTimeout = signal.reason instanceof DOMException && signal.reason.name === "TimeoutError";
+      if (isTimeout) {
+        return Result.err({
+          type: "timeout",
+          message: `Request timed out after ${timeout}ms`,
+        });
+      }
       return Result.err({ type: "abort", message: "Request was cancelled" });
-    }
-    if (timeoutSignal.aborted) {
-      return Result.err({
-        type: "timeout",
-        message: `Request timed out after ${timeout}ms`,
-      });
     }
     return Result.err({ type: "network", message: "Network error" });
   }
@@ -60,7 +61,7 @@ async function execute<T>(
 
   // --- 204 No Content ---
   if (res.status === 204) {
-    return Result.ok(undefined as T);
+    return Result.err({ type: "no-content", message: "No content (HTTP 204)" });
   }
 
   // --- レスポンスボディ読み取り ---

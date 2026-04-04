@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { WEB3FORMS_ENDPOINT } from "@/constants/contact";
+import { type ContactFormValues, WEB3FORMS_ENDPOINT } from "@/constants/contact";
 import { env } from "@/env";
 import { createHttpClient, Result } from "@/libs/http";
 
@@ -44,7 +44,7 @@ export const api = {
     }),
 
   /** お問い合わせフォームを送信する。provider が success: false を返した場合も http エラーに統合する */
-  contact: async (body: Record<string, unknown>) => {
+  contact: async (body: ContactFormValues & { access_key: string }) => {
     const result = await http.post(WEB3FORMS_ENDPOINT, body, {
       schema: web3ResponseSchema,
     });

@@ -48,7 +48,8 @@ export type HttpError =
   | { readonly type: "timeout"; readonly message: string }
   | { readonly type: "http"; readonly status: number; readonly message: string }
   | { readonly type: "parse"; readonly message: string }
-  | { readonly type: "abort"; readonly message: string };
+  | { readonly type: "abort"; readonly message: string }
+  | { readonly type: "no-content"; readonly message: string };
 
 // ---------------------------------------------------------------------------
 // HTTP Client 型
