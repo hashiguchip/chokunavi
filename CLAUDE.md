@@ -24,22 +24,30 @@
 
 ```
 apps/
-└── web/                # Next.js フロントエンド
-    ├── src/
-    │   ├── app/              # Next.js App Router (layout, page, globals.css)
-    │   ├── components/
-    │   │   ├── ui/           # 汎用UIコンポーネント (H2, DLRow, etc.)
-    │   │   ├── sections/     # ページセクション (JobHeader, Skills, Projects, etc.)
-    │   │   └── layout/       # レイアウト (Header, Footer, SectionNav, Breadcrumb)
-    │   ├── constants/        # 定数定義
-    │   ├── libs/             # 内部ライブラリ (http, global-modal, analytics)
-    │   ├── services/         # 外部サービスとの通信層 (API Layer)
-    │   └── stores/           # Zustand ストア
-    ├── public/
-    ├── package.json
-    ├── next.config.ts
-    ├── tsconfig.json
-    └── vitest.config.ts
+├── web/                # Next.js フロントエンド
+│   ├── src/
+│   │   ├── app/              # Next.js App Router (layout, page, globals.css)
+│   │   ├── components/
+│   │   │   ├── ui/           # 汎用UIコンポーネント (H2, DLRow, etc.)
+│   │   │   ├── sections/     # ページセクション (JobHeader, Skills, Projects, etc.)
+│   │   │   └── layout/       # レイアウト (Header, Footer, SectionNav, Breadcrumb)
+│   │   ├── constants/        # 定数定義
+│   │   ├── libs/             # 内部ライブラリ (http, global-modal, analytics)
+│   │   ├── services/         # 外部サービスとの通信層 (API Layer)
+│   │   └── stores/           # Zustand ストア
+│   ├── public/
+│   ├── package.json
+│   ├── next.config.ts
+│   ├── tsconfig.json
+│   └── vitest.config.ts
+└── api/                # Go backend (data-api)
+    ├── main.go
+    ├── main_test.go
+    ├── go.mod
+    ├── Dockerfile
+    ├── Makefile
+    └── .env.example
+docker-compose.yml            # ローカル開発用（web + api）
 biome.json                    # ルート（JS/TS 全体に適用）
 lefthook.yml
 commitlint.config.mjs

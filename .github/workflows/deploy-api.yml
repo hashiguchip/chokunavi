@@ -1,0 +1,28 @@
+name: Deploy API to Fly.io
+
+on:
+  push:
+    branches: [main]
+    paths: ["apps/api/**"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: apps/api/go.mod
+      - run: go vet ./...
+      - run: go test ./...
+      - run: CGO_ENABLED=0 go build -ldflags="-s -w" -o /dev/null .
+
+      # Fly.io デプロイ（fly launch 完了後にコメント解除）
+      # - uses: superfly/flyctl-actions/setup-flyctl@1.5
+      # - run: flyctl deploy --remote-only
+      #   env:
+      #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

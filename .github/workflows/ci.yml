@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  check-web:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,3 +25,16 @@ jobs:
           NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
           NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ vars.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY }}
           NEXT_PUBLIC_DATA_API_URL: ${{ vars.NEXT_PUBLIC_DATA_API_URL }}
+
+  check-api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: apps/api/go.mod
+      - run: go vet ./...
+      - run: go test ./...

@@ -1,0 +1,25 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web/src:/app/apps/web/src
+    environment:
+      - NEXT_PUBLIC_DATA_API_URL=http://localhost:8080/api/pricing
+    env_file:
+      - path: apps/web/.env
+        required: false
+
+  api:
+    build:
+      context: apps/api
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "8080:8080"
+    env_file:
+      - path: apps/api/.env
+        required: false
