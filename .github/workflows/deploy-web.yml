@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths: ["apps/web/**"]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +18,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,13 +28,15 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+        working-directory: .
       - run: npm run build
         env:
           NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
           NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ vars.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY }}
+          NEXT_PUBLIC_DATA_API_URL: ${{ vars.NEXT_PUBLIC_DATA_API_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: apps/web/out
 
   deploy:
     needs: build

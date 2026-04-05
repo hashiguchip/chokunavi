@@ -65,16 +65,16 @@
   "overrides": [
     {
       "includes": [
-        "src/app/**/layout.tsx",
-        "src/app/**/page.tsx",
-        "src/app/**/not-found.tsx",
-        "src/app/**/loading.tsx",
-        "src/app/**/error.tsx",
-        "src/app/**/template.tsx",
-        "next.config.ts",
-        "postcss.config.mjs",
+        "apps/web/src/app/**/layout.tsx",
+        "apps/web/src/app/**/page.tsx",
+        "apps/web/src/app/**/not-found.tsx",
+        "apps/web/src/app/**/loading.tsx",
+        "apps/web/src/app/**/error.tsx",
+        "apps/web/src/app/**/template.tsx",
+        "apps/web/next.config.ts",
+        "apps/web/postcss.config.mjs",
         "commitlint.config.mjs",
-        "vitest.config.ts"
+        "apps/web/vitest.config.ts"
       ],
       "linter": {
         "rules": {
