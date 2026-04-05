@@ -14,7 +14,7 @@ export const usePricingStore = create<PricingStore>()((set) => ({
   pricing: null,
   loading: false,
   fetchPricing: async (code: string) => {
-    if (!env.NEXT_PUBLIC_PRICING_API_URL) return;
+    if (!env.NEXT_PUBLIC_DATA_API_URL) return;
     set({ loading: true });
     const result = await api.pricing(code);
     set({ pricing: result.ok ? result.data : null, loading: false });
