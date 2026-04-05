@@ -1,3 +1,49 @@
 [tools]
 node = "24.14.0"
 go = "1.24"
+"aqua:apple/pkl" = "0.31.1"
+"aqua:biomejs/biome" = "2.4.4"
+"aqua:cocogitto/cocogitto" = "7.0.0"
+hk = "1.41.0"
+
+[tasks.dev]
+description = "Start web dev server"
+run = "npm run dev"
+dir = "apps/web"
+
+[tasks.build]
+description = "Build web app"
+run = "npm run build"
+dir = "apps/web"
+
+[tasks.test]
+description = "Run web tests"
+run = "npm run test"
+dir = "apps/web"
+
+[tasks.typecheck]
+description = "TypeScript type check"
+run = "npm run typecheck"
+dir = "apps/web"
+
+[tasks.lint]
+description = "Run biome check"
+run = "biome check ."
+
+[tasks."lint:fix"]
+description = "Run biome check with auto-fix"
+run = "biome check --write ."
+
+[tasks.format]
+description = "Format with biome"
+run = "biome format --write ."
+
+[tasks."dev:api"]
+description = "Start API dev server"
+run = "go run ."
+dir = "apps/api"
+
+[tasks."test:api"]
+description = "Run API tests"
+run = "go vet ./... && go test -v ./..."
+dir = "apps/api"
