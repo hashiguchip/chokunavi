@@ -56,7 +56,7 @@ apps/
 hk.pkl                        # Git hooks (pre-commit, commit-msg)
 cog.toml                      # Conventional Commits 設定
 docker-compose.yml            # ローカル開発用（web + api）
-biome.json                    # ルート（JS/TS 全体に適用）
+biome.json                    # Linter/Formatter 設定（JS/TS/CSS 全体に適用）
 ```
 
 ### Development Commands
