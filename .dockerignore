@@ -1,0 +1,23 @@
+# Generated / heavy (must use **/ to match nested apps/web/node_modules etc.)
+**/node_modules
+**/.next
+**/out
+**/*.tsbuildinfo
+**/next-env.d.ts
+**/bin
+**/coverage
+**/dist
+
+# VCS / IDE / OS
+.git
+**/.DS_Store
+*.pem
+
+# Secrets (keep .env.example which is needed by some tooling)
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example
+
+# Local-only
+.claude
