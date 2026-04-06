@@ -7,6 +7,7 @@ RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /server .
 
 FROM golang:1.24-alpine AS dev
 COPY --from=build /server /server
+USER nobody
 CMD ["/server"]
 
 FROM gcr.io/distroless/static-debian12

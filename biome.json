@@ -73,7 +73,6 @@
         "apps/web/src/app/**/template.tsx",
         "apps/web/next.config.ts",
         "apps/web/postcss.config.mjs",
-        "commitlint.config.mjs",
         "apps/web/vitest.config.ts"
       ],
       "linter": {
