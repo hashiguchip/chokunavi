@@ -18,7 +18,13 @@ import (
 
 // buildMux creates the HTTP handler from environment variables.
 func buildMux() http.Handler {
-	origins := strings.Split(envOr("CORS_ORIGINS", "https://hashiguchip.github.io"), ",")
+	var origins []string
+	for _, o := range strings.Split(envOr("CORS_ORIGINS", "https://hashiguchip.github.io"), ",") {
+		o = strings.TrimSpace(o)
+		if o != "" {
+			origins = append(origins, o)
+		}
+	}
 
 	hashes := requireEnv("AUTH_CODE_HASHES")
 	var hashList []string
@@ -131,7 +137,9 @@ func requireEnv(key string) string {
 func writeJSON(w http.ResponseWriter, status int, v any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(v)
+	if err := json.NewEncoder(w).Encode(v); err != nil {
+		slog.Warn("writeJSON failed", "err", err)
+	}
 }
 
 func matchHash(hash string, allowed []string) bool {
@@ -148,7 +156,7 @@ func setCORS(w http.ResponseWriter, r *http.Request, origins []string) {
 	w.Header().Set("Vary", "Origin")
 	origin := r.Header.Get("Origin")
 	for _, o := range origins {
-		if strings.TrimSpace(o) == origin {
+		if o == origin {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
 			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 			w.Header().Set("Access-Control-Allow-Headers", "X-Referral-Code, Content-Type")
