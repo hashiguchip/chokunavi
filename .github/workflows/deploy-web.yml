@@ -25,6 +25,7 @@ jobs:
         with:
           path: ~/.npm
           key: npm-${{ hashFiles('apps/web/package-lock.json') }}
+          restore-keys: npm-
       - run: npm ci
         working-directory: apps/web
       - run: npm run build
