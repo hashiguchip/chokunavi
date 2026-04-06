@@ -1,7 +1,8 @@
 FROM node:24-alpine
 WORKDIR /app
-COPY package.json package-lock.json ./
-COPY apps/web/package.json ./apps/web/
+RUN chown node:node /app
+USER node
+COPY --chown=node:node package.json package-lock.json ./
 RUN npm ci
-COPY apps/web/ ./apps/web/
-CMD ["npm", "run", "dev", "-w", "apps/web"]
+COPY --chown=node:node . .
+CMD ["npm", "run", "dev"]

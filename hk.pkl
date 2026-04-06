@@ -1,0 +1,22 @@
+amends "package://github.com/jdx/hk/releases/download/v1.41.0/hk@1.41.0#/Config.pkl"
+
+hooks {
+  ["pre-commit"] {
+    fix = true
+    stash = "git"
+    steps {
+      ["biome"] {
+        glob = List("**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.json", "**/*.css")
+        check = "biome check --no-errors-on-unmatched --files-ignore-unknown=true {{files}}"
+        fix = "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {{files}}"
+      }
+    }
+  }
+  ["commit-msg"] {
+    steps {
+      ["cog-verify"] {
+        check = "cog verify --file {{commit_msg_file}}"
+      }
+    }
+  }
+}

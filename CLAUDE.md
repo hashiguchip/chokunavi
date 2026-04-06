@@ -11,6 +11,9 @@
 - **Styling**: Tailwind CSS 4
 - **State**: Zustand 5
 - **Linter/Formatter**: Biome 2
+- **Git Hooks**: hk (Rust 製)
+- **Commit Lint**: cocogitto (Rust 製)
+- **Toolchain**: mise (ツールバージョン管理)
 - **Icons**: lucide-react
 - **Utilities**: clsx
 
@@ -24,7 +27,7 @@
 
 ```
 apps/
-├── web/                # Next.js フロントエンド
+├── web/                # Next.js フロントエンド（自己完結）
 │   ├── src/
 │   │   ├── app/              # Next.js App Router (layout, page, globals.css)
 │   │   ├── components/
@@ -37,6 +40,8 @@ apps/
 │   │   └── stores/           # Zustand ストア
 │   ├── public/
 │   ├── package.json
+│   ├── package-lock.json
+│   ├── Dockerfile
 │   ├── next.config.ts
 │   ├── tsconfig.json
 │   └── vitest.config.ts
@@ -47,12 +52,23 @@ apps/
     ├── Dockerfile
     ├── Makefile
     └── .env.example
+.mise.toml                    # ツールバージョン + タスク定義
+hk.pkl                        # Git hooks (pre-commit, commit-msg)
+cog.toml                      # Conventional Commits 設定
 docker-compose.yml            # ローカル開発用（web + api）
-biome.json                    # ルート（JS/TS 全体に適用）
-lefthook.yml
-commitlint.config.mjs
-package.json                  # ルート: workspaces + 共通 devDeps
+biome.json                    # Linter/Formatter 設定（JS/TS/CSS 全体に適用）
 ```
+
+### Development Commands
+
+- `mise run dev` — Web dev server 起動
+- `mise run build` — Web ビルド
+- `mise run test` — Web テスト
+- `mise run typecheck` — TypeScript 型チェック
+- `mise run lint` — Biome lint
+- `mise run lint:fix` — Biome lint + 自動修正
+- `mise run dev:api` — API dev server 起動
+- `mise run test:api` — API テスト
 
 ## Coding Conventions
 
@@ -97,7 +113,7 @@ package.json                  # ルート: workspaces + 共通 devDeps
 | `fix` | バグ修正 | 表示 |
 | `docs` | ドキュメントのみ | 非表示 |
 | `style` | コードの意味に影響しない変更（空白、フォーマット等） | 非表示 |
-| `refactor` | バグ修正でも機能追加でもないコード変更 | 非表示 |
+| `refactor` | バグ修正でも機能追加でもないコード・構成の変更 | 非表示 |
 | `perf` | パフォーマンス改善 | 非表示 |
 | `test` | テストの追加・修正 | 非表示 |
 | `build` | ビルド設定・本番依存の変更 | 非表示 |
