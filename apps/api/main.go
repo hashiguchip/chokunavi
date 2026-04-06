@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha256"
 	"crypto/subtle"
@@ -135,10 +136,17 @@ func requireEnv(key string) string {
 }
 
 func writeJSON(w http.ResponseWriter, status int, v any) {
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(v); err != nil {
+		slog.Error("writeJSON encode failed", "err", err)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	if err := json.NewEncoder(w).Encode(v); err != nil {
-		slog.Warn("writeJSON failed", "err", err)
+	if _, err := w.Write(buf.Bytes()); err != nil {
+		slog.Warn("writeJSON write failed", "err", err)
 	}
 }
 
