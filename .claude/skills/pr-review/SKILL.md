@@ -27,7 +27,7 @@ argument-hint: "{PR number}"
 
 ### 3. 並列エージェントレビュー
 
-取得した PR メタデータと diff を各エージェントのプロンプトに含め、**3つの Agent を同時に起動**する。
+取得した PR メタデータと diff を各エージェントのプロンプトに含め、**4つの Agent を同時に起動**する。
 各エージェントには「出力は JSON 形式で返すこと」と指示し、以下のスキーマに従わせる:
 
 ```json
@@ -78,6 +78,18 @@ argument-hint: "{PR number}"
   - コメントアウトされたコードの残存
   - 不要な空行・フォーマット変更のみの差分
 
+#### Agent 4: スタイル・Tailwind 衛生（model: "sonnet"）
+
+- 変更ファイルに `.tsx` / `.ts` / `.css` / `.scss` が**1つも含まれない**場合は即座に空配列 `[]` を返して終了
+- `apps/web/CLAUDE.md` (nested) と `apps/web/src/app/globals.css` を Read してスタイル規約と `@theme` の token 一覧を取得
+- 変更ファイルごとに以下をチェック:
+  - **token 化された色のドリフト**: hex → token 置換で実際の色がズレていないか（例: `[#ccc]` → `neutral-300` (#dddddd) のような unit 差を catch）。`@theme` の値と元 hex を照合
+  - **新規 arbitrary value の正当性**: 新しく追加された `[#xxx]` や `text-[14px]` 等が `apps/web/CLAUDE.md` の「Arbitrary を使ってよい」基準（layout 構造値 / opacity 変調 / 1 度限りの装飾 等）に該当するか。該当しなければ token 化候補として指摘
+  - **重複・競合 class**: 同一 className 内で同じ property を 2 つ以上設定していないか（例: `text-sm text-base`, `bg-neutral-100 bg-white`, `mt-4 mt-2`）
+  - **token 名のタイポ**: `text-neutarl-900` のような typo、または `globals.css` の `@theme` に存在しない token 参照
+  - **意味的ロールの混在**: 似た用途で違う token を使い分けていないか（例: 同じ "secondary text" 用途で `text-neutral-700` と `text-neutral-800` が混在）
+- diff だけでは判定できない場合は変更ファイルの全文を Read する
+
 ### 4. 結果マージ & レポート出力
 
 全エージェントの結果を集約し、重複を除去した上で以下のフォーマットで出力:
@@ -113,6 +125,8 @@ argument-hint: "{PR number}"
 - [x] @/* imports
 - [x] "use client" usage
 - [x] Conventional Commits
+- [x] Tailwind tokens preferred over arbitrary values (apps/web/CLAUDE.md)
+- [x] No color drift in hex → token replacements
 ...
 
 ### Verdict
