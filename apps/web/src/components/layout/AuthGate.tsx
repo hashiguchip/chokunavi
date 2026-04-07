@@ -96,7 +96,7 @@ export function AuthGate({ children }: Props) {
             setError(false);
           }}
           placeholder="紹介コード"
-          className="w-full rounded border border-neutral-300 px-3 py-2 text-neutral-950 text-sm outline-none focus:border-primary-500"
+          className="w-full rounded border border-gray-300 px-3 py-2 text-neutral-950 text-sm outline-none focus:border-primary-500"
         />
         {error && <p className="text-red-600 text-sm">コードが正しくありません。もう一度お試しください。</p>}
         <button
