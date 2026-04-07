@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { closePopover, usePopoverStore } from "./store";
@@ -130,18 +131,22 @@ function PopoverRenderer({ content, anchor, duration, position }: PopoverRendere
       {/* 矢印 */}
       {pos && (
         <div
-          className={`absolute ${isTop ? "bottom-0 translate-y-full" : "top-0 -translate-y-full"}`}
+          className={clsx("absolute", isTop ? "bottom-0 translate-y-full" : "top-0 -translate-y-full")}
           style={{ left: pos.arrowLeft }}
         >
           {/* 外枠（ボーダー色） */}
           <div
-            className={`ml-[-6px] border-[6px] border-transparent ${isTop ? "border-t-neutral-800" : "border-b-neutral-800"}`}
+            className={clsx(
+              "ml-[-6px] border-[6px] border-transparent",
+              isTop ? "border-t-neutral-800" : "border-b-neutral-800",
+            )}
           />
           {/* 内側（背景色） */}
           <div
-            className={`absolute ml-[-5px] border-[5px] border-transparent ${
-              isTop ? "top-0 border-t-neutral-900" : "bottom-0 border-b-neutral-900"
-            }`}
+            className={clsx(
+              "absolute ml-[-5px] border-[5px] border-transparent",
+              isTop ? "top-0 border-t-neutral-900" : "bottom-0 border-b-neutral-900",
+            )}
           />
         </div>
       )}

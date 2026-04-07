@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ContactCompleteStep } from "@/components/contact/ContactCompleteStep";
@@ -36,12 +37,18 @@ export function ContactPage() {
           {step !== "complete" && (
             <div className="flex border-neutral-200 border-b text-center text-[13px]">
               <div
-                className={`flex-1 py-3 font-bold ${step === "input" ? "bg-primary-50 text-primary-600" : "text-neutral-500"}`}
+                className={clsx(
+                  "flex-1 py-3 font-bold",
+                  step === "input" ? "bg-primary-50 text-primary-600" : "text-neutral-500",
+                )}
               >
                 1. 入力
               </div>
               <div
-                className={`flex-1 py-3 font-bold ${step === "confirm" ? "bg-primary-50 text-primary-600" : "text-neutral-500"}`}
+                className={clsx(
+                  "flex-1 py-3 font-bold",
+                  step === "confirm" ? "bg-primary-50 text-primary-600" : "text-neutral-500",
+                )}
               >
                 2. 確認
               </div>
