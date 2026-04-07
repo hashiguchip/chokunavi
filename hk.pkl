@@ -15,7 +15,7 @@ hooks {
   ["commit-msg"] {
     steps {
       ["cog-verify"] {
-        check = "cog verify --file {{commit_msg_file}}"
+        check = "cog verify --ignore-merge-commits --file {{commit_msg_file}}"
       }
     }
   }
