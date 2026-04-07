@@ -10,17 +10,17 @@ export function Projects() {
         <H2>プロジェクト実績</H2>
         <div className="space-y-4">
           {PROJECTS.map((p) => (
-            <div key={p.id} className="rounded border border-[#ddd] p-5">
-              <h3 className="mb-3 font-bold text-[#333] text-[16px]">{p.title}</h3>
+            <div key={p.id} className="rounded border border-neutral-300 p-5">
+              <h3 className="mb-3 font-bold text-base text-neutral-950">{p.title}</h3>
               <div className="mb-3 grid gap-1 text-[13px] sm:grid-cols-3">
                 <div>
-                  <span className="font-semibold text-[#666]">期間:</span> {p.period}
+                  <span className="font-semibold text-neutral-700">期間:</span> {p.period}
                 </div>
                 <div>
-                  <span className="font-semibold text-[#666]">チーム規模:</span> {p.team}
+                  <span className="font-semibold text-neutral-700">チーム規模:</span> {p.team}
                 </div>
                 <div>
-                  <span className="font-semibold text-[#666]">役割:</span> {p.role}
+                  <span className="font-semibold text-neutral-700">役割:</span> {p.role}
                 </div>
               </div>
               <div className="mb-2 flex flex-wrap gap-1.5">
@@ -42,14 +42,14 @@ export function Projects() {
                   const phase = PHASE_MAP.get(id);
                   if (!phase) return null;
                   return (
-                    <span key={id} className="rounded bg-[#f0f0f0] px-2 py-0.5 text-[#666] text-[11px]">
+                    <span key={id} className="rounded bg-neutral-100 px-2 py-0.5 text-[11px] text-neutral-700">
                       {phase.label}
                     </span>
                   );
                 })}
               </div>
-              <div className="rounded bg-[#f5f5f5] p-3 text-[#555] text-[13px] leading-[1.6]">
-                <span className="font-semibold text-[#333]">概要: </span>
+              <div className="rounded bg-neutral-100 p-3 text-[13px] text-neutral-800 leading-[1.6]">
+                <span className="font-semibold text-neutral-950">概要: </span>
                 {p.summary}
               </div>
             </div>

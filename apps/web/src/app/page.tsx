@@ -15,7 +15,7 @@ import { WorkConditions } from "@/components/sections/WorkConditions";
 export default function Page() {
   return (
     <AuthGate>
-      <div className="min-h-screen bg-white text-[#333]">
+      <div className="min-h-screen bg-white text-neutral-950">
         <Header />
         <Breadcrumb />
         <SectionNav />

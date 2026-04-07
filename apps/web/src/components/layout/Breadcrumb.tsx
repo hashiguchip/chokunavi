@@ -8,8 +8,8 @@ export function Breadcrumb() {
   };
 
   return (
-    <nav aria-label="パンくずリスト" className="bg-[#f5f5f5] px-5 py-2">
-      <div className="mx-auto max-w-[1220px] text-[#999] text-[11px]">
+    <nav aria-label="パンくずリスト" className="bg-neutral-100 px-5 py-2">
+      <div className="mx-auto max-w-[1220px] text-[11px] text-neutral-500">
         <button type="button" className="cursor-pointer text-primary-500 hover:underline" onClick={handleClick}>
           HOME
         </button>
@@ -18,7 +18,7 @@ export function Breadcrumb() {
           エンジニア検索
         </button>
         {" > "}
-        <span className="text-[#333]">フルスタックエンジニア</span>
+        <span className="text-neutral-950">フルスタックエンジニア</span>
       </div>
     </nav>
   );

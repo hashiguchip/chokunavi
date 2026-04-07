@@ -53,16 +53,16 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
 
   return (
     <div>
-      <p className="mb-6 text-center text-[#555] text-[14px]">入力内容をご確認ください。</p>
+      <p className="mb-6 text-center text-neutral-800 text-sm">入力内容をご確認ください。</p>
 
-      <dl className="divide-y divide-[#eee] rounded border border-[#ddd]">
+      <dl className="divide-y divide-neutral-200 rounded border border-neutral-300">
         {FIELD_LABELS.map(({ key, label }) => {
           const value = values[key];
           if (key === "company" && !value) return null;
           return (
             <div key={key} className="px-4 py-3 sm:flex">
-              <dt className="mb-1 font-bold text-[#333] text-[13px] sm:mb-0 sm:w-40 sm:shrink-0">{label}</dt>
-              <dd className="whitespace-pre-wrap text-[#555] text-[14px]">{value}</dd>
+              <dt className="mb-1 font-bold text-[13px] text-neutral-950 sm:mb-0 sm:w-40 sm:shrink-0">{label}</dt>
+              <dd className="whitespace-pre-wrap text-neutral-800 text-sm">{value}</dd>
             </div>
           );
         })}
@@ -77,7 +77,7 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
           type="button"
           disabled={submitting}
           onClick={handleSubmit}
-          className="w-full max-w-sm cursor-pointer rounded bg-primary-500 py-4 font-bold text-[16px] text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full max-w-sm cursor-pointer rounded bg-primary-500 py-4 font-bold text-base text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {submitting ? "送信中..." : "送信する"}
         </button>

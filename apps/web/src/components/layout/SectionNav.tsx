@@ -24,7 +24,7 @@ export function SectionNav() {
   }, []);
 
   return (
-    <div className="sticky top-[56px] z-40 border-[#ddd] border-b bg-white">
+    <div className="sticky top-[56px] z-40 border-neutral-300 border-b bg-white">
       <div className="mx-auto flex max-w-[1220px] overflow-x-auto px-5">
         {NAV.map((n) => (
           <a
@@ -35,7 +35,7 @@ export function SectionNav() {
               "shrink-0 border-b-[3px] px-5 py-3 text-[13px] transition",
               active === n.id
                 ? "border-primary-500 font-bold text-primary-500"
-                : "border-transparent text-[#666] hover:text-primary-500",
+                : "border-transparent text-neutral-700 hover:text-primary-500",
             )}
           >
             {n.label}

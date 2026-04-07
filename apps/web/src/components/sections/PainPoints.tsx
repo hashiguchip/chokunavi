@@ -30,16 +30,16 @@ const PAIN_POINTS = [
 
 export function PainPoints() {
   return (
-    <section id="pain-points" className="bg-[#f5f5f5] px-5 py-10">
+    <section id="pain-points" className="bg-neutral-100 px-5 py-10">
       <div className="mx-auto max-w-[1220px]">
         <H2>こんなことでお困りではありませんか？</H2>
         <div className="grid gap-3 sm:grid-cols-2">
           {PAIN_POINTS.map((item) => (
-            <div key={item.title} className="flex gap-3 rounded border border-[#ddd] bg-white p-4">
-              <CircleAlert size={20} className="mt-0.5 shrink-0 text-[#FF6633]" />
+            <div key={item.title} className="flex gap-3 rounded border border-neutral-300 bg-white p-4">
+              <CircleAlert size={20} className="mt-0.5 shrink-0 text-accent-trial" />
               <div>
-                <h3 className="mb-1 font-bold text-[#333] text-[14px]">{item.title}</h3>
-                <p className="text-[#555] text-[12px] leading-[1.6]">{item.description}</p>
+                <h3 className="mb-1 font-bold text-neutral-950 text-sm">{item.title}</h3>
+                <p className="text-neutral-800 text-xs leading-[1.6]">{item.description}</p>
               </div>
             </div>
           ))}

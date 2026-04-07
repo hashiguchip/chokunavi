@@ -5,7 +5,7 @@ import { PricingRow } from "./PricingRow";
 
 export function JobHeader() {
   return (
-    <div className="mb-8 rounded border border-[#ddd] bg-white">
+    <div className="mb-8 rounded border border-neutral-300 bg-white">
       <div className="px-5 pt-5">
         <div className="mb-3 flex flex-wrap gap-1.5">
           {[
@@ -19,13 +19,13 @@ export function JobHeader() {
             "長期稼働歓迎",
             "インボイス対応",
           ].map((tag) => (
-            <span key={tag} className="rounded bg-[#f5f5f5] px-2 py-0.5 text-[#555] text-[11px]">
+            <span key={tag} className="rounded bg-neutral-100 px-2 py-0.5 text-[11px] text-neutral-800">
               {tag}
             </span>
           ))}
         </div>
-        <h1 className="mb-1 font-bold text-[#333] text-[22px] leading-tight">フルスタックエンジニア</h1>
-        <p className="mb-5 text-[#666] text-[13px]">H・R</p>
+        <h1 className="mb-1 font-bold text-[22px] text-neutral-950 leading-tight">フルスタックエンジニア</h1>
+        <p className="mb-5 text-[13px] text-neutral-700">H・R</p>
       </div>
 
       <DLRow label="契約形態" first>

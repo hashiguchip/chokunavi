@@ -24,32 +24,32 @@ export function ContactPage() {
   });
 
   return (
-    <section className="bg-[#f5f5f5] px-3 py-8 sm:px-5 sm:py-14">
+    <section className="bg-neutral-100 px-3 py-8 sm:px-5 sm:py-14">
       <div className="mx-auto max-w-[640px]">
-        <div className="rounded border border-[#ddd] bg-white">
-          <div className="border-[#eee] border-b bg-primary-500 px-5 py-4">
-            <h1 className="text-center font-bold text-[18px] text-white">
+        <div className="rounded border border-neutral-300 bg-white">
+          <div className="border-neutral-200 border-b bg-primary-500 px-5 py-4">
+            <h1 className="text-center font-bold text-lg text-white">
               {step === "complete" ? "送信完了" : "お問い合わせ"}
             </h1>
           </div>
 
           {step !== "complete" && (
-            <div className="flex border-[#eee] border-b text-center text-[13px]">
+            <div className="flex border-neutral-200 border-b text-center text-[13px]">
               <div
-                className={`flex-1 py-3 font-bold ${step === "input" ? "bg-primary-50 text-primary-600" : "text-[#999]"}`}
+                className={`flex-1 py-3 font-bold ${step === "input" ? "bg-primary-50 text-primary-600" : "text-neutral-500"}`}
               >
                 1. 入力
               </div>
               <div
-                className={`flex-1 py-3 font-bold ${step === "confirm" ? "bg-primary-50 text-primary-600" : "text-[#999]"}`}
+                className={`flex-1 py-3 font-bold ${step === "confirm" ? "bg-primary-50 text-primary-600" : "text-neutral-500"}`}
               >
                 2. 確認
               </div>
-              <div className="flex-1 py-3 font-bold text-[#999]">3. 完了</div>
+              <div className="flex-1 py-3 font-bold text-neutral-500">3. 完了</div>
             </div>
           )}
 
-          <div className="h-1 bg-[#eee]">
+          <div className="h-1 bg-neutral-200">
             <div
               className="h-1 bg-primary-500 transition-all duration-500 ease-in-out"
               style={{ width: step === "input" ? "33.3%" : step === "confirm" ? "66.6%" : "100%" }}

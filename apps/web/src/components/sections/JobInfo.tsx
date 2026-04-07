@@ -28,24 +28,24 @@ export function JobInfo() {
         <JobHeader />
 
         <H2>できること</H2>
-        <p className="mb-10 text-[#333] text-[14px] leading-[1.8]">
+        <p className="mb-10 text-neutral-950 text-sm leading-[1.8]">
           エンジニア歴10年。BtoB
           SaaS・EC・メディアなど複数ドメインで、設計から実装・運用まで一貫して担当してきました。リーダー・技術選定の経験を経て、現在はシニアICとして設計・実装に専念しています。
         </p>
-        <p className="mb-10 text-[#333] text-[14px] leading-[1.8]">
+        <p className="mb-10 text-neutral-950 text-sm leading-[1.8]">
           目の前の課題を解決するだけでなく、その先の変更や運用まで見据えて設計・実装するのがポリシーです。技術選定のご相談、設計レビュー、実装、何でも対応します。まずはカジュアルにお話ししましょう。
         </p>
 
         <H2>提供できるスキル・価値</H2>
         <div className="mb-10 grid gap-3 sm:grid-cols-2">
           {BENEFITS.map((b, i) => (
-            <div key={b.title} className="flex gap-3 rounded border border-[#ddd] p-4">
+            <div key={b.title} className="flex gap-3 rounded border border-neutral-300 p-4">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-primary-500 font-bold text-[11px] text-white">
                 {String(i + 1).padStart(2, "0")}
               </div>
               <div>
-                <h3 className="mb-1 font-bold text-[#333] text-[14px]">{b.title}</h3>
-                <p className="text-[#555] text-[12px] leading-[1.6]">{b.description}</p>
+                <h3 className="mb-1 font-bold text-neutral-950 text-sm">{b.title}</h3>
+                <p className="text-neutral-800 text-xs leading-[1.6]">{b.description}</p>
               </div>
             </div>
           ))}

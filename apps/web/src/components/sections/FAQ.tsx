@@ -41,23 +41,23 @@ const FAQS = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="bg-[#f5f5f5] px-5 py-10">
+    <section id="faq" className="bg-neutral-100 px-5 py-10">
       <div className="mx-auto max-w-[1220px]">
         <H2>よくある質問</H2>
         <div className="space-y-3">
           {FAQS.map((faq) => (
-            <div key={faq.q} className="rounded border border-[#ddd] bg-white">
+            <div key={faq.q} className="rounded border border-neutral-300 bg-white">
               <div className="flex items-start gap-3 px-5 py-4">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-500 font-bold text-[12px] text-white">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-500 font-bold text-white text-xs">
                   Q
                 </span>
-                <p className="font-semibold text-[#333] text-[14px]">{faq.q}</p>
+                <p className="font-semibold text-neutral-950 text-sm">{faq.q}</p>
               </div>
-              <div className="flex items-start gap-3 border-[#eee] border-t px-5 py-4">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FF6633] font-bold text-[12px] text-white">
+              <div className="flex items-start gap-3 border-neutral-200 border-t px-5 py-4">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-trial font-bold text-white text-xs">
                   A
                 </span>
-                <p className="text-[#555] text-[14px] leading-[1.8]">{faq.a}</p>
+                <p className="text-neutral-800 text-sm leading-[1.8]">{faq.a}</p>
               </div>
             </div>
           ))}

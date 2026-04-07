@@ -15,9 +15,9 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#333] px-5 py-10">
+    <footer className="bg-neutral-950 px-5 py-10">
       <div className="mx-auto max-w-[1220px]">
-        <div className="mb-6 grid gap-6 text-[#d1d5db] text-[12px] md:grid-cols-4">
+        <div className="mb-6 grid gap-6 text-neutral-300 text-xs md:grid-cols-4">
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.heading}>
               <h4 className="mb-2 font-bold text-white">{col.heading}</h4>
@@ -34,7 +34,7 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="border-[#555] border-t pt-4 text-center text-[#999] text-[12px]">
+        <div className="border-neutral-800 border-t pt-4 text-center text-neutral-500 text-xs">
           &copy; 2026 H・R All Rights Reserved.
         </div>
       </div>
