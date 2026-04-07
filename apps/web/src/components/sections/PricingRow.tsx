@@ -11,9 +11,9 @@ export function PricingRow() {
   return (
     <DLRow label="単価">
       <div>
-        <div className="font-bold text-[#333] text-[15px]">
-          {pricing.rate} / 月<span className="ml-0.5 font-normal text-[#999] text-[11px]">（税別）</span>
-          <span className="ml-1 font-normal text-[#999] text-[12px]">（精算 {pricing.billingHours}）</span>
+        <div className="font-bold text-[15px] text-neutral-950">
+          {pricing.rate} / 月<span className="ml-0.5 font-normal text-[11px] text-neutral-500">（税別）</span>
+          <span className="ml-1 font-normal text-neutral-500 text-xs">（精算 {pricing.billingHours}）</span>
         </div>
         <TrialBadge />
       </div>

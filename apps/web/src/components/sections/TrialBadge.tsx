@@ -18,7 +18,7 @@ export function TrialBadge() {
     <button
       type="button"
       onClick={handleClick}
-      className="mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded bg-[#FF6633]/10 px-2.5 py-1 text-[#FF6633] text-[12px] leading-tight transition hover:bg-[#FF6633]/20"
+      className="mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded bg-accent-trial/10 px-2.5 py-1 text-accent-trial text-xs leading-tight transition hover:bg-accent-trial/20"
     >
       <span>
         <span className="font-bold">トライアル:</span> 最初の更新月まで{" "}

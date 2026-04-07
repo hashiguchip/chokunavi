@@ -118,7 +118,7 @@ function PopoverRenderer({ content, anchor, duration, position }: PopoverRendere
   return (
     <div
       ref={popoverRef}
-      className="fixed z-[1100] max-w-[260px] rounded-lg border border-[#555] bg-[#444] px-4 py-3 text-[#eee] text-[12px] shadow-lg transition-[opacity,transform] duration-200"
+      className="fixed z-[1100] max-w-[260px] rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-3 text-neutral-200 text-xs shadow-lg transition-[opacity,transform] duration-200"
       style={{
         top: pos?.top ?? -9999,
         left: pos?.left ?? -9999,
@@ -135,12 +135,12 @@ function PopoverRenderer({ content, anchor, duration, position }: PopoverRendere
         >
           {/* 外枠（ボーダー色） */}
           <div
-            className={`ml-[-6px] border-[6px] border-transparent ${isTop ? "border-t-[#555]" : "border-b-[#555]"}`}
+            className={`ml-[-6px] border-[6px] border-transparent ${isTop ? "border-t-neutral-800" : "border-b-neutral-800"}`}
           />
           {/* 内側（背景色） */}
           <div
             className={`absolute ml-[-5px] border-[5px] border-transparent ${
-              isTop ? "top-0 border-t-[#444]" : "bottom-0 border-b-[#444]"
+              isTop ? "top-0 border-t-neutral-900" : "bottom-0 border-b-neutral-900"
             }`}
           />
         </div>

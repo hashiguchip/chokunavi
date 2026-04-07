@@ -86,7 +86,7 @@ export function AuthGate({ children }: Props) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-white px-4">
       <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4 text-center">
-        <h1 className="font-semibold text-[#333] text-lg">紹介コードを入力してください</h1>
+        <h1 className="font-semibold text-lg text-neutral-950">紹介コードを入力してください</h1>
         <input
           ref={inputRef}
           type="text"
@@ -96,7 +96,7 @@ export function AuthGate({ children }: Props) {
             setError(false);
           }}
           placeholder="紹介コード"
-          className="w-full rounded border border-gray-300 px-3 py-2 text-[#333] text-sm outline-none focus:border-primary-500"
+          className="w-full rounded border border-gray-300 px-3 py-2 text-neutral-950 text-sm outline-none focus:border-primary-500"
         />
         {error && <p className="text-red-600 text-sm">コードが正しくありません。もう一度お試しください。</p>}
         <button

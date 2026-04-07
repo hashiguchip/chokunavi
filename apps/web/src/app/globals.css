@@ -24,6 +24,23 @@
   --color-primary-800: #003d7a;
   --color-primary-900: #002e5c;
   --color-primary-950: #001f3d;
+
+  /* Neutral (gray scale) */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #eeeeee;
+  --color-neutral-300: #dddddd;
+  --color-neutral-400: #aaaaaa;
+  --color-neutral-500: #999999;
+  --color-neutral-600: #888888;
+  --color-neutral-700: #666666;
+  --color-neutral-800: #555555;
+  --color-neutral-900: #444444;
+  --color-neutral-950: #333333;
+
+  /* Accent */
+  --color-accent-trial: #ff6633;
+  --color-accent-interest: #e06060;
 }
 
 body {

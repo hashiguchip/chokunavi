@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-[#f5f5f5] text-[#333]">
+    <div className="min-h-screen bg-neutral-100 text-neutral-950">
       <Header />
       <ContactPage />
       <Footer />

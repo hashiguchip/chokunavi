@@ -27,16 +27,16 @@ export function SkillsSection() {
     <section id="skills" className="bg-white px-5 pb-10">
       <div className="mx-auto max-w-[1220px]">
         <H2>スキル・技術スタック</H2>
-        <div className="rounded border border-[#ddd] bg-white p-5">
+        <div className="rounded border border-neutral-300 bg-white p-5">
           <div className="space-y-3">
             {SKILL_CATEGORIES.map((c) => (
               <div key={c.label} className="flex flex-col gap-2 sm:flex-row sm:items-baseline">
-                <span className="w-[140px] shrink-0 font-bold text-[#444] text-[13px]">{c.label}</span>
+                <span className="w-[140px] shrink-0 font-bold text-[13px] text-neutral-900">{c.label}</span>
                 <div className="flex flex-wrap gap-1.5">
                   {c.items.map((s) => (
                     <span
                       key={s}
-                      className="rounded-sm bg-[#f5f5f5] px-2.5 py-1 text-[#555] text-[12px] ring-1 ring-[#e0e0e0]"
+                      className="rounded-sm bg-neutral-100 px-2.5 py-1 text-neutral-800 text-xs ring-1 ring-neutral-200"
                     >
                       {s}
                     </span>

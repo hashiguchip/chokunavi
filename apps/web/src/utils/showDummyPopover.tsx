@@ -3,7 +3,7 @@ import { showPopover } from "@/libs/global-popover";
 const content = (
   <>
     <p>こちらは雰囲気づくりの飾りです。</p>
-    <p className="mt-1 text-[#aaa]">細部まで見ていただきありがとうございます。</p>
+    <p className="mt-1 text-neutral-400">細部まで見ていただきありがとうございます。</p>
   </>
 );
 

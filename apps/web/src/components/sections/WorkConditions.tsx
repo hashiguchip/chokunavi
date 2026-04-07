@@ -14,16 +14,16 @@ export function WorkConditions() {
     <section id="conditions" className="bg-white px-5 py-10">
       <div className="mx-auto max-w-[1220px]">
         <H2>稼働条件</H2>
-        <div className="overflow-hidden rounded border border-[#ddd]">
+        <div className="overflow-hidden rounded border border-neutral-300">
           {CONDITIONS.map((item, i) => (
             <div
               key={item.label}
-              className={clsx("flex border-[#eee] border-b last:border-b-0", i % 2 === 1 && "bg-[#fafafa]")}
+              className={clsx("flex border-neutral-200 border-b last:border-b-0", i % 2 === 1 && "bg-neutral-50")}
             >
-              <div className="w-[140px] shrink-0 bg-[#f5f5f5] px-4 py-3 font-semibold text-[#333] text-[13px] md:w-[180px]">
+              <div className="w-[140px] shrink-0 bg-neutral-100 px-4 py-3 font-semibold text-[13px] text-neutral-950 md:w-[180px]">
                 {item.label}
               </div>
-              <div className="flex-1 px-4 py-3 text-[#333] text-[14px]">{item.value}</div>
+              <div className="flex-1 px-4 py-3 text-neutral-950 text-sm">{item.value}</div>
             </div>
           ))}
         </div>

@@ -22,8 +22,8 @@ export function InterestButton() {
       aria-pressed={interested}
       className={`flex w-full items-center justify-center gap-1.5 rounded border px-5 py-3 text-[13px] transition sm:w-auto ${
         interested
-          ? "border-[#e06060] bg-[#e06060]/8 text-[#e06060]"
-          : "border-[#ccc] bg-white text-[#666] hover:border-primary-500 hover:text-primary-500"
+          ? "border-accent-interest bg-accent-interest/8 text-accent-interest"
+          : "border-neutral-300 bg-white text-neutral-700 hover:border-primary-500 hover:text-primary-500"
       }`}
     >
       <Heart size={16} fill={interested ? "currentColor" : "none"} />
