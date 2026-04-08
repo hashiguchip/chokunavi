@@ -1,6 +1,6 @@
 [tools]
 node = "24.14.0"
-go = "1.24"
+go = "1.25"
 "aqua:apple/pkl" = "0.31.1"
 "aqua:biomejs/biome" = "2.4.4"
 "aqua:cocogitto/cocogitto" = "7.0.0"
