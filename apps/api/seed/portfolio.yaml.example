@@ -1,0 +1,119 @@
+# 構造のみのサンプル seed。
+#
+# 実データは個人情報を含むため、`apps/api/seed/portfolio.yaml` (SOPS 暗号化) に
+# 別途格納する。このファイルは平文で commit され、構造のリファレンスとして使う。
+#
+# 投入: `mise run seed:apply`
+# 編集: `sops apps/api/seed/portfolio.yaml`
+#
+# ID 規約:
+# - techs / phases / projects は string PK (id 必須、ドメインで意味のある値)
+# - faq / benefits / requirements / work_conditions / pain_points /
+#   pricing / pricing_patterns は auto-generated bigint (id 不要)
+#
+# 並び順:
+# - display_order が指定されている list は、API レスポンスでも display_order 昇順
+# - requirements は YAML の slice 順がそのまま表示順 (display_order は cmd/seed が
+#   index から自動付番する)
+# - projects は period_start 降順 (新しいものが上)、cmd/seed では並び替えない
+
+techs:
+  - id: go
+    label: Go
+    category: language
+    display_order: 1
+  - id: typescript
+    label: TypeScript
+    category: language
+    display_order: 2
+  - id: react
+    label: React
+    category: framework
+    display_order: 3
+  - id: postgres
+    label: PostgreSQL
+    category: infra
+    display_order: 4
+
+phases:
+  - id: requirements
+    label: 要件定義
+    display_order: 1
+  - id: design
+    label: 設計
+    display_order: 2
+  - id: development
+    label: 実装
+    display_order: 3
+  - id: operation
+    label: 運用
+    display_order: 4
+
+projects:
+  - id: project-sample-1
+    title: Sample Project A
+    period_start: 2024-01-01
+    period_end: 2025-03-31
+    team: 4名
+    role: PG
+    summary: |
+      sample summary text.
+      multi-line OK.
+    tech_ids: [go, postgres]
+    phase_ids: [development, operation]
+  - id: project-sample-2
+    title: Sample Project B (進行中)
+    period_start: 2025-04-01
+    period_end: null  # null = 現在進行中
+    team: 6名
+    role: TL
+    summary: |
+      ongoing project sample.
+    tech_ids: [typescript, react]
+    phase_ids: [requirements, design, development]
+
+faq:
+  - question: sample question 1?
+    answer: sample answer 1.
+    display_order: 1
+  - question: sample question 2?
+    answer: sample answer 2.
+    display_order: 2
+
+benefits:
+  - title: sample benefit title
+    description: sample benefit description.
+    display_order: 1
+
+requirements:
+  must_have:
+    - sample must-have requirement 1
+    - sample must-have requirement 2
+  nice_to_have:
+    - sample nice-to-have requirement 1
+
+work_conditions:
+  - label: 稼働
+    value: 週20h
+    display_order: 1
+  - label: 場所
+    value: フルリモート
+    display_order: 2
+
+pain_points:
+  - title: sample pain point title
+    description: sample pain point description.
+    display_order: 1
+
+pricing:
+  rate: 1円/h
+  billing_hours: 実稼働
+  trial_rate: 1円/h
+  trial_note: お試し期間あり
+  patterns:
+    - label: パターンA
+      trial_flex: 0
+      trial_period: 1ヶ月
+      regular_flex: 0
+      regular_period: 2ヶ月目〜
+      display_order: 1

@@ -8,3 +8,9 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .claude/settings.local.json
+
+# age private keys — never commit. SOPS-encrypted YAML uses these to decrypt.
+*.age
+age.key
+.age/
+
