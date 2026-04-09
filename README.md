@@ -81,6 +81,10 @@ mise run dev:api   # api → http://localhost:8080
 - ホストの Node / Go (mise 管理) を直接使うので Docker オーバーヘッドなし
 - web から api を呼ぶ場合は `apps/web/.env` に `NEXT_PUBLIC_DATA_API_URL=http://localhost:8080/api/pricing` を **手動で**設定する必要あり (compose 経由と違い自動セットされない)
 
+## Branching
+
+[GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow) ベースの trunk-based 運用。`main` を常に deployable に保ち、短命 feature branch + PR + squash merge で main に集約する。詳細は [`CLAUDE.md`](CLAUDE.md#branching) を参照。
+
 ## Commit Convention
 
 Conventional Commits ([cocogitto](https://docs.cocogitto.io/) で検証)。

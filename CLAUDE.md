@@ -100,6 +100,17 @@ biome.json                    # Linter/Formatter 設定（JS/TS/CSS 全体に適
 - 新しい環境変数を追加する場合は `src/env.ts` に zod スキーマとともに登録する
 - 例外: `next.config.ts` での `NODE_ENV` 参照など、env.ts より前に評価されるファイル
 
+### Branching
+
+GitHub Flow ベース（trunk-based）。
+
+- `main` が単一 trunk。常に deployable・green に保つ
+- 作業は短命な feature branch で行う。ブランチ名 prefix は Conventional Commits の type に揃える（`feat/`, `fix/`, `refactor/`, `chore/`, `docs/`, `ci/` 等）— GitHub Flow 自体は命名を規定しないが、本プロジェクトの慣習
+- ブランチは目安 1–3 日で main にマージ。長寿命化させない
+- `develop` / `release/*` / `hotfix/*` は使わない
+- マージは squash merge を基本とする（main の履歴を Conventional Commits 1行に保つため）
+- main への直接 push は禁止。必ず PR 経由
+
 ### Commit Message (Conventional Commits)
 
 - Format: `<type>(<scope>): <description>` — scope は任意
