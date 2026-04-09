@@ -1,90 +1,127 @@
-# apps/api — Data API
+# apps/api
 
-Web (`apps/web`) 向けの汎用データ API。フロントにベタ書きしていた表示データを段階的にこちらへ移し、データ更新時にコードを触らずに済む構成を目指す。
+`apps/web` が叩くデータ API。
 
-> モノレポ全体の概要・横断ツール・セットアップは [ルート README](../../README.md) を参照。
+> モノレポ全体の概要は [ルート README](../../README.md) を参照。
 
-## Tech Stack
+## Stack
 
-- **Language**: Go 1.24
-- **HTTP**: 標準ライブラリ `net/http` のみ (フレームワーク不使用)
-- **Logging**: `log/slog`
-- **Auth**: SHA-256 ハッシュ照合 (`crypto/subtle` で定数時間比較)
+- Go 1.25 / [huma v2](https://huma.rocks/)
+- [ent](https://entgo.io/) + Postgres (pgxpool) + [Atlas](https://atlasgo.io/) versioned migrations
+- [SOPS](https://getsops.io/) + [age](https://github.com/FiloSottile/age) で seed データを暗号化
 
-## Directory
+## Endpoints
 
-```
-apps/api/
-├── main.go           # サーバー本体 (handler, auth, CORS)
-├── main_test.go      # テスト
-├── go.mod
-├── Makefile
-├── Dockerfile        # multi-stage (debian + mise → debian dev → distroless production)
-└── .env.example
+| Method | Path | 用途 |
+| --- | --- | --- |
+| `GET` | `/healthz` | liveness probe |
+| `GET` | `/api/portfolio` | aggregate portfolio (`X-Referral-Code` 必須) |
+
+## Local setup
+
+```sh
+# 1. 依存サービスを起動 (Postgres 17)
+docker compose up -d postgres
+
+# 2. 初回のみ: ent schema から initial migration を生成
+mise run ent:diff initial
+
+# 3. migration を適用
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+  mise run migrate:up
+
+# 4. dev server 起動
+AUTH_CODE_HASHES=<your-sha256-hash> \
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+  mise run dev:api
 ```
 
 ## Commands
 
-単独で api を起動するためのコマンド群。**フルスタック開発 (web から呼び出す) では `docker compose up` を推奨** ([ルート README の Run セクション](../../README.md#run) を参照)。ルートから `mise run` でも `apps/api/` 内で `make` 直接でも可。
-
-| 用途           | mise (ルートから)    | make (apps/api から) |
-| -------------- | -------------------- | -------------------- |
-| 開発サーバー   | `mise run dev:api`   | `make dev`           |
-| Lint + Test    | `mise run test:api`  | `make test`          |
-| 本番ビルド     | —                    | `make build`         |
-
-`make build` は CGO を無効化したスタティックバイナリを `bin/server` に出力する (`-ldflags="-s -w"` で stripped)。
+| 用途 | mise (ルートから) |
+| --- | --- |
+| dev server | `mise run dev:api` |
+| vet + test | `mise run test:api` (Docker daemon が必要) |
+| ent client 再生成 | `mise run ent:generate` |
+| migration 生成 | `mise run ent:diff <name>` |
+| migration 適用 | `mise run migrate:up` |
+| seed 投入 | `mise run seed:apply` (詳細は下の Seed セクション) |
 
 ## Environment Variables
 
-`.env.example` をコピーして `.env` を作る:
-
-```sh
-cp .env.example .env
-```
-
 | 変数 | 必須 | 説明 |
-| ---- | ---- | ---- |
-| `PORT` | 任意 | 待受ポート (デフォルト `8080`) |
-| `CORS_ORIGINS` | 任意 | カンマ区切りの許可 Origin (デフォルト `https://hashiguchip.github.io`) |
-| `AUTH_CODE_HASHES` | ✅ | 許可コードの SHA-256 ハッシュ (カンマ区切り)。1 件以上必須。`.env.example` の値はプレースホルダなので必ず実ハッシュに差し替える |
-| `PRICING_JSON` | ✅ | 返却する料金 JSON 文字列。**シングルクォートで囲む** (shell の `source` で波括弧が壊れるため) |
+| --- | --- | --- |
+| `PORT` | 任意 | 待受ポート (default `8080`) |
+| `DATABASE_URL` | **必須** | Postgres DSN (e.g. `postgres://user:pass@host/db?sslmode=...`) |
+| `AUTH_CODE_HASHES` | **必須** | カンマ区切りの SHA-256 hash。`echo -n "コード" \| shasum -a 256` で生成 |
+| `CORS_ORIGINS` | 任意 | カンマ区切りの許可 origin (default `https://hashiguchip.github.io`) |
 
-許可コードのハッシュは次のように生成する:
+## Schema / migrations
 
-```sh
-echo -n "あなたのコード" | shasum -a 256
-```
+- `ent/schema/*.go` が schema の single source of truth。変更後は `mise run ent:generate` で client を再生成。
+- `mise run ent:diff <name>` で差分 SQL を `migrations/` に書き出す (atlas 互換フォーマット、`atlas.sum` 付き)。
+- `mise run migrate:up` は atlas CLI を使って `migrations/` を `DATABASE_URL` に流す。
 
-## Authentication
+### Seed データ
 
-クライアントは `X-Referral-Code` ヘッダにコード文字列をそのまま入れて送る。サーバー側で SHA-256 化し、`AUTH_CODE_HASHES` のいずれかと一致すれば認証成功。比較は [`crypto/subtle.ConstantTimeCompare`](https://pkg.go.dev/crypto/subtle#ConstantTimeCompare) でタイミング攻撃を回避している。
+個人情報を含む `apps/api/seed/portfolio.yaml` は **SOPS + age** で暗号化して repo に commit する。
+復号鍵 (age private key) は橋口の dev machine だけが持つので、GitHub 上では中身を読めない。
 
-## Endpoints
+構造は `apps/api/seed/portfolio.yaml.example` (平文 / commit 済み) を参照。
 
-| Method | Path           | 用途 |
-| ------ | -------------- | ---- |
-| `GET`     | `/healthz`     | ヘルスチェック (`{"status":"ok"}`) |
-| `OPTIONS` | `/api/pricing` | CORS preflight |
-| `GET`     | `/api/pricing` | 認証成功時に `PRICING_JSON` をそのまま返却 |
-
-CORS は `CORS_ORIGINS` に列挙された Origin にのみ `Access-Control-Allow-*` を返す。許可ヘッダは `X-Referral-Code, Content-Type`、メソッドは `GET, OPTIONS`。
+#### 初回 setup (新しい dev machine)
 
 ```sh
-# 動作確認例
-curl -H "X-Referral-Code: あなたのコード" http://localhost:8080/api/pricing
+# 1. age key pair を生成
+mkdir -p ~/.config/age
+age-keygen -o ~/.config/age/resume_2026.key
+# → 標準出力に "Public key: age1xxxxxxxxx..." が出る
+
+# 2. .sops.yaml の age recipient を public key で置き換える
+#    (リポジトリルート /.sops.yaml の TODO 行)
+
+# 3. SOPS が key を見つけられるよう env に export しておく
+#    (~/.zshrc などに追加)
+export SOPS_AGE_KEY_FILE=~/.config/age/resume_2026.key
+
+# 4. private key をバックアップ (1Password など)。失うと復号不能。
 ```
 
-## Docker
+#### 編集
 
-ルート [`docker-compose.yml`](../../docker-compose.yml) の `api` サービスから参照される (フルスタック開発時の推奨パス)。multi-stage 構成:
+```sh
+sops apps/api/seed/portfolio.yaml
+# → 透過 decrypt → エディタで編集 → 保存時に自動 encrypt
+```
 
-- **build** (`debian:13-slim` + mise): ルートの [`.mise.toml`](../../.mise.toml) から Go のバージョンを解決して install (host と完全一致、参考: [mise + Docker cookbook](https://mise.jdx.dev/mise-cookbook/docker.html))。`CGO_ENABLED=0` で完全 static binary を生成
-- **dev** (`debian:13-slim` + バイナリのみ): compose の `target: dev` 経由で起動
-- **production** (`gcr.io/distroless/static-debian12`): デフォルト target、Fly.io デプロイ用 — イメージサイズは旧構成と同等
+新しい seed ファイルを 0 から作る場合:
+```sh
+cp apps/api/seed/portfolio.yaml.example apps/api/seed/portfolio.yaml
+sops -e -i apps/api/seed/portfolio.yaml   # in-place encrypt
+```
 
-ビルドコンテキストはリポジトリルート (`context: .`) で、ルート [`.dockerignore`](../../.dockerignore) が build 対象を絞っている。
+#### 投入
 
-## Deploy
+```sh
+# ローカル DB
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+  mise run seed:apply
 
-[`deploy-api.yml`](../../.github/workflows/deploy-api.yml) が `main` への push を契機に走り、`go vet` / `go test` / `go build` で検証する。Fly.io への実デプロイ部分は `fly launch` 完了後にコメント解除して有効化する想定。
+# 本番 (leapcell)
+DATABASE_URL=<leapcell-postgres-dsn> mise run seed:apply
+```
+
+`cmd/seed` は idempotent: 1 つの transaction で全テーブルを delete → insert する。
+途中で失敗すれば全てロールバックされ、DB は元の状態に戻る。
+
+#### key を失った場合
+
+private key を失うと暗号化された YAML は復号できない。復旧手順:
+
+1. 新しい age key pair を生成
+2. `.sops.yaml` を新しい public key に書き換え
+3. `apps/api/seed/portfolio.yaml` を `.example` から再作成し、手で実データを埋め直す
+4. `sops -e -i` で再暗号化
+
+`sops updatekeys` での key rotation は、古い key で復号できる状態でしか実行できない
+ので、完全に失った場合は再作成が必要。

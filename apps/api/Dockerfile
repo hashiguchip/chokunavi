@@ -33,7 +33,7 @@ COPY --from=build /server /server
 USER nobody
 CMD ["/server"]
 
-# === Production stage: distroless (default target, Fly.io) ===
+# === Production stage: distroless (default target) ===
 FROM gcr.io/distroless/static-debian12
 COPY --from=build /server /server
 USER nonroot:nonroot

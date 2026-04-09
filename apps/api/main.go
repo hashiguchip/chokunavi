@@ -3,11 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
-	"crypto/sha256"
-	"crypto/subtle"
-	"encoding/hex"
 	"encoding/json"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -15,84 +11,107 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/danielgtaylor/huma/v2"
+	"github.com/danielgtaylor/huma/v2/adapters/humago"
+
+	"github.com/hashiguchip/resume_2026/apps/api/internal/handlers"
+	"github.com/hashiguchip/resume_2026/apps/api/internal/middleware"
+	"github.com/hashiguchip/resume_2026/apps/api/internal/repository"
 )
 
-// buildMux creates the HTTP handler from environment variables.
-func buildMux() http.Handler {
-	var origins []string
-	for _, o := range strings.Split(envOr("CORS_ORIGINS", "https://hashiguchip.github.io"), ",") {
-		o = strings.TrimSpace(o)
-		if o != "" {
-			origins = append(origins, o)
-		}
-	}
+type config struct {
+	DatabaseURL string
+	AuthHashes  []string
+	CORSOrigins []string
+}
 
-	hashes := requireEnv("AUTH_CODE_HASHES")
-	var hashList []string
-	for _, h := range strings.Split(hashes, ",") {
-		h = strings.TrimSpace(h)
-		if h != "" {
-			hashList = append(hashList, h)
-		}
-	}
-	if len(hashList) == 0 {
+func loadConfig() *config {
+	hashes := parseList(requireEnv("AUTH_CODE_HASHES"))
+	if len(hashes) == 0 {
 		slog.Error("AUTH_CODE_HASHES must contain at least one hash")
 		os.Exit(1)
 	}
 
-	pricingRaw := requireEnv("PRICING_JSON")
-	if !json.Valid([]byte(pricingRaw)) {
-		slog.Error("PRICING_JSON is not valid JSON")
-		os.Exit(1)
+	return &config{
+		DatabaseURL: requireEnv("DATABASE_URL"),
+		AuthHashes:  hashes,
+		CORSOrigins: parseList(envOr("CORS_ORIGINS", "https://hashiguchip.github.io")),
 	}
+}
 
+type healthOutput struct {
+	Body struct {
+		Status string `json:"status" example:"ok" doc:"Service status"`
+	}
+}
+
+// newServer は config + repository から HTTP handler を組み立てる。
+// repository を引数で受け取ることでテスト時に stub を差し込める (DI)。
+//
+// 順序: huma API + auth middleware → operation register → 全体を CORS でラップ。
+// CORS は preflight (OPTIONS) を扱うため最外殻に置く。
+func newServer(cfg *config, repo repository.PortfolioRepository) (http.Handler, error) {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
+	humaConfig := huma.DefaultConfig("Resume 2026 API", "0.1.0")
+	// OpenAPI / docs endpoint は今は露出しない (PR 3 で再有効化予定)
+	humaConfig.OpenAPIPath = ""
+	humaConfig.DocsPath = ""
+	humaConfig.SchemasPath = ""
+	humaConfig.CreateHooks = nil
+
+	api := humago.New(mux, humaConfig)
+	api.UseMiddleware(middleware.Auth(api, cfg.AuthHashes))
+
+	huma.Register(api, huma.Operation{
+		OperationID: "healthz",
+		Method:      http.MethodGet,
+		Path:        "/healthz",
+		Summary:     "Liveness probe",
+	}, func(_ context.Context, _ *struct{}) (*healthOutput, error) {
+		out := &healthOutput{}
+		out.Body.Status = "ok"
+		return out, nil
 	})
 
-	mux.HandleFunc("OPTIONS /api/pricing", func(w http.ResponseWriter, r *http.Request) {
-		setCORS(w, r, origins)
-		w.WriteHeader(http.StatusOK)
-	})
+	handlers.RegisterPortfolio(api, repo)
 
-	mux.HandleFunc("GET /api/pricing", func(w http.ResponseWriter, r *http.Request) {
-		setCORS(w, r, origins)
-
-		code := r.Header.Get("X-Referral-Code")
-		if code == "" {
-			writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "missing referral code"})
-			return
-		}
-
-		sum := sha256.Sum256([]byte(code))
-		hash := hex.EncodeToString(sum[:])
-		if !matchHash(hash, hashList) {
-			slog.Warn("auth failed")
-			writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "invalid referral code"})
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, pricingRaw)
-	})
-
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// huma に登録されていないパスは JSON 404 にフォールバック
+	mux.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, http.StatusNotFound, map[string]string{"error": "not found"})
 	})
 
-	return mux
+	return middleware.CORS(cfg.CORSOrigins)(mux), nil
 }
 
 func main() {
-	port := envOr("PORT", "8080")
-	mux := buildMux()
+	cfg := loadConfig()
 
+	// 初期接続には 10s の timeout を付ける。Postgres が落ちていると process exit。
+	initCtx, initCancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer initCancel()
+	repo, err := repository.NewPostgres(initCtx, cfg.DatabaseURL)
+	if err != nil {
+		slog.Error("failed to init repository", "err", err)
+		os.Exit(1)
+	}
+	defer func() {
+		if err := repo.Close(); err != nil {
+			slog.Error("repo close", "err", err)
+		}
+	}()
+
+	handler, err := newServer(cfg, repo)
+	if err != nil {
+		slog.Error("failed to build server", "err", err)
+		os.Exit(1)
+	}
+
+	port := envOr("PORT", "8080")
 	srv := &http.Server{
 		Addr:              ":" + port,
-		Handler:           mux,
+		Handler:           handler,
 		ReadHeaderTimeout: 2 * time.Second,
 		ReadTimeout:       5 * time.Second,
 		WriteTimeout:      10 * time.Second,
@@ -135,6 +154,17 @@ func requireEnv(key string) string {
 	return v
 }
 
+func parseList(s string) []string {
+	var out []string
+	for _, item := range strings.Split(s, ",") {
+		item = strings.TrimSpace(item)
+		if item != "" {
+			out = append(out, item)
+		}
+	}
+	return out
+}
+
 func writeJSON(w http.ResponseWriter, status int, v any) {
 	var buf bytes.Buffer
 	if err := json.NewEncoder(&buf).Encode(v); err != nil {
@@ -147,29 +177,5 @@ func writeJSON(w http.ResponseWriter, status int, v any) {
 	w.WriteHeader(status)
 	if _, err := w.Write(buf.Bytes()); err != nil {
 		slog.Warn("writeJSON write failed", "err", err)
-	}
-}
-
-func matchHash(hash string, allowed []string) bool {
-	matched := false
-	for _, a := range allowed {
-		if subtle.ConstantTimeCompare([]byte(hash), []byte(a)) == 1 {
-			matched = true
-		}
-	}
-	return matched
-}
-
-func setCORS(w http.ResponseWriter, r *http.Request, origins []string) {
-	w.Header().Set("Vary", "Origin")
-	origin := r.Header.Get("Origin")
-	for _, o := range origins {
-		if o == origin {
-			w.Header().Set("Access-Control-Allow-Origin", origin)
-			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "X-Referral-Code, Content-Type")
-			w.Header().Set("Access-Control-Max-Age", "86400")
-			return
-		}
 	}
 }
