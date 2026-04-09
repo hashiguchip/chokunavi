@@ -8,14 +8,10 @@
 # age public key を 1 つ列挙する。private key は橋口の dev machine だけが持つ。
 # key の rotation 手順は SOPS docs (`sops updatekeys`) を参照。
 #
-# ⚠️ TODO: age public key (`age1...` の形) を追加する。
-#    手順: `age-keygen -o ~/.config/age/resume_2026.key`
-#         → 出力された public key (`# public key: age1...`) をここに貼る
-#
 # path_regex `[^.]+\.yaml$` は basename にドットを含まない yaml だけを matche する。
 # `portfolio.yaml`        → match (encrypt 対象)
 # `portfolio.yaml.example` → no match (.example は平文のまま)
 # (SOPS は Go の RE2 を使うため、negative lookahead `(?!...)` は使えない)
 creation_rules:
   - path_regex: apps/api/seed/[^.]+\.yaml$
-    age: age1placeholderreplacemewhenagekeypairisgeneratedseereadmexxxxxxxxxx
+    age: age1lz72v9y6qkhuy72te5q30jp05n88l0z7yp8m6vgt4nf7d0fg94tqr89rdy
