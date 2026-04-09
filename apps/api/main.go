@@ -40,12 +40,6 @@ func loadConfig() *config {
 	}
 }
 
-type healthOutput struct {
-	Body struct {
-		Status string `json:"status" example:"ok" doc:"Service status"`
-	}
-}
-
 // newServer は config + repository から HTTP handler を組み立てる。
 // repository を引数で受け取ることでテスト時に stub を差し込める (DI)。
 //
@@ -55,7 +49,9 @@ func newServer(cfg *config, repo repository.PortfolioRepository) (http.Handler, 
 	mux := http.NewServeMux()
 
 	humaConfig := huma.DefaultConfig("Resume 2026 API", "0.1.0")
-	// OpenAPI / docs endpoint は今は露出しない (PR 3 で再有効化予定)
+	// OpenAPI / docs endpoint は server から露出しない。
+	// 真実の出所は cmd/openapi が生成する apps/api/openapi.yaml で、PR diff
+	// として contract 変更を見れる形で repo に commit されている。
 	humaConfig.OpenAPIPath = ""
 	humaConfig.DocsPath = ""
 	humaConfig.SchemasPath = ""
@@ -64,18 +60,7 @@ func newServer(cfg *config, repo repository.PortfolioRepository) (http.Handler, 
 	api := humago.New(mux, humaConfig)
 	api.UseMiddleware(middleware.Auth(api, cfg.AuthHashes))
 
-	huma.Register(api, huma.Operation{
-		OperationID: "healthz",
-		Method:      http.MethodGet,
-		Path:        "/healthz",
-		Summary:     "Liveness probe",
-	}, func(_ context.Context, _ *struct{}) (*healthOutput, error) {
-		out := &healthOutput{}
-		out.Body.Status = "ok"
-		return out, nil
-	})
-
-	handlers.RegisterPortfolio(api, repo)
+	handlers.RegisterAll(api, repo)
 
 	// huma に登録されていないパスは JSON 404 にフォールバック
 	mux.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {

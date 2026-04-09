@@ -86,3 +86,17 @@ description = "Apply SOPS-encrypted seed YAML to DATABASE_URL"
 #   - apps/api/seed/portfolio.yaml が SOPS で暗号化済みで存在すること
 run = "go run ./cmd/seed seed/portfolio.yaml"
 dir = "apps/api"
+
+[tasks."codegen:api"]
+description = "Generate apps/api/openapi.yaml from huma operations"
+run = "go run ./cmd/openapi openapi.yaml"
+dir = "apps/api"
+
+[tasks."codegen:web"]
+description = "Generate apps/web/src/services/api/schema.generated.ts from openapi.yaml"
+run = "npx openapi-typescript ../api/openapi.yaml -o src/services/api/schema.generated.ts"
+dir = "apps/web"
+
+[tasks.codegen]
+description = "Run all codegen (API spec → TS schema)"
+depends = ["codegen:api", "codegen:web"]

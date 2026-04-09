@@ -1,0 +1,350 @@
+components:
+  schemas:
+    Benefit:
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+        title:
+          type: string
+      required:
+        - title
+        - description
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+            - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: "#/components/schemas/ErrorDetail"
+          type:
+            - array
+            - "null"
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+            - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+            - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+            - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+            - https://example.com/errors/example
+          format: uri
+          type: string
+      type: object
+    FAQItem:
+      additionalProperties: false
+      properties:
+        a:
+          type: string
+        q:
+          type: string
+      required:
+        - q
+        - a
+      type: object
+    HealthzOutputBody:
+      additionalProperties: false
+      properties:
+        status:
+          description: Service status
+          examples:
+            - ok
+          type: string
+      required:
+        - status
+      type: object
+    PainPoint:
+      additionalProperties: false
+      properties:
+        description:
+          type: string
+        title:
+          type: string
+      required:
+        - title
+        - description
+      type: object
+    Phase:
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+      required:
+        - id
+        - label
+      type: object
+    Portfolio:
+      additionalProperties: false
+      properties:
+        benefits:
+          items:
+            $ref: "#/components/schemas/Benefit"
+          type:
+            - array
+            - "null"
+        faq:
+          items:
+            $ref: "#/components/schemas/FAQItem"
+          type:
+            - array
+            - "null"
+        painPoints:
+          items:
+            $ref: "#/components/schemas/PainPoint"
+          type:
+            - array
+            - "null"
+        phases:
+          items:
+            $ref: "#/components/schemas/Phase"
+          type:
+            - array
+            - "null"
+        pricing:
+          $ref: "#/components/schemas/Pricing"
+        projects:
+          items:
+            $ref: "#/components/schemas/Project"
+          type:
+            - array
+            - "null"
+        requirements:
+          $ref: "#/components/schemas/Requirements"
+        techs:
+          items:
+            $ref: "#/components/schemas/Tech"
+          type:
+            - array
+            - "null"
+        workConditions:
+          items:
+            $ref: "#/components/schemas/WorkCondition"
+          type:
+            - array
+            - "null"
+      required:
+        - projects
+        - techs
+        - phases
+        - faq
+        - benefits
+        - requirements
+        - workConditions
+        - painPoints
+        - pricing
+      type: object
+    Pricing:
+      additionalProperties: false
+      properties:
+        billingHours:
+          type: string
+        patterns:
+          items:
+            $ref: "#/components/schemas/PricingPattern"
+          type:
+            - array
+            - "null"
+        rate:
+          type: string
+        trialNote:
+          type: string
+        trialRate:
+          type: string
+      required:
+        - rate
+        - billingHours
+        - trialRate
+        - trialNote
+        - patterns
+      type: object
+    PricingPattern:
+      additionalProperties: false
+      properties:
+        label:
+          type: string
+        regularFlex:
+          format: int64
+          type: integer
+        regularPeriod:
+          type: string
+        trialFlex:
+          format: int64
+          type: integer
+        trialPeriod:
+          type: string
+      required:
+        - label
+        - trialFlex
+        - trialPeriod
+        - regularFlex
+        - regularPeriod
+      type: object
+    Project:
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        periodEnd:
+          format: date-time
+          type: string
+        periodStart:
+          format: date-time
+          type: string
+        phaseIds:
+          items:
+            type: string
+          type:
+            - array
+            - "null"
+        role:
+          type: string
+        summary:
+          type: string
+        team:
+          type: string
+        techIds:
+          items:
+            type: string
+          type:
+            - array
+            - "null"
+        title:
+          type: string
+      required:
+        - id
+        - title
+        - periodStart
+        - team
+        - role
+        - techIds
+        - phaseIds
+        - summary
+      type: object
+    Requirements:
+      additionalProperties: false
+      properties:
+        mustHave:
+          items:
+            type: string
+          type:
+            - array
+            - "null"
+        niceToHave:
+          items:
+            type: string
+          type:
+            - array
+            - "null"
+      required:
+        - mustHave
+        - niceToHave
+      type: object
+    Tech:
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+      required:
+        - id
+        - label
+        - category
+      type: object
+    WorkCondition:
+      additionalProperties: false
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+      required:
+        - label
+        - value
+      type: object
+info:
+  title: Resume 2026 API
+  version: 0.1.0
+openapi: 3.1.0
+paths:
+  /api/portfolio:
+    get:
+      description: Returns projects, techs, phases, FAQ, sections, and pricing in one response.
+      operationId: get-portfolio
+      parameters:
+        - description: Pre-shared referral code
+          in: header
+          name: X-Referral-Code
+          required: true
+          schema:
+            description: Pre-shared referral code
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Portfolio"
+          description: OK
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+          description: Error
+      security:
+        - referralCode: []
+      summary: Aggregate portfolio data
+  /healthz:
+    get:
+      operationId: healthz
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthzOutputBody"
+          description: OK
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+          description: Error
+      summary: Liveness probe
