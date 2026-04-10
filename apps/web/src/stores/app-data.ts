@@ -1,31 +1,22 @@
 import { create } from "zustand";
-import { env } from "@/env";
 import type { HttpError } from "@/libs/http";
-import { getPortfolio, type Portfolio } from "@/services/api/portfolio";
+import { type AppData, getAppData } from "@/services/api/app-data";
 
-type PortfolioStore = {
-  data: Portfolio | null;
+type AppDataStore = {
+  data: AppData | null;
   loading: boolean;
   error: HttpError | null;
   fetch: (code: string) => Promise<void>;
   reset: () => void;
 };
 
-export const usePortfolioStore = create<PortfolioStore>()((set) => ({
+export const useAppDataStore = create<AppDataStore>()((set) => ({
   data: null,
   loading: false,
   error: null,
   fetch: async (code: string) => {
-    if (!env.NEXT_PUBLIC_DATA_API_URL) {
-      set({
-        data: null,
-        loading: false,
-        error: { type: "network", message: "NEXT_PUBLIC_DATA_API_URL is not configured" },
-      });
-      return;
-    }
     set({ loading: true, error: null });
-    const result = await getPortfolio(code);
+    const result = await getAppData(code);
     if (result.ok) {
       set({ data: result.data, loading: false, error: null });
     } else {

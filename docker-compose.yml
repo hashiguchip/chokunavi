@@ -8,7 +8,7 @@ services:
     volumes:
       - ./apps/web/src:/app/src
     environment:
-      - NEXT_PUBLIC_DATA_API_URL=http://localhost:8080/api/portfolio
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
     env_file:
       - path: apps/web/.env
         required: false

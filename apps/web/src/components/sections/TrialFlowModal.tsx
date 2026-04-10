@@ -2,10 +2,10 @@
 
 import { X } from "lucide-react";
 import { closeModal } from "@/libs/global-modal";
-import { usePortfolioStore } from "@/stores/portfolio";
+import { useAppDataStore } from "@/stores/app-data";
 
 export function TrialFlowModal() {
-  const pricing = usePortfolioStore((s) => s.data?.pricing);
+  const pricing = useAppDataStore((s) => s.data?.pricing);
 
   if (!pricing || !pricing.patterns) return null;
 

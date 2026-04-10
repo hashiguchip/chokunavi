@@ -5,7 +5,7 @@ import type { UseFormReturn } from "react-hook-form";
 import type { ContactFormValues } from "@/constants/contact";
 import { env } from "@/env";
 import { trackContactSubmitError } from "@/libs/analytics";
-import { api } from "@/services/api";
+import { submitContact } from "@/services/contact";
 
 type Props = {
   form: UseFormReturn<ContactFormValues>;
@@ -33,7 +33,7 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
     setError(null);
 
     const { company, ...rest } = values;
-    const result = await api.contact({
+    const result = await submitContact({
       access_key: env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
       ...rest,
       ...(company ? { company } : {}),

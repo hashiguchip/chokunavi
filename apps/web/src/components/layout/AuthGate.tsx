@@ -2,8 +2,8 @@
 
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { setAuthUser, trackAuthSuccess } from "@/libs/analytics";
+import { useAppDataStore } from "@/stores/app-data";
 import { useAuthStore } from "@/stores/auth";
-import { usePortfolioStore } from "@/stores/portfolio";
 
 type Props = {
   children: React.ReactNode;
@@ -14,13 +14,14 @@ export function AuthGate({ children }: Props) {
   const setPersistedCode = useAuthStore((s) => s.setCode);
   const clearPersistedCode = useAuthStore((s) => s.clearCode);
 
-  const data = usePortfolioStore((s) => s.data);
-  const loading = usePortfolioStore((s) => s.loading);
-  const error = usePortfolioStore((s) => s.error);
+  const data = useAppDataStore((s) => s.data);
+  const loading = useAppDataStore((s) => s.loading);
+  const error = useAppDataStore((s) => s.error);
 
   const [hydrated, setHydrated] = useState(false);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const fetchedRef = useRef(false);
 
   // persist の復元完了を検知
   useEffect(() => {
@@ -30,30 +31,32 @@ export function AuthGate({ children }: Props) {
     return useAuthStore.persist.onFinishHydration(() => setHydrated(true));
   }, []);
 
-  // 復元されたコードがあれば自動 fetch (一度だけ)
+  // hydration 完了後に 1 度だけ fetch する。?code= を優先。
   useEffect(() => {
-    if (!hydrated) return;
-    if (persistedCode && !data && !loading && !error) {
-      usePortfolioStore.getState().fetch(persistedCode);
-    }
-  }, [hydrated, persistedCode, data, loading, error]);
+    if (!hydrated || fetchedRef.current) return;
 
-  // ?code= クエリパラメータによる自動認証
-  useEffect(() => {
-    if (!hydrated || data) return;
     const params = new URLSearchParams(window.location.search);
     const queryCode = params.get("code");
-    if (!queryCode) return;
-    setPersistedCode(queryCode);
-    usePortfolioStore
-      .getState()
-      .fetch(queryCode)
-      .then(() => {
-        const url = new URL(window.location.href);
-        url.searchParams.delete("code");
-        window.history.replaceState({}, "", url.toString());
-      });
-  }, [hydrated, data, setPersistedCode]);
+
+    if (queryCode) {
+      fetchedRef.current = true;
+      setPersistedCode(queryCode);
+      useAppDataStore
+        .getState()
+        .fetch(queryCode)
+        .then(() => {
+          const url = new URL(window.location.href);
+          url.searchParams.delete("code");
+          window.history.replaceState({}, "", url.toString());
+        });
+      return;
+    }
+
+    if (persistedCode) {
+      fetchedRef.current = true;
+      useAppDataStore.getState().fetch(persistedCode);
+    }
+  }, [hydrated, persistedCode, setPersistedCode]);
 
   // 認証成功 (data が non-null) を検知して GA に通知
   useEffect(() => {
@@ -80,15 +83,15 @@ export function AuthGate({ children }: Props) {
     e.preventDefault();
     if (input.length === 0) return;
     setPersistedCode(input);
-    await usePortfolioStore.getState().fetch(input);
-    if (usePortfolioStore.getState().data) {
+    await useAppDataStore.getState().fetch(input);
+    if (useAppDataStore.getState().data) {
       trackAuthSuccess(input);
     }
   };
 
   const handleRetry = () => {
     if (persistedCode) {
-      usePortfolioStore.getState().fetch(persistedCode);
+      useAppDataStore.getState().fetch(persistedCode);
     }
   };
 

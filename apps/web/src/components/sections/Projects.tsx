@@ -3,7 +3,7 @@
 import { H2 } from "@/components/ui/H2";
 import { PHASE_MAP } from "@/constants/phases";
 import { TECH_MAP } from "@/constants/tech";
-import { usePortfolioStore } from "@/stores/portfolio";
+import { useAppDataStore } from "@/stores/app-data";
 
 // 期間を「YYYY年M月〜YYYY年M月（X年Yヶ月）」形式に整形する。
 // periodEnd が無い場合は「現在」、終了日と開始日の差から年月を計算する。
@@ -22,7 +22,7 @@ function formatPeriod(start: string, end?: string): string {
 }
 
 export function Projects() {
-  const projects = usePortfolioStore((s) => s.data?.projects);
+  const projects = useAppDataStore((s) => s.data?.projects);
   if (!projects) return null;
 
   return (
