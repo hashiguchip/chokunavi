@@ -223,6 +223,9 @@ func validateSeed(s *seedFile) error {
 		userLabels[u.Label] = struct{}{}
 		userCodes[u.Code] = struct{}{}
 		if u.PricingLabel != nil {
+			if *u.PricingLabel == "" {
+				return fmt.Errorf("user %q: pricing_label must be null or a valid label, got empty string", u.Label)
+			}
 			if _, ok := pricingLabels[*u.PricingLabel]; !ok {
 				return fmt.Errorf("user %q: unknown pricing_label %q", u.Label, *u.PricingLabel)
 			}

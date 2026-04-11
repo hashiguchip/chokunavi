@@ -108,6 +108,9 @@ func TestPortfolioAuth(t *testing.T) {
 		if len(p.Projects) == 0 {
 			t.Fatal("expected projects to be populated")
 		}
+		if p.Pricing == nil {
+			t.Fatal("expected pricing to be non-nil")
+		}
 		if p.Pricing.Rate == "" {
 			t.Fatal("expected pricing.rate to be populated")
 		}

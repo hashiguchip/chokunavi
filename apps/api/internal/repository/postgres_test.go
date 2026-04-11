@@ -92,6 +92,9 @@ func TestPostgresRepo_GetPortfolioForUser(t *testing.T) {
 		t.Errorf("p-older periodEnd should be set, got nil")
 	}
 
+	if got.Pricing == nil {
+		t.Fatal("pricing should not be nil")
+	}
 	if got.Pricing.Rate != "1円/h" {
 		t.Errorf("pricing.rate = %q, want %q", got.Pricing.Rate, "1円/h")
 	}
