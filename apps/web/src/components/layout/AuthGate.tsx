@@ -101,7 +101,7 @@ export function AuthGate({ children }: Props) {
 
   // ローディング中（持っているコードで自動 fetch 中、または submit 後）
   if (loading) {
-    return <Spinner fullscreen />;
+    return <Spinner fullscreen className="bg-white" />;
   }
 
   // 認証成功
