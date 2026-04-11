@@ -115,6 +115,28 @@ func TestPortfolioAuth(t *testing.T) {
 			t.Fatal("expected pricing.rate to be populated")
 		}
 	})
+
+	t.Run("valid code without pricing", func(t *testing.T) {
+		noPricingPortfolio := &repository.Portfolio{
+			Projects: []repository.Project{{ID: "p1", Title: "Sample"}},
+		}
+		h := setupServer(t, &stubRepo{portfolio: noPricingPortfolio})
+		req := httptest.NewRequest(http.MethodGet, "/api/portfolio", nil)
+		req.Header.Set("X-Referral-Code", testCode)
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, req)
+		if w.Code != http.StatusOK {
+			t.Fatalf("expected 200, got %d (body=%s)", w.Code, w.Body.String())
+		}
+
+		var p repository.Portfolio
+		if err := json.Unmarshal(w.Body.Bytes(), &p); err != nil {
+			t.Fatalf("decode body: %v", err)
+		}
+		if p.Pricing != nil {
+			t.Fatalf("expected pricing to be nil, got %+v", p.Pricing)
+		}
+	})
 }
 
 func TestCORS(t *testing.T) {
