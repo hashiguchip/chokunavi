@@ -62,7 +62,7 @@ type seedFile struct {
 type seedUser struct {
 	Label        string     `yaml:"label"`
 	Code         string     `yaml:"code"`
-	PricingLabel string     `yaml:"pricing_label"`
+	PricingLabel *string    `yaml:"pricing_label"`
 	RevokedAt    *time.Time `yaml:"revoked_at"`
 }
 
@@ -222,11 +222,13 @@ func validateSeed(s *seedFile) error {
 		}
 		userLabels[u.Label] = struct{}{}
 		userCodes[u.Code] = struct{}{}
-		if u.PricingLabel == "" {
-			return fmt.Errorf("user %q: empty pricing_label", u.Label)
-		}
-		if _, ok := pricingLabels[u.PricingLabel]; !ok {
-			return fmt.Errorf("user %q: unknown pricing_label %q", u.Label, u.PricingLabel)
+		if u.PricingLabel != nil {
+			if *u.PricingLabel == "" {
+				return fmt.Errorf("user %q: pricing_label must be null or a valid label, got empty string", u.Label)
+			}
+			if _, ok := pricingLabels[*u.PricingLabel]; !ok {
+				return fmt.Errorf("user %q: unknown pricing_label %q", u.Label, *u.PricingLabel)
+			}
 		}
 	}
 	return nil
@@ -339,8 +341,10 @@ func insertAll(ctx context.Context, tx *ent.Tx, s *seedFile) error {
 	for _, u := range s.Users {
 		create := tx.User.Create().
 			SetLabel(u.Label).
-			SetCode(u.Code).
-			SetPricingID(pricingIDByLabel[u.PricingLabel])
+			SetCode(u.Code)
+		if u.PricingLabel != nil {
+			create.SetPricingID(pricingIDByLabel[*u.PricingLabel])
+		}
 		if u.RevokedAt != nil {
 			create.SetRevokedAt(*u.RevokedAt)
 		}

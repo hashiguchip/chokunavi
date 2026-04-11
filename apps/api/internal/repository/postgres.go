@@ -92,7 +92,8 @@ func (r *PostgresRepo) GetPortfolioForUser(ctx context.Context, userID int) (*Po
 		Projects: projectsToRepo(projects),
 	}
 	if pricingRow != nil {
-		out.Pricing = pricingToRepo(pricingRow)
+		p := pricingToRepo(pricingRow)
+		out.Pricing = &p
 	}
 	return out, nil
 }

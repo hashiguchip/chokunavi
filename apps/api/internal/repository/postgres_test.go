@@ -92,11 +92,27 @@ func TestPostgresRepo_GetPortfolioForUser(t *testing.T) {
 		t.Errorf("p-older periodEnd should be set, got nil")
 	}
 
+	if got.Pricing == nil {
+		t.Fatal("pricing should not be nil")
+	}
 	if got.Pricing.Rate != "1円/h" {
 		t.Errorf("pricing.rate = %q, want %q", got.Pricing.Rate, "1円/h")
 	}
 	if len(got.Pricing.Patterns) != 1 || got.Pricing.Patterns[0].Label != "パターンA" {
 		t.Errorf("pricing.patterns = %v", got.Pricing.Patterns)
+	}
+
+	// pricing_id が NULL のユーザーは pricing == nil を返す
+	if _, err := conn.Exec(ctx,
+		`INSERT INTO users (id, label, code, created_at) VALUES (11, 'bob', 'bob-code', NOW())`); err != nil {
+		t.Fatalf("insert user without pricing: %v", err)
+	}
+	gotNoPricing, err := repo.GetPortfolioForUser(ctx, 11)
+	if err != nil {
+		t.Fatalf("GetPortfolioForUser (no pricing): %v", err)
+	}
+	if gotNoPricing.Pricing != nil {
+		t.Errorf("expected pricing to be nil for user without pricing, got %+v", gotNoPricing.Pricing)
 	}
 }
 

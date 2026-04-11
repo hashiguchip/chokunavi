@@ -57,7 +57,7 @@ users:
   # proto は開発者手元動作確認用の固定 referral code。実 seed にも必ず含める。
   - label: proto
     code: proto
-    pricing_label: standard
+    pricing_label: null              # null = pricing 非表示
   - label: sample
     code: sample-referral-code
     pricing_label: standard

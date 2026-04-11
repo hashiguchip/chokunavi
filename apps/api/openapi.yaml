@@ -67,7 +67,9 @@ components:
       additionalProperties: false
       properties:
         pricing:
-          $ref: "#/components/schemas/Pricing"
+          oneOf:
+            - $ref: "#/components/schemas/Pricing"
+            - type: "null"
         projects:
           items:
             $ref: "#/components/schemas/Project"
@@ -76,7 +78,6 @@ components:
             - "null"
       required:
         - projects
-        - pricing
       type: object
     Pricing:
       additionalProperties: false

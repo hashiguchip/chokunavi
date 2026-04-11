@@ -47,7 +47,7 @@ type Pricing struct {
 // User に紐づく Pricing と全 Projects のみを含む。
 type Portfolio struct {
 	Projects []Project `json:"projects"`
-	Pricing  Pricing   `json:"pricing"`
+	Pricing  *Pricing  `json:"pricing"`
 }
 
 // PortfolioRepository は handler が依存する read interface。

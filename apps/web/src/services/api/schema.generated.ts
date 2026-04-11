@@ -94,7 +94,7 @@ export interface components {
       status: string;
     };
     Portfolio: {
-      pricing: components["schemas"]["Pricing"];
+      pricing?: components["schemas"]["Pricing"] | null;
       projects: components["schemas"]["Project"][] | null;
     };
     Pricing: {
