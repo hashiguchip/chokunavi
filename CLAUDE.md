@@ -4,6 +4,11 @@
 
 求人票形式のポートフォリオサイト。静的サイトとして GitHub Pages にデプロイ。
 
+## Sensitive Data
+
+- コード・コメント・ドキュメントに**個人名・本名・個人情報を絶対に書かない**。「開発者」等の一般名詞で代替する
+- commit message にも個人名・個人情報を含めない
+
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router) + React 19
