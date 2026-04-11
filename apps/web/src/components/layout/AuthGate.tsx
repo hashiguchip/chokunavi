@@ -1,6 +1,7 @@
 "use client";
 
 import { type FormEvent, useEffect, useRef, useState } from "react";
+import { Spinner } from "@/components/ui/Spinner";
 import { setAuthUser, trackAuthSuccess } from "@/libs/analytics";
 import { useAppDataStore } from "@/stores/app-data";
 import { useAuthStore } from "@/stores/auth";
@@ -100,11 +101,7 @@ export function AuthGate({ children }: Props) {
 
   // ローディング中（持っているコードで自動 fetch 中、または submit 後）
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-white px-4">
-        <p className="text-neutral-700 text-sm">読み込み中…</p>
-      </div>
-    );
+    return <Spinner fullscreen />;
   }
 
   // 認証成功
