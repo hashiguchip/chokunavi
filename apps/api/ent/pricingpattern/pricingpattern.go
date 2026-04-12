@@ -72,8 +72,6 @@ func ValidColumn(column string) bool {
 var (
 	// LabelValidator is a validator for the "label" field. It is called by the builders before save.
 	LabelValidator func(string) error
-	// TrialPeriodValidator is a validator for the "trial_period" field. It is called by the builders before save.
-	TrialPeriodValidator func(string) error
 	// RegularPeriodValidator is a validator for the "regular_period" field. It is called by the builders before save.
 	RegularPeriodValidator func(string) error
 	// DefaultDisplayOrder holds the default value on creation for the "display_order" field.

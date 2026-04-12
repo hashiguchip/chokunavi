@@ -197,11 +197,6 @@ func (_u *PricingPatternUpdate) check() error {
 			return &ValidationError{Name: "label", err: fmt.Errorf(`ent: validator failed for field "PricingPattern.label": %w`, err)}
 		}
 	}
-	if v, ok := _u.mutation.TrialPeriod(); ok {
-		if err := pricingpattern.TrialPeriodValidator(v); err != nil {
-			return &ValidationError{Name: "trial_period", err: fmt.Errorf(`ent: validator failed for field "PricingPattern.trial_period": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.RegularPeriod(); ok {
 		if err := pricingpattern.RegularPeriodValidator(v); err != nil {
 			return &ValidationError{Name: "regular_period", err: fmt.Errorf(`ent: validator failed for field "PricingPattern.regular_period": %w`, err)}
@@ -478,11 +473,6 @@ func (_u *PricingPatternUpdateOne) check() error {
 	if v, ok := _u.mutation.Label(); ok {
 		if err := pricingpattern.LabelValidator(v); err != nil {
 			return &ValidationError{Name: "label", err: fmt.Errorf(`ent: validator failed for field "PricingPattern.label": %w`, err)}
-		}
-	}
-	if v, ok := _u.mutation.TrialPeriod(); ok {
-		if err := pricingpattern.TrialPeriodValidator(v); err != nil {
-			return &ValidationError{Name: "trial_period", err: fmt.Errorf(`ent: validator failed for field "PricingPattern.trial_period": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.RegularPeriod(); ok {

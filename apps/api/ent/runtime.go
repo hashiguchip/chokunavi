@@ -40,10 +40,6 @@ func init() {
 	pricingpatternDescLabel := pricingpatternFields[0].Descriptor()
 	// pricingpattern.LabelValidator is a validator for the "label" field. It is called by the builders before save.
 	pricingpattern.LabelValidator = pricingpatternDescLabel.Validators[0].(func(string) error)
-	// pricingpatternDescTrialPeriod is the schema descriptor for trial_period field.
-	pricingpatternDescTrialPeriod := pricingpatternFields[2].Descriptor()
-	// pricingpattern.TrialPeriodValidator is a validator for the "trial_period" field. It is called by the builders before save.
-	pricingpattern.TrialPeriodValidator = pricingpatternDescTrialPeriod.Validators[0].(func(string) error)
 	// pricingpatternDescRegularPeriod is the schema descriptor for regular_period field.
 	pricingpatternDescRegularPeriod := pricingpatternFields[4].Descriptor()
 	// pricingpattern.RegularPeriodValidator is a validator for the "regular_period" field. It is called by the builders before save.

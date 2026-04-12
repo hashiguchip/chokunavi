@@ -140,11 +140,6 @@ func (_c *PricingPatternCreate) check() error {
 	if _, ok := _c.mutation.TrialPeriod(); !ok {
 		return &ValidationError{Name: "trial_period", err: errors.New(`ent: missing required field "PricingPattern.trial_period"`)}
 	}
-	if v, ok := _c.mutation.TrialPeriod(); ok {
-		if err := pricingpattern.TrialPeriodValidator(v); err != nil {
-			return &ValidationError{Name: "trial_period", err: fmt.Errorf(`ent: validator failed for field "PricingPattern.trial_period": %w`, err)}
-		}
-	}
 	if _, ok := _c.mutation.RegularFlex(); !ok {
 		return &ValidationError{Name: "regular_flex", err: errors.New(`ent: missing required field "PricingPattern.regular_flex"`)}
 	}

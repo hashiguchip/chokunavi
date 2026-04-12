@@ -18,7 +18,7 @@ func (PricingPattern) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("label").NotEmpty(),
 		field.Int("trial_flex"),
-		field.String("trial_period").NotEmpty(),
+		field.String("trial_period"),
 		field.Int("regular_flex"),
 		field.String("regular_period").NotEmpty(),
 		field.Int("display_order").Default(0),
