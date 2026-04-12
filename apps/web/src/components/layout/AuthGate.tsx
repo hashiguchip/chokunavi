@@ -3,6 +3,7 @@
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Spinner } from "@/components/ui/Spinner";
 import { setAuthUser, trackAuthSuccess } from "@/libs/analytics";
+import { posthog } from "@/libs/posthog";
 import { useAppDataStore } from "@/stores/app-data";
 import { useAuthStore } from "@/stores/auth";
 
@@ -23,6 +24,7 @@ export function AuthGate({ children }: Props) {
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const fetchedRef = useRef(false);
+  const phFiredRef = useRef(false);
 
   // persist の復元完了を検知
   useEffect(() => {
@@ -59,10 +61,14 @@ export function AuthGate({ children }: Props) {
     }
   }, [hydrated, persistedCode, setPersistedCode]);
 
-  // 認証成功 (data が non-null) を検知して GA に通知
   useEffect(() => {
     if (data && persistedCode) {
       setAuthUser(persistedCode);
+      if (!phFiredRef.current) {
+        posthog.register({ auth_source: persistedCode });
+        posthog.capture("auth_success", { auth_source: persistedCode });
+        phFiredRef.current = true;
+      }
     }
   }, [data, persistedCode]);
 

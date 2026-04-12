@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { Heart } from "lucide-react";
 import { openModal } from "@/libs/global-modal";
+import { posthog } from "@/libs/posthog";
 import { useInterestStore } from "@/stores/interest";
 import { ThankYouModal } from "./ThankYouModal";
 
@@ -12,6 +13,7 @@ export function InterestButton() {
   const handleClick = () => {
     toggle();
     if (!interested) {
+      posthog.capture("interest_click");
       openModal(ThankYouModal);
     }
   };
