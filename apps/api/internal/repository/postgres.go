@@ -9,10 +9,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricingpattern"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/project"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/user"
+	"github.com/hashiguchip/chokunavi/apps/api/ent"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricingpattern"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/project"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/user"
 )
 
 // OpenEntClient は database URL から pgxpool を作って ent client を構築し、

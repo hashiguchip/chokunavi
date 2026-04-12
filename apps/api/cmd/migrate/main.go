@@ -29,7 +29,7 @@ import (
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/jackc/pgx/v5/stdlib"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent/migrate"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/migrate"
 )
 
 // ent 側の NamedDiff は database/sql.Open("postgres", ...) で driver lookup

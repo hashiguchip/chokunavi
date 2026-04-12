@@ -11,9 +11,9 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/predicate"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricing"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricingpattern"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/predicate"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricing"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricingpattern"
 )
 
 // PricingPatternQuery is the builder for querying PricingPattern entities.

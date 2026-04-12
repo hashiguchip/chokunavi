@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/predicate"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/project"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/predicate"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/project"
 )
 
 // ProjectUpdate is the builder for updating Project entities.

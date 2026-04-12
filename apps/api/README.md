@@ -24,15 +24,15 @@
 docker compose up -d postgres
 
 # 2. migration を適用
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
   mise run migrate:up
 
 # 3. seed を投入 (referral code を含む users もここで入る)
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
   mise run seed:apply
 
 # 4. dev server 起動
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
   mise run dev:api
 ```
 
@@ -115,7 +115,7 @@ mise run codegen        # openapi.yaml 生成 → TS schema 生成 (一括)
 ```sh
 # 1. age key pair を生成
 mkdir -p ~/.config/age
-age-keygen -o ~/.config/age/resume_2026.key
+age-keygen -o ~/.config/age/chokunavi.key
 # → 標準出力に "Public key: age1xxxxxxxxx..." が出る
 
 # 2. .sops.yaml の age recipient を public key で置き換える
@@ -123,7 +123,7 @@ age-keygen -o ~/.config/age/resume_2026.key
 
 # 3. SOPS が key を見つけられるよう env に export しておく
 #    (~/.zshrc などに追加)
-export SOPS_AGE_KEY_FILE=~/.config/age/resume_2026.key
+export SOPS_AGE_KEY_FILE=~/.config/age/chokunavi.key
 
 # 4. private key をバックアップ (1Password など)。失うと復号不能。
 ```
@@ -150,7 +150,7 @@ rm /tmp/app-data.yaml
 
 ```sh
 # ローカル DB
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
   mise run seed:apply
 
 # 本番 (leapcell)

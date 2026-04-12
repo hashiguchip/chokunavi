@@ -9,8 +9,8 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humago"
 
-	"github.com/hashiguchip/resume_2026/apps/api/internal/middleware"
-	"github.com/hashiguchip/resume_2026/apps/api/internal/repository"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/middleware"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/repository"
 )
 
 // stubUserRepo は in-memory map で UserRepository を満たす。

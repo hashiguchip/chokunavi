@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent"
+	"github.com/hashiguchip/chokunavi/apps/api/ent"
 )
 
 // The PricingFunc type is an adapter to allow the use of ordinary

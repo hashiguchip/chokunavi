@@ -27,7 +27,7 @@
 ## Build & Deploy
 
 - 静的エクスポート: `output: "export"` → `out/` ディレクトリ
-- 本番 basePath: `/resume_2026`
+- 本番 basePath: `/chokunavi`
 - GitHub Pages でホスティング
 
 ## Directory Structure

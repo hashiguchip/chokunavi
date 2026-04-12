@@ -21,7 +21,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/resume_2026?sslmode=disable
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/chokunavi?sslmode=disable
     env_file:
       - path: apps/api/.env
         required: false
@@ -34,7 +34,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: resume_2026
+      POSTGRES_DB: chokunavi
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:

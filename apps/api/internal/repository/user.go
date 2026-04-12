@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/user"
+	"github.com/hashiguchip/chokunavi/apps/api/ent"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/user"
 )
 
 // User は referral code を持つチョクナビ閲覧者。

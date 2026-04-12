@@ -9,8 +9,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricing"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricingpattern"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricing"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricingpattern"
 )
 
 // PricingPatternCreate is the builder for creating a PricingPattern entity.

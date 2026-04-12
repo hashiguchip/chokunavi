@@ -1,4 +1,4 @@
-module github.com/hashiguchip/resume_2026/apps/api
+module github.com/hashiguchip/chokunavi/apps/api
 
 go 1.25.0
 

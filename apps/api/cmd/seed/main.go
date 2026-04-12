@@ -40,8 +40,8 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent"
-	"github.com/hashiguchip/resume_2026/apps/api/internal/repository"
+	"github.com/hashiguchip/chokunavi/apps/api/ent"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/repository"
 )
 
 // seedFile は seed YAML (app-data.sops.bin を復号した平文) の root 構造。

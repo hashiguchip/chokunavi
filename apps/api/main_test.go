@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/hashiguchip/resume_2026/apps/api/internal/repository"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/repository"
 )
 
 const testCode = "test"

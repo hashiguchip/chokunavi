@@ -9,16 +9,16 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent/migrate"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricing"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricingpattern"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/project"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/user"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricing"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricingpattern"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/project"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/user"
 )
 
 // Client is the client that holds all ent builders.

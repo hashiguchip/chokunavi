@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/project"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/project"
 )
 
 // Project is the model entity for the Project schema.

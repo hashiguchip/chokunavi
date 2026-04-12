@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in github.com/hashiguchip/resume_2026/apps/api/ent/runtime.go
+// The schema-stitching logic is generated in github.com/hashiguchip/chokunavi/apps/api/ent/runtime.go
 
 const (
 	Version = "v0.14.6"                                         // Version of ent codegen.

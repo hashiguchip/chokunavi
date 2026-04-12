@@ -1,10 +1,10 @@
 # change jobs 2026
 
-> **Live**: <https://hashiguchip.github.io/resume_2026/>
+> **Live**: <https://hashiguchip.github.io/chokunavi/>
 
-[![CI](https://github.com/hashiguchip/resume_2026/actions/workflows/ci.yml/badge.svg)](https://github.com/hashiguchip/resume_2026/actions/workflows/ci.yml)
-[![Deploy Web](https://github.com/hashiguchip/resume_2026/actions/workflows/deploy-web.yml/badge.svg)](https://github.com/hashiguchip/resume_2026/actions/workflows/deploy-web.yml)
-[![Deploy API](https://github.com/hashiguchip/resume_2026/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/hashiguchip/resume_2026/actions/workflows/deploy-api.yml)
+[![CI](https://github.com/hashiguchip/chokunavi/actions/workflows/ci.yml/badge.svg)](https://github.com/hashiguchip/chokunavi/actions/workflows/ci.yml)
+[![Deploy Web](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-web.yml/badge.svg)](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-web.yml)
+[![Deploy API](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-api.yml)
 
 求人票形式のポートフォリオサイト。`mise` で統合管理するモノレポ構成。
 
@@ -51,9 +51,9 @@ cp apps/api/.env.example apps/api/.env
 
 # 4. DB セットアップ (Docker Compose を使わない場合)
 docker compose up -d postgres
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
   mise run migrate:up
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
   mise run seed:apply
 ```
 

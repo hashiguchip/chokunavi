@@ -6,7 +6,7 @@ import (
 
 	"github.com/danielgtaylor/huma/v2"
 
-	"github.com/hashiguchip/resume_2026/apps/api/internal/repository"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/repository"
 )
 
 // RegisterAll は huma API に全 operation を登録する。

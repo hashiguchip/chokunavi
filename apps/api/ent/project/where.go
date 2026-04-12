@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/predicate"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

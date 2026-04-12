@@ -5,11 +5,11 @@ package ent
 import (
 	"time"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricing"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricingpattern"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/project"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/schema"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/user"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricing"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricingpattern"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/project"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/schema"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/user"
 )
 
 // The init function reads all schema descriptors with runtime code

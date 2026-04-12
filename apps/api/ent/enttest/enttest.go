@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/hashiguchip/resume_2026/apps/api/ent"
+	"github.com/hashiguchip/chokunavi/apps/api/ent"
 	// required by schema hooks.
-	_ "github.com/hashiguchip/resume_2026/apps/api/ent/runtime"
+	_ "github.com/hashiguchip/chokunavi/apps/api/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/migrate"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/migrate"
 )
 
 type (

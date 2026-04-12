@@ -7,8 +7,8 @@ import (
 
 	"github.com/danielgtaylor/huma/v2"
 
-	"github.com/hashiguchip/resume_2026/apps/api/internal/middleware"
-	"github.com/hashiguchip/resume_2026/apps/api/internal/repository"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/middleware"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/repository"
 )
 
 // AppDataInput は X-Referral-Code を required として OpenAPI に露出させる。

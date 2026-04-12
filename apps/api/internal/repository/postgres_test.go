@@ -13,7 +13,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 
-	"github.com/hashiguchip/resume_2026/apps/api/internal/repository"
+	"github.com/hashiguchip/chokunavi/apps/api/internal/repository"
 )
 
 // TestPostgresRepo_GetAppDataForUser は本物の Postgres コンテナに対し、

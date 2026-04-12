@@ -8,7 +8,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/hashiguchip/resume_2026/apps/api/ent/pricing"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/pricing"
 )
 
 // Pricing is the model entity for the Pricing schema.
