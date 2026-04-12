@@ -9,6 +9,7 @@ import { ContactConfirmStep } from "@/components/contact/ContactConfirmStep";
 import { ContactFormStep } from "@/components/contact/ContactFormStep";
 import { type ContactFormValues, contactSchema } from "@/constants/contact";
 import { trackContactComplete, trackContactConfirm } from "@/libs/analytics";
+import { phContactComplete, phContactConfirm } from "@/libs/posthog";
 
 type Step = "input" | "confirm" | "complete";
 
@@ -69,6 +70,7 @@ export function ContactPage() {
                 form={form}
                 onNext={() => {
                   trackContactConfirm();
+                  phContactConfirm();
                   setStep("confirm");
                 }}
               />
@@ -79,6 +81,7 @@ export function ContactPage() {
                 onBack={() => setStep("input")}
                 onComplete={() => {
                   trackContactComplete();
+                  phContactComplete();
                   setStep("complete");
                 }}
               />

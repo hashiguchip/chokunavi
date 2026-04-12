@@ -4,6 +4,7 @@ import { IBM_Plex_Sans, IBM_Plex_Sans_JP, M_PLUS_Rounded_1c } from "next/font/go
 import { GA_MEASUREMENT_ID } from "@/libs/analytics";
 import { GlobalModalHost } from "@/libs/global-modal";
 import { GlobalPopoverHost } from "@/libs/global-popover";
+import { PostHogProvider } from "@/libs/posthog";
 import "./globals.css";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -50,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${ibmPlexSans.variable} ${ibmPlexSansJP.variable} ${mPlusRounded1c.variable} antialiased`}>
-        {children}
+        <PostHogProvider>{children}</PostHogProvider>
         <GlobalModalHost />
         <GlobalPopoverHost />
       </body>

@@ -3,9 +3,13 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { NAV } from "@/constants/navigation";
+import { useSectionViewTracker } from "@/libs/posthog";
+
+const SECTION_IDS = NAV.map((n) => n.id);
 
 export function SectionNav() {
   const [active, setActive] = useState("job");
+  useSectionViewTracker(SECTION_IDS);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

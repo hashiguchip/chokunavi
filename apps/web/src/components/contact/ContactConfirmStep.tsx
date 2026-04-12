@@ -5,6 +5,7 @@ import type { UseFormReturn } from "react-hook-form";
 import type { ContactFormValues } from "@/constants/contact";
 import { env } from "@/env";
 import { trackContactSubmitError } from "@/libs/analytics";
+import { phContactSubmitError } from "@/libs/posthog";
 import { submitContact } from "@/services/contact";
 
 type Props = {
@@ -45,6 +46,7 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
     if (!result.ok) {
       setError("送信に失敗しました。時間をおいて再度お試しください。");
       trackContactSubmitError("submission_failed");
+      phContactSubmitError("submission_failed");
       return;
     }
 

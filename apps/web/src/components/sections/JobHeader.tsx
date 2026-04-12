@@ -1,4 +1,5 @@
 import { DLRow } from "@/components/ui/DLRow";
+import { ApplyLink } from "./ApplyLink";
 import { InterestButton } from "./InterestButton";
 import { InterestIndicator } from "./InterestIndicator";
 import { PricingRow } from "./PricingRow";
@@ -35,12 +36,7 @@ export function JobHeader() {
       <PricingRow />
 
       <div className="flex flex-col items-stretch gap-3 px-5 py-5 sm:flex-row sm:items-center">
-        <a
-          href="#contact"
-          className="w-full rounded bg-primary-500 px-8 py-3 text-center font-bold text-[15px] text-white transition hover:bg-primary-700 sm:w-auto"
-        >
-          応募フォームへ進む
-        </a>
+        <ApplyLink />
         <InterestButton />
       </div>
 
