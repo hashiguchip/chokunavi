@@ -22,7 +22,11 @@ function PostHogPageView() {
   return null;
 }
 
-export function PostHogProvider({ children }: { children: React.ReactNode }) {
+type Props = {
+  children: React.ReactNode;
+};
+
+export function PostHogProvider({ children }: Props) {
   return (
     <>
       <Suspense fallback={null}>
