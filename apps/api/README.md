@@ -7,7 +7,7 @@
 ## Stack
 
 - Go 1.25 / [huma v2](https://huma.rocks/)
-- [ent](https://entgo.io/) + Postgres (pgxpool) + [Atlas](https://atlasgo.io/) versioned migrations
+- [ent](https://entgo.io/) + PostgreSQL 17 ([pgx/v5](https://github.com/jackc/pgx)) + [Atlas](https://atlasgo.io/) versioned migrations
 - [SOPS](https://getsops.io/) binary mode + [age](https://github.com/FiloSottile/age) で seed データを暗号化
 
 ## Endpoints
@@ -23,17 +23,15 @@
 # 1. 依存サービスを起動 (Postgres 17)
 docker compose up -d postgres
 
-# 2. 初回のみ: ent schema から initial migration を生成
-mise run ent:diff initial
-
-# 3. migration を適用
+# 2. migration を適用
 DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
   mise run migrate:up
 
-# 4. seed を投入 (referral code を含む users もここで入る)
-mise run seed:apply
+# 3. seed を投入 (referral code を含む users もここで入る)
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
+  mise run seed:apply
 
-# 5. dev server 起動
+# 4. dev server 起動
 DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=disable \
   mise run dev:api
 ```
@@ -48,6 +46,8 @@ DATABASE_URL=postgres://postgres:postgres@localhost:5432/resume_2026?sslmode=dis
 | migration 生成 | `mise run ent:diff <name>` |
 | migration 適用 | `mise run migrate:up` |
 | seed 投入 | `mise run seed:apply` (詳細は下の Seed セクション) |
+| OpenAPI spec 生成 | `mise run codegen:api` (→ `openapi.yaml`) |
+| OpenAPI → TS schema 一括 | `mise run codegen` (`codegen:api` + `codegen:web`) |
 
 ## Environment Variables
 
@@ -84,6 +84,16 @@ mise run seed:apply
 
 `cmd/seed` は単一 transaction で全テーブルを delete → insert する idempotent 投入なので、
 seed YAML が DB の単一 source of truth になる。
+
+## OpenAPI
+
+`openapi.yaml` を huma operations から自動生成しリポジトリに commit する (contract-first)。
+PR diff で API 変更を可視化でき、同ファイルを `openapi-typescript` に通して
+`apps/web/src/services/api/schema.generated.ts` を生成する。
+
+```sh
+mise run codegen        # openapi.yaml 生成 → TS schema 生成 (一括)
+```
 
 ## Schema / migrations
 
