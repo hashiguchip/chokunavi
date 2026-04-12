@@ -18,6 +18,7 @@ argument-hint: "[base-branch]"
 - `git branch --show-current` で現在のブランチを取得。`main` なら「フィーチャーブランチで実行してください」と案内して中断
 - `git status --porcelain` で未コミットの変更を確認。あればユーザーに警告し、先にコミットするか確認
 - `gh pr view HEAD 2>/dev/null` で既存PRを確認。あればそのURLを表示して終了
+- `gh pr list --head "$(git branch --show-current)" --state merged --json number,title` でマージ済みPRを確認。あれば「このブランチは既に #N でマージ済みです。新しいブランチを作成してください」と案内して中断
 
 ### 2. 品質チェック
 
