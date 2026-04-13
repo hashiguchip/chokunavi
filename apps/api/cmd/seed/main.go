@@ -197,8 +197,16 @@ func decryptSeed(ctx context.Context, path string) ([]byte, error) {
 //   - user の label / code が空でなく重複していない
 //   - user.pricing_label が pricings の中に存在する (FK 整合性 pre-check)
 func validateSeed(s *seedFile) error {
-	if s.Settings.AvailableFrom == "" {
-		return fmt.Errorf("settings: empty available_from")
+	for _, kv := range []struct{ k, v string }{
+		{"available_from", s.Settings.AvailableFrom},
+		{"work_hours", s.Settings.WorkHours},
+		{"contract_type", s.Settings.ContractType},
+		{"communication", s.Settings.Communication},
+		{"invoice_status", s.Settings.InvoiceStatus},
+	} {
+		if kv.v == "" {
+			return fmt.Errorf("settings: empty %s", kv.k)
+		}
 	}
 
 	projectIDs := make(map[string]struct{}, len(s.Projects))
