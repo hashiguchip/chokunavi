@@ -18,6 +18,8 @@ type Tx struct {
 	PricingPattern *PricingPatternClient
 	// Project is the client for interacting with the Project builders.
 	Project *ProjectClient
+	// Settings is the client for interacting with the Settings builders.
+	Settings *SettingsClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 
@@ -154,6 +156,7 @@ func (tx *Tx) init() {
 	tx.Pricing = NewPricingClient(tx.config)
 	tx.PricingPattern = NewPricingPatternClient(tx.config)
 	tx.Project = NewProjectClient(tx.config)
+	tx.Settings = NewSettingsClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
 

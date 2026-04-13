@@ -67,6 +67,21 @@ var (
 		Columns:    ProjectsColumns,
 		PrimaryKey: []*schema.Column{ProjectsColumns[0]},
 	}
+	// SettingsColumns holds the columns for the "settings" table.
+	SettingsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "available_from", Type: field.TypeString},
+		{Name: "work_hours", Type: field.TypeString},
+		{Name: "contract_type", Type: field.TypeString},
+		{Name: "communication", Type: field.TypeString},
+		{Name: "invoice_status", Type: field.TypeString},
+	}
+	// SettingsTable holds the schema information for the "settings" table.
+	SettingsTable = &schema.Table{
+		Name:       "settings",
+		Columns:    SettingsColumns,
+		PrimaryKey: []*schema.Column{SettingsColumns[0]},
+	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
@@ -96,6 +111,7 @@ var (
 		PricingsTable,
 		PricingPatternsTable,
 		ProjectsTable,
+		SettingsTable,
 		UsersTable,
 	}
 )

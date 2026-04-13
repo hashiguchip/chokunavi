@@ -15,6 +15,7 @@ import (
 	"github.com/hashiguchip/chokunavi/apps/api/ent/pricing"
 	"github.com/hashiguchip/chokunavi/apps/api/ent/pricingpattern"
 	"github.com/hashiguchip/chokunavi/apps/api/ent/project"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/settings"
 	"github.com/hashiguchip/chokunavi/apps/api/ent/user"
 )
 
@@ -79,6 +80,7 @@ func checkColumn(t, c string) error {
 			pricing.Table:        pricing.ValidColumn,
 			pricingpattern.Table: pricingpattern.ValidColumn,
 			project.Table:        project.ValidColumn,
+			settings.Table:       settings.ValidColumn,
 			user.Table:           user.ValidColumn,
 		})
 	})

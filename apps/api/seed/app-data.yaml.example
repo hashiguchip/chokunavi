@@ -6,13 +6,21 @@
 # 投入: `mise run seed:apply`
 # 編集: `sops --input-type binary --output-type binary apps/api/seed/app-data.sops.bin`
 #
-# DB に置くのは「動的 / user 毎に異なる」データのみ:
-#   - projects: 職務経歴 (全員共通だが id を持つので DB の方が seed しやすい)
-#   - pricings: 料金プラン (user 毎に異なる)
-#   - users:    referral code holder (pricing_label で pricings を参照)
+# DB に置くデータ:
+#   - settings:  サイト全体の稼働条件 (single-row、全閲覧者共通)
+#   - projects:  職務経歴 (全員共通だが id を持つので DB の方が seed しやすい)
+#   - pricings:  料金プラン (user 毎に異なる)
+#   - users:     referral code holder (pricing_label で pricings を参照)
 #
-# Tech / Phase / FAQ / Benefit / Requirement / WorkCondition / PainPoint は
+# Tech / Phase / FAQ / Benefit / Requirement / PainPoint は
 # frontend の constants に直書きされており DB には載せない (固定コンテンツのため)。
+
+settings:
+  available_from: "2026年5月中旬以降(応相談)"
+  work_hours: "週5日（140〜180h / 月）"
+  contract_type: "準委任契約（請負も相談可 / 法人契約対応可）"
+  communication: "Slack / Discord / Google Meet 対応"
+  invoice_status: "適格請求書発行事業者 登録済み"
 
 projects:
   - id: project-sample-1

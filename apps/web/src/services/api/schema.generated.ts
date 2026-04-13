@@ -45,6 +45,11 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    AppData: {
+      pricing?: components["schemas"]["Pricing"];
+      projects: components["schemas"]["Project"][] | null;
+      settings?: components["schemas"]["Settings"];
+    };
     ErrorDetail: {
       /** @description Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id' */
       location?: string;
@@ -93,10 +98,6 @@ export interface components {
        */
       status: string;
     };
-    AppData: {
-      pricing?: components["schemas"]["Pricing"] | null;
-      projects: components["schemas"]["Project"][] | null;
-    };
     Pricing: {
       billingHours: string;
       patterns: components["schemas"]["PricingPattern"][] | null;
@@ -125,6 +126,13 @@ export interface components {
       team: string;
       techIds: string[] | null;
       title: string;
+    };
+    Settings: {
+      availableFrom: string;
+      communication: string;
+      contractType: string;
+      invoiceStatus: string;
+      workHours: string;
     };
   };
   responses: never;

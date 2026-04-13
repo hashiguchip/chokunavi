@@ -1,8 +1,8 @@
 // Package repository はチョクナビの appData 読み込み層を提供する。
 //
-// scope 縮小 reframe 後、DB に置くのは「動的に変わる or user 毎に異なる」データ
-// (User, Pricing, Project) のみ。Tech / Phase / FAQ / Benefit / Requirement /
-// WorkCondition / PainPoint は frontend の constants に直書きする。
+// DB に置くのは Settings, User, Pricing, Project。
+// Tech / Phase / FAQ / Benefit / Requirement / PainPoint は
+// frontend の constants に直書きする。
 package repository
 
 import (
@@ -43,11 +43,21 @@ type Pricing struct {
 	Patterns     []PricingPattern `json:"patterns"`
 }
 
+// Settings はサイト全体の稼働条件 (single-row、全閲覧者に同じ値)。
+type Settings struct {
+	AvailableFrom string `json:"availableFrom"`
+	WorkHours     string `json:"workHours"`
+	ContractType  string `json:"contractType"`
+	Communication string `json:"communication"`
+	InvoiceStatus string `json:"invoiceStatus"`
+}
+
 // AppData は /api/app-data が返す aggregate response。
-// User に紐づく Pricing と全 Projects のみを含む。
+// User に紐づく Pricing、全 Projects、サイト全体の Settings を含む。
 type AppData struct {
 	Projects []Project `json:"projects"`
-	Pricing  *Pricing  `json:"pricing"`
+	Pricing  *Pricing  `json:"pricing,omitempty"`
+	Settings *Settings `json:"settings,omitempty"`
 }
 
 // AppDataRepository は handler が依存する read interface。

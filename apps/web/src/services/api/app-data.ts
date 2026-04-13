@@ -8,6 +8,7 @@ import type { components } from "./schema.generated";
 export type AppData = components["schemas"]["AppData"];
 export type Project = components["schemas"]["Project"];
 export type Pricing = components["schemas"]["Pricing"];
+export type Settings = components["schemas"]["Settings"];
 
 /**
  * /api/app-data からアプリデータを取得する。X-Referral-Code を header に載せる。

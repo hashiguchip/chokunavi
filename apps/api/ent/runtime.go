@@ -9,6 +9,7 @@ import (
 	"github.com/hashiguchip/chokunavi/apps/api/ent/pricingpattern"
 	"github.com/hashiguchip/chokunavi/apps/api/ent/project"
 	"github.com/hashiguchip/chokunavi/apps/api/ent/schema"
+	"github.com/hashiguchip/chokunavi/apps/api/ent/settings"
 	"github.com/hashiguchip/chokunavi/apps/api/ent/user"
 )
 
@@ -78,6 +79,28 @@ func init() {
 	projectDescID := projectFields[0].Descriptor()
 	// project.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	project.IDValidator = projectDescID.Validators[0].(func(string) error)
+	settingsFields := schema.Settings{}.Fields()
+	_ = settingsFields
+	// settingsDescAvailableFrom is the schema descriptor for available_from field.
+	settingsDescAvailableFrom := settingsFields[0].Descriptor()
+	// settings.AvailableFromValidator is a validator for the "available_from" field. It is called by the builders before save.
+	settings.AvailableFromValidator = settingsDescAvailableFrom.Validators[0].(func(string) error)
+	// settingsDescWorkHours is the schema descriptor for work_hours field.
+	settingsDescWorkHours := settingsFields[1].Descriptor()
+	// settings.WorkHoursValidator is a validator for the "work_hours" field. It is called by the builders before save.
+	settings.WorkHoursValidator = settingsDescWorkHours.Validators[0].(func(string) error)
+	// settingsDescContractType is the schema descriptor for contract_type field.
+	settingsDescContractType := settingsFields[2].Descriptor()
+	// settings.ContractTypeValidator is a validator for the "contract_type" field. It is called by the builders before save.
+	settings.ContractTypeValidator = settingsDescContractType.Validators[0].(func(string) error)
+	// settingsDescCommunication is the schema descriptor for communication field.
+	settingsDescCommunication := settingsFields[3].Descriptor()
+	// settings.CommunicationValidator is a validator for the "communication" field. It is called by the builders before save.
+	settings.CommunicationValidator = settingsDescCommunication.Validators[0].(func(string) error)
+	// settingsDescInvoiceStatus is the schema descriptor for invoice_status field.
+	settingsDescInvoiceStatus := settingsFields[4].Descriptor()
+	// settings.InvoiceStatusValidator is a validator for the "invoice_status" field. It is called by the builders before save.
+	settings.InvoiceStatusValidator = settingsDescInvoiceStatus.Validators[0].(func(string) error)
 	userFields := schema.User{}.Fields()
 	_ = userFields
 	// userDescLabel is the schema descriptor for label field.

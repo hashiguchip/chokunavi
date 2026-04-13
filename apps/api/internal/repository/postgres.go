@@ -88,12 +88,21 @@ func (r *PostgresRepo) GetAppDataForUser(ctx context.Context, userID int) (*AppD
 		return nil, fmt.Errorf("query pricing for user %d: %w", userID, err)
 	}
 
+	settingsRow, err := r.client.Settings.Query().First(ctx)
+	if err != nil && !ent.IsNotFound(err) {
+		return nil, fmt.Errorf("query settings: %w", err)
+	}
+
 	out := &AppData{
 		Projects: projectsToRepo(projects),
 	}
 	if pricingRow != nil {
 		p := pricingToRepo(pricingRow)
 		out.Pricing = &p
+	}
+	if settingsRow != nil {
+		s := settingsToRepo(settingsRow)
+		out.Settings = &s
 	}
 	return out, nil
 }
@@ -114,6 +123,16 @@ func projectsToRepo(in []*ent.Project) []Project {
 		})
 	}
 	return out
+}
+
+func settingsToRepo(in *ent.Settings) Settings {
+	return Settings{
+		AvailableFrom: in.AvailableFrom,
+		WorkHours:     in.WorkHours,
+		ContractType:  in.ContractType,
+		Communication: in.Communication,
+		InvoiceStatus: in.InvoiceStatus,
+	}
 }
 
 func pricingToRepo(in *ent.Pricing) Pricing {

@@ -1,5 +1,21 @@
 components:
   schemas:
+    AppData:
+      additionalProperties: false
+      properties:
+        pricing:
+          $ref: "#/components/schemas/Pricing"
+        projects:
+          items:
+            $ref: "#/components/schemas/Project"
+          type:
+            - array
+            - "null"
+        settings:
+          $ref: "#/components/schemas/Settings"
+      required:
+        - projects
+      type: object
     ErrorDetail:
       additionalProperties: false
       properties:
@@ -62,22 +78,6 @@ components:
           type: string
       required:
         - status
-      type: object
-    AppData:
-      additionalProperties: false
-      properties:
-        pricing:
-          oneOf:
-            - $ref: "#/components/schemas/Pricing"
-            - type: "null"
-        projects:
-          items:
-            $ref: "#/components/schemas/Project"
-          type:
-            - array
-            - "null"
-      required:
-        - projects
       type: object
     Pricing:
       additionalProperties: false
@@ -165,6 +165,26 @@ components:
         - summary
         - techIds
         - phaseIds
+      type: object
+    Settings:
+      additionalProperties: false
+      properties:
+        availableFrom:
+          type: string
+        communication:
+          type: string
+        contractType:
+          type: string
+        invoiceStatus:
+          type: string
+        workHours:
+          type: string
+      required:
+        - availableFrom
+        - workHours
+        - contractType
+        - communication
+        - invoiceStatus
       type: object
 info:
   title: Resume 2026 API

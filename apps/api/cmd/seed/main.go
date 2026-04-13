@@ -16,8 +16,8 @@
 //  4. transaction を開始 → YAML の内容を insert (idempotent: 何度実行しても同じ結果)
 //  5. commit
 //
-// scope 縮小 reframe 後、seed は projects + pricings + users のみを扱う。
-// Tech / Phase / FAQ / Benefit / Requirement / WorkCondition / PainPoint は
+// seed は settings + projects + pricings + users を扱う。
+// Tech / Phase / FAQ / Benefit / Requirement / PainPoint は
 // frontend constants に直書きされており DB には載せない。
 //
 // 削除順序は FK 依存に従う:
@@ -26,6 +26,7 @@
 //	  → pricing_patterns (pricing_id は ON DELETE SET NULL なので親より先)
 //	  → pricings
 //	projects (FK 無し)
+//	settings (FK 無し)
 package main
 
 import (
@@ -53,9 +54,19 @@ import (
 // を自動的に Go の time.Time に変換してくれるので、`2024-01-01` でも
 // `2024-01-01T00:00:00Z` でも受け付けられる。
 type seedFile struct {
+	Settings seedSettings  `yaml:"settings"`
 	Projects []seedProject `yaml:"projects"`
 	Pricings []seedPricing `yaml:"pricings"`
 	Users    []seedUser    `yaml:"users"`
+}
+
+// seedSettings はサイト全体の稼働条件 (single-row)。
+type seedSettings struct {
+	AvailableFrom string `yaml:"available_from"`
+	WorkHours     string `yaml:"work_hours"`
+	ContractType  string `yaml:"contract_type"`
+	Communication string `yaml:"communication"`
+	InvoiceStatus string `yaml:"invoice_status"`
 }
 
 // seedUser は users テーブル 1 行分。referral code は plaintext で保持する。
@@ -151,6 +162,7 @@ func main() {
 	}
 
 	slog.Info("seed applied",
+		"settings", 1,
 		"projects", len(seed.Projects),
 		"pricings", len(seed.Pricings),
 		"users", len(seed.Users),
@@ -185,6 +197,10 @@ func decryptSeed(ctx context.Context, path string) ([]byte, error) {
 //   - user の label / code が空でなく重複していない
 //   - user.pricing_label が pricings の中に存在する (FK 整合性 pre-check)
 func validateSeed(s *seedFile) error {
+	if s.Settings.AvailableFrom == "" {
+		return fmt.Errorf("settings: empty available_from")
+	}
+
 	projectIDs := make(map[string]struct{}, len(s.Projects))
 	for _, p := range s.Projects {
 		if p.ID == "" {
@@ -245,7 +261,7 @@ func validateSeed(s *seedFile) error {
 // pool から直接実行した後に ent tx で insert する。
 func applySeed(ctx context.Context, client *ent.Client, pool *pgxpool.Pool, s *seedFile) error {
 	// 1. TRUNCATE (DDL) — シーケンスも 1 にリセット
-	const truncateQ = `TRUNCATE users, pricing_patterns, pricings, projects RESTART IDENTITY CASCADE`
+	const truncateQ = `TRUNCATE users, pricing_patterns, pricings, projects, settings RESTART IDENTITY CASCADE`
 	if _, err := pool.Exec(ctx, truncateQ); err != nil {
 		return fmt.Errorf("truncate: %w", err)
 	}
@@ -282,6 +298,17 @@ func applySeed(ctx context.Context, client *ent.Client, pool *pgxpool.Pool, s *s
 // 3. Projects は独立 (FK 無し)
 // 4. Users を pricing_label → id 解決して insert
 func insertAll(ctx context.Context, tx *ent.Tx, s *seedFile) error {
+	// 0. Settings (FK 無し、先に投入)
+	if _, err := tx.Settings.Create().
+		SetAvailableFrom(s.Settings.AvailableFrom).
+		SetWorkHours(s.Settings.WorkHours).
+		SetContractType(s.Settings.ContractType).
+		SetCommunication(s.Settings.Communication).
+		SetInvoiceStatus(s.Settings.InvoiceStatus).
+		Save(ctx); err != nil {
+		return fmt.Errorf("create settings: %w", err)
+	}
+
 	pricingIDByLabel := make(map[string]int, len(s.Pricings))
 	for _, p := range s.Pricings {
 		row, err := tx.Pricing.Create().
