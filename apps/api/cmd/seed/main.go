@@ -12,8 +12,8 @@
 // 動作:
 //  1. SOPS binary mode で復号 (ファイル全体が単一暗号化 blob → 平文 YAML)
 //  2. seedFile struct に Unmarshal、最低限の整合性を validate
-//  3. transaction を開始
-//  4. 全テーブルを削除 → YAML の内容を insert (idempotent: 何度実行しても同じ結果)
+//  3. TRUNCATE で全テーブルをクリア + シーケンスリセット (RESTART IDENTITY)
+//  4. transaction を開始 → YAML の内容を insert (idempotent: 何度実行しても同じ結果)
 //  5. commit
 //
 // scope 縮小 reframe 後、seed は projects + pricings + users のみを扱う。
@@ -38,6 +38,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"gopkg.in/yaml.v3"
 
 	"github.com/hashiguchip/chokunavi/apps/api/ent"
@@ -136,7 +137,7 @@ func main() {
 	}
 
 	// 4. ent client (pgxpool 経由) を構築
-	client, _, closeFn, err := repository.OpenEntClient(ctx, databaseURL)
+	client, pool, closeFn, err := repository.OpenEntClient(ctx, databaseURL)
 	if err != nil {
 		slog.Error("open ent client", "err", err)
 		os.Exit(1)
@@ -144,7 +145,7 @@ func main() {
 	defer closeFn()
 
 	// 5. 単一 transaction で適用
-	if err := applySeed(ctx, client, &seed); err != nil {
+	if err := applySeed(ctx, client, pool, &seed); err != nil {
 		slog.Error("apply seed", "err", err)
 		os.Exit(1)
 	}
@@ -238,8 +239,18 @@ func validateSeed(s *seedFile) error {
 	return nil
 }
 
-// applySeed は単一 transaction で全テーブルを削除 → 再投入する。
-func applySeed(ctx context.Context, client *ent.Client, s *seedFile) error {
+// applySeed は全テーブルを TRUNCATE → 再投入する。
+//
+// TRUNCATE は DDL 扱いで ent の transaction 内では使えないため、
+// pool から直接実行した後に ent tx で insert する。
+func applySeed(ctx context.Context, client *ent.Client, pool *pgxpool.Pool, s *seedFile) error {
+	// 1. TRUNCATE (DDL) — シーケンスも 1 にリセット
+	const truncateQ = `TRUNCATE users, pricing_patterns, pricings, projects RESTART IDENTITY CASCADE`
+	if _, err := pool.Exec(ctx, truncateQ); err != nil {
+		return fmt.Errorf("truncate: %w", err)
+	}
+
+	// 2. INSERT (ent tx)
 	tx, err := client.Tx(ctx)
 	if err != nil {
 		return fmt.Errorf("begin tx: %w", err)
@@ -253,9 +264,6 @@ func applySeed(ctx context.Context, client *ent.Client, s *seedFile) error {
 		}
 	}()
 
-	if err := clearAll(ctx, tx); err != nil {
-		return err
-	}
 	if err := insertAll(ctx, tx, s); err != nil {
 		return err
 	}
@@ -264,26 +272,6 @@ func applySeed(ctx context.Context, client *ent.Client, s *seedFile) error {
 		return fmt.Errorf("commit: %w", err)
 	}
 	committed = true
-	return nil
-}
-
-// clearAll は全テーブルを FK 依存順で削除する。
-//
-// users → pricing_patterns → pricings の順 (users.pricing_id, patterns.pricing_id
-// が pricings を参照しているため)。projects は独立。
-func clearAll(ctx context.Context, tx *ent.Tx) error {
-	if _, err := tx.User.Delete().Exec(ctx); err != nil {
-		return fmt.Errorf("delete users: %w", err)
-	}
-	if _, err := tx.PricingPattern.Delete().Exec(ctx); err != nil {
-		return fmt.Errorf("delete pricing patterns: %w", err)
-	}
-	if _, err := tx.Pricing.Delete().Exec(ctx); err != nil {
-		return fmt.Errorf("delete pricings: %w", err)
-	}
-	if _, err := tx.Project.Delete().Exec(ctx); err != nil {
-		return fmt.Errorf("delete projects: %w", err)
-	}
 	return nil
 }
 
