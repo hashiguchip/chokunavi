@@ -8,9 +8,6 @@ import { posthog } from "@/libs/posthog";
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const handleGithubClick = () => {
-    posthog.capture("github_click", { source: "header" });
-  };
   return (
     <header className="sticky top-0 z-50 bg-white shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
       <div className="mx-auto flex h-[56px] max-w-[1220px] items-center justify-between px-5">
@@ -28,8 +25,8 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="このサイトの GitHub リポジトリ"
-            onClick={handleGithubClick}
-            className="hidden items-center gap-1.5 rounded bg-neutral-950 px-2.5 py-1 font-medium text-[12px] text-white transition hover:opacity-85 md:inline-flex"
+            onClick={() => posthog.capture("github_click", { source: "header" })}
+            className="hidden items-center gap-1.5 rounded bg-neutral-950 px-2.5 py-1 font-medium text-white text-xs transition hover:opacity-85 md:inline-flex"
           >
             <Github size={14} />
             GitHub

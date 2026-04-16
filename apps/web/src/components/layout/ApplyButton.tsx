@@ -1,5 +1,6 @@
 "use client";
 
+import { clsx } from "clsx";
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { posthog } from "@/libs/posthog";
@@ -95,11 +96,12 @@ export function ApplyButton() {
           })
         }
         aria-label="このエンジニアに話を聞いてみる"
-        className={
+        className={clsx(
+          "flex items-center justify-center bg-primary-500 font-bold text-base text-white transition-colors hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2",
           floating
-            ? "fixed right-0 bottom-0 left-0 z-30 flex h-[60px] items-center justify-center bg-primary-500 pb-[env(safe-area-inset-bottom)] font-bold text-base text-white shadow-[0_-2px_8px_rgba(0,0,0,0.12)] transition-colors hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-            : "absolute inset-0 flex items-center justify-center rounded bg-primary-500 font-bold text-base text-white transition-colors hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2"
-        }
+            ? "fixed right-0 bottom-0 left-0 z-30 h-[60px] pb-[env(safe-area-inset-bottom)] shadow-[0_-2px_8px_rgba(0,0,0,0.12)] focus-visible:outline-white"
+            : "absolute inset-0 rounded focus-visible:outline-primary-500",
+        )}
       >
         <span ref={textRef} className="inline-block">
           このエンジニアに話を聞いてみる
