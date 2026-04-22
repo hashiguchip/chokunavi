@@ -38,6 +38,12 @@
   --color-neutral-900: #444444;
   --color-neutral-950: #333333;
 
+  /* Slate (cool gray — LP design) */
+  --color-slate-200: #eef0f3;
+  --color-slate-500: #6b7280;
+  --color-slate-700: #2e3440;
+  --color-slate-950: #0f1115;
+
   /* Accent */
   --color-accent-trial: #ff6633;
   --color-accent-interest: #e06060;

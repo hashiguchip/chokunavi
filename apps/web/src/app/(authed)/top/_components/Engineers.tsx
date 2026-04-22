@@ -15,10 +15,10 @@ export function Engineers() {
     <section className="py-8">
       <div className="mx-auto px-5 md:max-w-5xl lg:max-w-7xl">
         <div className="mb-2.5 font-mono text-[10px] tracking-[2px] text-primary-500">ENGINEERS / 02</div>
-        <h3 className="mb-2 text-[22px] font-[800] tracking-[-0.01em] text-[#0F1115]">
+        <h3 className="mb-2 text-[22px] font-[800] tracking-[-0.01em] text-slate-950">
           登録エンジニアはすべてミドルクラス以上
         </h3>
-        <p className="mb-5 text-[13px] text-[#6B7280]">
+        <p className="mb-5 text-[13px] text-slate-500">
           気になるエンジニアをクリックして、詳しいプロフィールをチェック
         </p>
       </div>
@@ -28,11 +28,11 @@ export function Engineers() {
             <div key={eng.name} className="min-w-0 shrink-0 grow-0 basis-[160px] pl-3 lg:basis-[200px]">
               <Link
                 href="/"
-                className="flex flex-col items-center rounded-2xl border border-[#EEF0F3] bg-white p-5 no-underline transition hover:border-primary-500"
+                className="flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-5 no-underline transition hover:border-primary-500"
               >
-                <UserCircle size={48} className="mb-3 text-[#6B7280]" />
-                <div className="mb-2 text-sm font-bold text-[#0F1115]">{eng.name}</div>
-                <div className="text-[10px] font-semibold tracking-wider text-[#6B7280]">保有スキル</div>
+                <UserCircle size={48} className="mb-3 text-slate-500" />
+                <div className="mb-2 text-sm font-bold text-slate-950">{eng.name}</div>
+                <div className="text-[10px] font-semibold tracking-wider text-slate-500">保有スキル</div>
                 <div className="mt-1 flex flex-wrap justify-center gap-1">
                   {eng.skills.map((s) => (
                     <span
