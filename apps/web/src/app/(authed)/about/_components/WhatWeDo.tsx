@@ -13,7 +13,7 @@ export function WhatWeDo() {
             <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-badge bg-primary-50 font-mono text-body-small font-bold text-primary-500">
               {item.num}
             </div>
-            <div className="mb-1.5 text-sm font-bold text-slate-950">{item.title}</div>
+            <div className="mb-1.5 text-base font-extrabold tracking-heading text-slate-950">{item.title}</div>
             <div className="text-body-small leading-body-compact text-slate-500">{item.desc}</div>
           </div>
         ))}

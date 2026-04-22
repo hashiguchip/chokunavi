@@ -14,7 +14,7 @@ export function Pricing() {
               <span className="text-heading-large font-black tracking-display">{p.price}</span>
               <span className="text-xs opacity-60">{p.unit}</span>
             </div>
-            <div className="mb-3.5 text-xs leading-[1.6] opacity-75">{p.desc}</div>
+            <div className="mb-3.5 text-xs leading-description opacity-75">{p.desc}</div>
             <div className="flex flex-col gap-2">
               {p.features.map((f) => (
                 <div key={f} className="flex items-center gap-2 text-body-small">

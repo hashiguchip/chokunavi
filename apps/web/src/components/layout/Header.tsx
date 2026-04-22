@@ -19,7 +19,7 @@ export function Header({ minimal = false }: Props) {
         <div className="flex items-center gap-5">
           {!minimal && (
             <>
-              <nav className="hidden items-center gap-5 text-[13px] text-neutral-950 md:flex">
+              <nav className="hidden items-center gap-5 text-body-small text-neutral-950 md:flex">
                 {NAV.map((n) => (
                   <a key={n.id} href={`#${n.id}`} className="transition hover:text-primary-500">
                     {n.label}
