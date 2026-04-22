@@ -6,10 +6,10 @@ export function About() {
   return (
     <section className="px-5 pt-12 pb-8">
       <div className="mb-2.5 font-mono text-kicker tracking-kicker text-primary-500">ABOUT / 01</div>
-      <h2 className="whitespace-pre-line text-heading-large font-extrabold leading-[1.3] tracking-heading text-slate-950">
+      <h2 className="whitespace-pre-line text-heading-large font-extrabold leading-heading tracking-heading text-slate-950">
         {CONTENT.what.title}
       </h2>
-      <p className="mt-4 text-sm leading-body text-slate-700">
+      <p className="mt-4 text-body-small leading-body text-slate-700">
         {CONTENT.what.body}
         <Link
           href="/about"

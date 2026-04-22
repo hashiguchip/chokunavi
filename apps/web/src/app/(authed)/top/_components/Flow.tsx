@@ -1,25 +1,4 @@
-const STEPS = [
-  {
-    n: "01",
-    t: "お問い合わせ",
-    d: "プロフィールを見て興味を持ったら、フォームからご連絡ください。",
-  },
-  {
-    n: "02",
-    t: "面談・条件交渉",
-    d: "オンライン・オフライン問わず、スキルマッチや条件を当事者間で自由にすり合わせ。",
-  },
-  {
-    n: "03",
-    t: "契約締結",
-    d: "契約形態・条件はエンジニアと企業間で直接取り決め。NDA等も個別に対応可能です。",
-  },
-  {
-    n: "04",
-    t: "稼働開始",
-    d: "最短で翌月から参画可能。稼働開始後も定期的にすり合わせを行います。",
-  },
-] as const;
+import { CONTENT } from "../_constants/content";
 
 export function Flow() {
   return (
@@ -27,8 +6,8 @@ export function Flow() {
       <div className="mb-2.5 font-mono text-kicker tracking-kicker text-primary-500">FLOW / 06</div>
       <h3 className="mb-5 text-heading-section font-extrabold tracking-heading text-slate-950">導入の流れ</h3>
       <div className="relative pl-8">
-        {STEPS.map((step, i) => {
-          const isLast = i === STEPS.length - 1;
+        {CONTENT.steps.map((step, i) => {
+          const isLast = i === CONTENT.steps.length - 1;
           return (
             <div key={step.n} className="relative pb-8 last:pb-0">
               {!isLast && <div className="absolute left-[-20px] top-[14px] h-full w-px bg-slate-300" />}

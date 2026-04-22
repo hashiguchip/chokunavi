@@ -8,7 +8,7 @@ export function Voices() {
       <div className="flex flex-col gap-3">
         {CONTENT.voices.map((v) => (
           <div key={v.name} className="rounded-2xl border border-slate-200 bg-white p-5">
-            <div className="mb-3 text-sm leading-body text-slate-700">{v.body}</div>
+            <div className="mb-3 text-body-small leading-body text-slate-700">{v.body}</div>
             <div className="flex items-center gap-2.5">
               <div className="h-[30px] w-[30px] rounded-full bg-primary-500" />
               <div>
