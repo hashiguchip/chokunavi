@@ -8,7 +8,7 @@ import { WhatWeDo } from "./_components/WhatWeDo";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-slate-700">
+    <div className="min-h-screen bg-surface-warm text-slate-700">
       <Header minimal />
       <div className="mx-auto md:max-w-5xl lg:max-w-7xl">
         <AboutHero />

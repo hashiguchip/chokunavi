@@ -31,7 +31,7 @@ export function Flow() {
           const isLast = i === STEPS.length - 1;
           return (
             <div key={step.n} className="relative pb-8 last:pb-0">
-              {!isLast && <div className="absolute left-[-20px] top-[14px] h-full w-px bg-[#D1D5DB]" />}
+              {!isLast && <div className="absolute left-[-20px] top-[14px] h-full w-px bg-slate-300" />}
               <div className="absolute left-[-24px] top-[2px] flex h-[10px] w-[10px] items-center justify-center rounded-full border-2 border-primary-500 bg-white" />
               <div className="rounded-[14px] border border-slate-200 bg-white p-4">
                 <div className="mb-1 font-mono text-[11px] font-bold text-primary-500">STEP {step.n}</div>
