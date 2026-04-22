@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CONTENT } from "../_constants/content";
 
 export function Hero() {
   return (
@@ -14,15 +15,9 @@ export function Hero() {
       <div className="absolute inset-0 [background:linear-gradient(180deg,transparent_30%,rgba(0,0,0,0.3)_100%)]" />
       <div className="absolute top-9 right-5 left-5 flex flex-col gap-3.5">
         <h1 className="whitespace-pre-line text-4xl font-[900] leading-[1.2] tracking-[-0.01em] text-white lg:text-[56px]">
-          {"エンジニア採用なら、\nチョクナビ"}
+          {CONTENT.heroCopy}
         </h1>
-        <p className="text-[13px] leading-[1.7] text-white/92">
-          スカウト型で、
-          <br className="lg:hidden" />
-          本当に会いたいエンジニアと
-          <br className="lg:hidden" />
-          直接つながる。
-        </p>
+        <p className="text-[13px] leading-[1.7] text-white/92">{CONTENT.heroSub}</p>
       </div>
     </div>
   );

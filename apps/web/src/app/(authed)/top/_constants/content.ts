@@ -1,7 +1,5 @@
 export const CONTENT = {
-  brand: "チョクナビ",
-  brandEn: "CHOKUNAVI",
-  heroCopy: "エンジニア採用\nなら、チョクナビ",
+  heroCopy: "エンジニア採用なら、\nチョクナビ",
   heroSub: "スカウト型で、本当に会いたいエンジニアと直接つながる。",
   what: {
     kicker: "チョクナビとは",
@@ -50,10 +48,8 @@ export const CONTENT = {
       unit: "",
       desc: "チョクナビの利用に費用は一切かかりません。",
       features: ["プロフィール閲覧 無制限", "ご利用料金 永久無料"],
-      highlight: true,
     },
   ],
-  flow: [],
   faq: [
     {
       q: "本当に無料ですか?",
