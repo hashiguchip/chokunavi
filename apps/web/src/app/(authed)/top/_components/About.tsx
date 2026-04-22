@@ -5,7 +5,7 @@ export function About() {
   return (
     <section className="px-5 pt-12 pb-8">
       <div className="mb-2.5 font-mono text-[10px] tracking-[2px] text-primary-500">ABOUT / 01</div>
-      <h2 className="whitespace-pre-line text-[28px] font-[800] leading-[1.3] tracking-[-0.01em] text-slate-950">
+      <h2 className="whitespace-pre-line text-[28px] font-extrabold leading-[1.3] tracking-heading text-slate-950">
         {CONTENT.what.title}
       </h2>
       <p className="mt-4 text-sm leading-[1.8] text-slate-700">
@@ -28,7 +28,7 @@ export function About() {
                 : "rounded-[14px] border border-slate-200 bg-white p-4 text-slate-950"
             }
           >
-            <div className="text-[26px] font-[900] leading-none tracking-[-0.02em]">{s.k}</div>
+            <div className="text-[26px] font-black leading-none tracking-[-0.02em]">{s.k}</div>
             <div className="mt-2 text-[11px]" style={{ opacity: i === 0 ? 0.85 : 0.6 }}>
               {s.v}
             </div>

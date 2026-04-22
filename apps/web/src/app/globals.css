@@ -48,6 +48,10 @@
   /* Surface */
   --color-surface-warm: #fafaf8;
 
+  /* Typography */
+  --font-size-body-small: 0.8125rem;
+  --letter-spacing-heading: -0.01em;
+
   /* Accent */
   --color-accent-trial: #ff6633;
   --color-accent-interest: #e06060;

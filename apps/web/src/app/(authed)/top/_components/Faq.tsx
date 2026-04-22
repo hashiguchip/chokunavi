@@ -10,7 +10,7 @@ export function Faq() {
   return (
     <section className="px-5 py-8">
       <div className="mb-2.5 font-mono text-[10px] tracking-[2px] text-primary-500">FAQ / 07</div>
-      <h3 className="mb-1.5 text-[22px] font-[800] tracking-[-0.01em] text-slate-950">よくあるご質問</h3>
+      <h3 className="mb-1.5 text-[22px] font-extrabold tracking-heading text-slate-950">よくあるご質問</h3>
       <div>
         {CONTENT.faq.map((item, i) => (
           <div key={item.q} className="border-slate-200 border-b py-4">
@@ -27,7 +27,7 @@ export function Faq() {
               style={{ gridTemplateRows: openIndex === i ? "1fr" : "0fr" }}
             >
               <div className="overflow-hidden">
-                <div className="pt-2.5 text-[13px] leading-[1.7] text-slate-500">{item.a}</div>
+                <div className="pt-2.5 text-body-small leading-[1.7] text-slate-500">{item.a}</div>
               </div>
             </div>
           </div>

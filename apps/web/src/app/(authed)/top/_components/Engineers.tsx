@@ -15,10 +15,10 @@ export function Engineers() {
     <section className="py-8">
       <div className="mx-auto px-5 md:max-w-5xl lg:max-w-7xl">
         <div className="mb-2.5 font-mono text-[10px] tracking-[2px] text-primary-500">ENGINEERS / 02</div>
-        <h3 className="mb-2 text-[22px] font-[800] tracking-[-0.01em] text-slate-950">
+        <h3 className="mb-2 text-[22px] font-extrabold tracking-heading text-slate-950">
           登録エンジニアはすべてミドルクラス以上
         </h3>
-        <p className="mb-5 text-[13px] text-slate-500">
+        <p className="mb-5 text-body-small text-slate-500">
           気になるエンジニアをクリックして、詳しいプロフィールをチェック
         </p>
       </div>
