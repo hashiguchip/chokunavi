@@ -17,7 +17,7 @@ export function Hero() {
         <h1 className="whitespace-pre-line text-4xl font-black leading-[1.2] tracking-heading text-white lg:text-[56px]">
           {CONTENT.heroCopy}
         </h1>
-        <p className="text-body-small leading-[1.7] text-white/92">{CONTENT.heroSub}</p>
+        <p className="text-body-small leading-[1.7] text-white/90">{CONTENT.heroSub}</p>
       </div>
     </div>
   );

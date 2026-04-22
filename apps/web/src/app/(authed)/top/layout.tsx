@@ -1,11 +1,4 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP } from "next/font/google";
-
-const notoSansJP = Noto_Sans_JP({
-  variable: "--font-noto-jp",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
   title: "チョクナビ | エンジニア採用をもっとシンプルに",
@@ -18,5 +11,5 @@ export default function TopLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className={`${notoSansJP.variable} ${notoSansJP.className}`}>{children}</div>;
+  return children;
 }

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Link from "next/link";
 import { CONTENT } from "../_constants/content";
 
@@ -22,16 +23,13 @@ export function About() {
         {CONTENT.stats.map((s, i) => (
           <div
             key={s.v}
-            className={
-              i === 0
-                ? "rounded-[14px] bg-primary-500 p-4 text-white"
-                : "rounded-[14px] border border-slate-200 bg-white p-4 text-slate-950"
-            }
+            className={clsx(
+              "rounded-[14px] p-4",
+              i === 0 ? "bg-primary-500 text-white" : "border border-slate-200 bg-white text-slate-950",
+            )}
           >
             <div className="text-[26px] font-black leading-none tracking-display">{s.k}</div>
-            <div className="mt-2 text-[11px]" style={{ opacity: i === 0 ? 0.85 : 0.6 }}>
-              {s.v}
-            </div>
+            <div className={clsx("mt-2 text-label", i === 0 ? "opacity-85" : "opacity-60")}>{s.v}</div>
           </div>
         ))}
       </div>

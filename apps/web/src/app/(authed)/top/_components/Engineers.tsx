@@ -37,7 +37,7 @@ export function Engineers() {
                   {eng.skills.map((s) => (
                     <span
                       key={s}
-                      className="rounded-md bg-primary-50 px-2 py-0.5 text-[11px] font-medium text-primary-500"
+                      className="rounded-md bg-primary-50 px-2 py-0.5 text-label font-medium text-primary-500"
                     >
                       {s}
                     </span>
