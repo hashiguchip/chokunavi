@@ -1,5 +1,6 @@
 "use client";
 
+import { Logo } from "@/components/ui/Logo";
 import { showDummyPopover } from "@/utils/showDummyPopover";
 
 const FOOTER_COLUMNS = [
@@ -17,6 +18,9 @@ export function Footer() {
   return (
     <footer className="bg-neutral-950 px-5 py-10">
       <div className="mx-auto max-w-[1220px]">
+        <div className="mb-6">
+          <Logo />
+        </div>
         <div className="mb-6 grid gap-6 text-neutral-300 text-xs md:grid-cols-4">
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.heading}>
