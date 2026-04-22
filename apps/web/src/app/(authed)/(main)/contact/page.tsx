@@ -6,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ContactPage />;
+  return (
+    <div className="bg-neutral-100">
+      <ContactPage />
+    </div>
+  );
 }

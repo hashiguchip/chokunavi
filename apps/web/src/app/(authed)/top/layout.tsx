@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "チョクナビ | エンジニア採用をもっとシンプルに",
   description:
-    "エージェントを介さないダイレクトリクルーティング。48,000名の登録エンジニアから、貴社に合った人材へ直接スカウト。",
+    "エージェントを介さないダイレクトリクルーティング。現場で活躍するミドル〜ハイクラスのエンジニアへ直接スカウト。",
 };
 
 export default function TopLayout({
