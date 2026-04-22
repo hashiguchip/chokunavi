@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CONTENT } from "../_constants/content";
 
 export function About() {
@@ -7,7 +8,15 @@ export function About() {
       <h2 className="whitespace-pre-line text-[28px] font-[800] leading-[1.3] tracking-[-0.01em] text-slate-950">
         {CONTENT.what.title}
       </h2>
-      <p className="mt-4 text-sm leading-[1.8] text-slate-700">{CONTENT.what.body}</p>
+      <p className="mt-4 text-sm leading-[1.8] text-slate-700">
+        {CONTENT.what.body}
+        <Link
+          href="/about"
+          className="inline-flex items-center gap-1 font-[600] text-primary-500 transition hover:opacity-75"
+        >
+          チョクナビとは &rarr;
+        </Link>
+      </p>
 
       <div className="mt-6 grid grid-cols-2 gap-2.5">
         {CONTENT.stats.map((s, i) => (

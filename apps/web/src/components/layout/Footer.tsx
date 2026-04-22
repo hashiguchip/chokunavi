@@ -1,13 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { showDummyPopover } from "@/utils/showDummyPopover";
+
+const REAL_LINKS: Record<string, string> = {
+  チョクナビについて: "/about",
+};
 
 const FOOTER_COLUMNS = [
   { heading: "求人を探す", items: ["職種から探す", "勤務地から探す", "年収から探す"] },
   { heading: "おすすめ", items: ["スカウト", "転職フェア", "適性診断"] },
   { heading: "転職ノウハウ", items: ["履歴書の書き方", "面接対策", "退職手続き"] },
-  { heading: "その他", items: ["運営会社", "利用規約", "プライバシーポリシー"] },
+  { heading: "その他", items: ["運営会社", "利用規約", "プライバシーポリシー", "チョクナビについて"] },
 ] as const;
 
 export function Footer() {
@@ -25,16 +30,26 @@ export function Footer() {
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.heading}>
               <h4 className="mb-2 font-bold text-white">{col.heading}</h4>
-              {col.items.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  className="block cursor-pointer text-left transition-colors duration-150 hover:text-white"
-                  onClick={handleClick}
-                >
-                  {item}
-                </button>
-              ))}
+              {col.items.map((item) =>
+                REAL_LINKS[item] ? (
+                  <Link
+                    key={item}
+                    href={REAL_LINKS[item]}
+                    className="block transition-colors duration-150 hover:text-white"
+                  >
+                    {item}
+                  </Link>
+                ) : (
+                  <button
+                    key={item}
+                    type="button"
+                    className="block cursor-pointer text-left transition-colors duration-150 hover:text-white"
+                    onClick={handleClick}
+                  >
+                    {item}
+                  </button>
+                ),
+              )}
             </div>
           ))}
         </div>
