@@ -20,6 +20,7 @@ export function JobHeader() {
             "技術選定",
             "安定稼働",
             "長期稼働歓迎",
+            "週4〜5稼働",
             "インボイス対応",
           ].map((tag) => (
             <span key={tag} className="rounded bg-neutral-100 px-2 py-0.5 text-[11px] text-neutral-800">
