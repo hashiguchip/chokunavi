@@ -12,28 +12,28 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@next/third-parties": "^16.1.6",
+    "@next/third-parties": "^16.2.4",
     "@t3-oss/env-nextjs": "^0.13.10",
     "clsx": "^2.1.1",
     "embla-carousel-auto-scroll": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.575.0",
-    "next": "16.1.6",
-    "posthog-js": "^1.367.0",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-hook-form": "^7.72.1",
+    "next": "16.2.4",
+    "posthog-js": "^1.372.3",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "react-hook-form": "^7.74.0",
     "zod": "^4.3.6",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.2.4",
     "@types/node": "^24.12.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "openapi-typescript": "^7.13.0",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.2.4",
     "typescript": "^5",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.5"
   }
 }
