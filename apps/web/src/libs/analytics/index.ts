@@ -22,6 +22,21 @@ export function trackContactConfirm(): void {
   window.gtag("event", "contact_confirm");
 }
 
+export function trackContactCtaClick(location: string): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "contact_cta_click", { location });
+}
+
+export function trackContactInputStart(): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "contact_input_start");
+}
+
+export function trackContactValidationError(fields: string[]): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "contact_validation_error", { fields: fields.join(",") });
+}
+
 export function trackContactComplete(): void {
   if (typeof window === "undefined" || !window.gtag) return;
   window.gtag("event", "contact_complete");

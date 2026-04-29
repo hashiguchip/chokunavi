@@ -1,6 +1,7 @@
 "use client";
 
 import { DLRow } from "@/components/ui/DLRow";
+import { trackContactCtaClick } from "@/libs/analytics";
 import { posthog } from "@/libs/posthog";
 import { InterestButton } from "./InterestButton";
 import { InterestIndicator } from "./InterestIndicator";
@@ -57,10 +58,14 @@ export function JobHeader() {
         {/* biome-ignore lint/a11y/useValidAnchor: ページ内アンカー + analytics トラッキング */}
         <a
           href="#contact"
-          onClick={() => posthog.capture("apply_click", { location: "header" })}
+          onClick={() => {
+            trackContactCtaClick("header");
+            posthog.capture("apply_click", { location: "header" });
+            posthog.capture("contact_cta_click", { location: "header" });
+          }}
           className="w-full rounded bg-primary-500 px-8 py-3 text-center font-bold text-[15px] text-white transition hover:bg-primary-700 sm:w-auto"
         >
-          応募フォームへ進む
+          このエンジニアに話を聞いてみる
         </a>
         <InterestButton />
       </div>

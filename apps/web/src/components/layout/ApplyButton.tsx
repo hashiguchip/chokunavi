@@ -1,8 +1,10 @@
 "use client";
 
 import { clsx } from "clsx";
+import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { trackContactCtaClick } from "@/libs/analytics";
 import { posthog } from "@/libs/posthog";
 
 export function ApplyButton() {
@@ -91,21 +93,26 @@ export function ApplyButton() {
       <Link
         ref={buttonRef}
         href="/contact"
-        onClick={() =>
-          posthog.capture("apply_click", {
-            location: floating ? "floating-cta" : "footer",
-          })
-        }
-        aria-label="このエンジニアに話を聞いてみる"
+        onClick={() => {
+          const location = floating ? "floating-cta" : "footer";
+          trackContactCtaClick(location);
+          posthog.capture("apply_click", { location });
+          posthog.capture("contact_cta_click", { location });
+        }}
+        aria-label="このエンジニアに話を聞く"
         className={clsx(
-          "flex items-center justify-center bg-primary-500 font-bold text-base text-white transition-colors hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2",
+          "flex items-center justify-center bg-primary-500 text-white transition-colors hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2",
           floating
-            ? "fixed right-0 bottom-0 left-0 z-30 h-[60px] pb-[env(safe-area-inset-bottom)] shadow-[0_-2px_8px_rgba(0,0,0,0.12)] focus-visible:outline-white"
-            : "absolute inset-0 rounded focus-visible:outline-primary-500",
+            ? "fixed right-0 bottom-0 left-0 z-30 h-[68px] pb-[env(safe-area-inset-bottom)] shadow-[0_-2px_8px_rgba(0,0,0,0.12)] focus-visible:outline-white"
+            : "absolute inset-0 rounded font-bold text-base focus-visible:outline-primary-500",
         )}
       >
-        <span ref={textRef} className="inline-block">
-          このエンジニアに話を聞いてみる
+        <span ref={textRef} className="inline-flex items-center justify-center gap-2">
+          {floating && <MessageCircle size={18} aria-hidden="true" className="shrink-0" />}
+          <span className="flex flex-col items-start leading-tight">
+            {floating && <span className="font-normal text-[11px] text-white/80">条件未定でもOK</span>}
+            <span className="font-bold text-base">このエンジニアに話を聞く</span>
+          </span>
         </span>
       </Link>
     </div>

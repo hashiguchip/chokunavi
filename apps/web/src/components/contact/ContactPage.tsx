@@ -21,6 +21,7 @@ export function ContactPage() {
       company: "",
       name: "",
       email: "",
+      consultationType: "",
       message: "",
     },
   });
@@ -31,7 +32,7 @@ export function ContactPage() {
         <div className="rounded border border-neutral-300 bg-white">
           <div className="border-neutral-200 border-b bg-primary-500 px-5 py-4">
             <h1 className="text-center font-bold text-lg text-white">
-              {step === "complete" ? "送信完了" : "お問い合わせ"}
+              {step === "complete" ? "送信完了" : "まずは分かる範囲でご連絡ください"}
             </h1>
           </div>
 

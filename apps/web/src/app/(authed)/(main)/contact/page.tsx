@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ContactPage } from "@/components/contact/ContactPage";
 
 export const metadata: Metadata = {
-  title: "お問い合わせ | チョクナビ",
+  title: "連絡フォーム | チョクナビ",
 };
 
 export default function Page() {

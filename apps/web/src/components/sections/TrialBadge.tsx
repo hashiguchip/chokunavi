@@ -14,7 +14,7 @@ export function TrialBadge() {
       content: (
         <>
           <p>トライアルの詳細は面談時にご案内します。</p>
-          <p className="mt-1 text-neutral-400">お気軽にお問い合わせください。</p>
+          <p className="mt-1 text-neutral-400">まずは気軽にご相談ください。</p>
         </>
       ),
       anchor: e.currentTarget,

@@ -16,9 +16,10 @@ type Props = {
 
 const FIELD_LABELS: { key: Exclude<keyof ContactFormValues, "botcheck">; label: string }[] = [
   { key: "company", label: "会社名・組織名" },
-  { key: "name", label: "お名前" },
-  { key: "email", label: "メールアドレス" },
-  { key: "message", label: "お問い合わせ内容" },
+  { key: "name", label: "ご担当者名" },
+  { key: "email", label: "返信先メールアドレス" },
+  { key: "consultationType", label: "ご相談内容" },
+  { key: "message", label: "メッセージ・補足" },
 ];
 
 export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
@@ -81,7 +82,7 @@ export function ContactConfirmStep({ form, onBack, onComplete }: Props) {
           onClick={handleSubmit}
           className="w-full max-w-sm cursor-pointer rounded bg-primary-500 py-4 font-bold text-base text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {submitting ? "送信中..." : "送信する"}
+          {submitting ? "送信中..." : "この内容で送る"}
         </button>
         <button
           type="button"

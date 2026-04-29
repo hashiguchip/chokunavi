@@ -11,5 +11,5 @@ export const NAV: NavItem[] = [
   { id: "conditions", label: "稼働条件" },
   { id: "faq", label: "FAQ" },
   { id: "pain-points", label: "お困りごと" },
-  { id: "contact", label: "応募" },
+  { id: "contact", label: "相談" },
 ];

@@ -6,7 +6,7 @@ const http = createHttpClient();
 
 const web3ResponseSchema = z.object({ success: z.boolean() });
 
-/** お問い合わせフォームを送信する。provider が success: false を返した場合も http エラーに統合する */
+/** 相談フォームを送信する。provider が success: false を返した場合も http エラーに統合する */
 export async function submitContact(body: ContactFormValues & { access_key: string }) {
   const result = await http.post(WEB3FORMS_ENDPOINT, body, {
     schema: web3ResponseSchema,

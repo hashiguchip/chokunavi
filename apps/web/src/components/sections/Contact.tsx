@@ -13,16 +13,16 @@ export function Contact() {
       <div className="mx-auto max-w-[1220px]">
         <div className="rounded border border-neutral-300 bg-white text-center">
           <div className="border-neutral-200 border-b bg-primary-500 px-5 py-4">
-            <h2 className="font-bold text-lg text-white">お問い合わせ</h2>
+            <h2 className="font-bold text-lg text-white">まずは分かる範囲でご連絡ください</h2>
           </div>
           <div className="px-5 py-8">
             <p className="mb-6 text-neutral-800 text-sm">
-              ご興味をお持ちの方は、下記よりお気軽にお問い合わせください。
+              求人票や条件が固まっていなくても大丈夫です。稼働時期・契約形態・気になっている点など、簡単にお送りください。
             </p>
             <div className="mb-3">
               <ApplyButton />
             </div>
-            <p className="mb-6 text-[11px] text-neutral-500">※ ご連絡から面談まで最短即日で対応いたします</p>
+            <p className="mb-6 text-[11px] text-neutral-500">※ 内容を確認し、通常1〜2営業日以内に返信します</p>
             <div className="flex justify-center gap-5 text-[13px]">
               <a href="https://github.com/hashiguchip/chokunavi" className="text-primary-500 underline">
                 GitHub

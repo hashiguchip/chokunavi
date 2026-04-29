@@ -1,6 +1,8 @@
 "use client";
 
+import { trackContactCtaClick } from "@/libs/analytics";
 import { closeModal } from "@/libs/global-modal";
+import { posthog } from "@/libs/posthog";
 
 export function ThankYouModal() {
   return (
@@ -14,16 +16,20 @@ export function ThankYouModal() {
       <p className="mb-6 text-neutral-700 text-sm leading-relaxed">
         「気になる」していただき感謝します。
         <br />
-        ぜひお気軽にご応募ください！
+        まずはカジュアルにご相談ください。
       </p>
       <div className="flex flex-col gap-3">
         {/* biome-ignore lint/a11y/useValidAnchor: ページ内アンカー遷移 + モーダルclose */}
         <a
           href="#contact"
-          onClick={closeModal}
+          onClick={() => {
+            trackContactCtaClick("interest-modal");
+            posthog.capture("contact_cta_click", { location: "interest-modal" });
+            closeModal();
+          }}
           className="rounded bg-primary-500 px-6 py-3 font-bold text-sm text-white transition hover:bg-primary-700"
         >
-          応募フォームへ進む
+          このエンジニアに話を聞いてみる
         </a>
         <button
           type="button"
