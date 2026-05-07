@@ -52,7 +52,7 @@ function ProfileThoughtBubble({ href, text }: { href: string; text: string }) {
     >
       <p className="line-clamp-2 break-all text-[11px] leading-[1.55] text-sky-950 sm:line-clamp-1">{text}</p>
       <span
-        className="-bottom-2 absolute left-6 h-3 w-3 bg-sky-100 transition [clip-path:polygon(0_0,100%_0,0_100%)] group-hover:bg-sky-200"
+        className="-bottom-1.5 absolute left-9 h-3.5 w-3.5 rotate-45 bg-sky-100 transition group-hover:bg-sky-200"
         aria-hidden="true"
       />
     </a>
@@ -104,7 +104,7 @@ export function JobHeader() {
     <div className="mb-8 rounded border border-neutral-300 bg-white">
       <div className="px-5 pt-5">
         {xPostText && xPostUrl && (
-          <div className="mb-3 flex justify-center">
+          <div className="mb-3">
             <ProfileThoughtBubble href={xPostUrl} text={xPostText} />
           </div>
         )}
