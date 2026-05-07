@@ -97,6 +97,66 @@ func (_u *SettingsUpdate) SetNillableInvoiceStatus(v *string) *SettingsUpdate {
 	return _u
 }
 
+// SetXProfileURL sets the "x_profile_url" field.
+func (_u *SettingsUpdate) SetXProfileURL(v string) *SettingsUpdate {
+	_u.mutation.SetXProfileURL(v)
+	return _u
+}
+
+// SetNillableXProfileURL sets the "x_profile_url" field if the given value is not nil.
+func (_u *SettingsUpdate) SetNillableXProfileURL(v *string) *SettingsUpdate {
+	if v != nil {
+		_u.SetXProfileURL(*v)
+	}
+	return _u
+}
+
+// ClearXProfileURL clears the value of the "x_profile_url" field.
+func (_u *SettingsUpdate) ClearXProfileURL() *SettingsUpdate {
+	_u.mutation.ClearXProfileURL()
+	return _u
+}
+
+// SetXPostURL sets the "x_post_url" field.
+func (_u *SettingsUpdate) SetXPostURL(v string) *SettingsUpdate {
+	_u.mutation.SetXPostURL(v)
+	return _u
+}
+
+// SetNillableXPostURL sets the "x_post_url" field if the given value is not nil.
+func (_u *SettingsUpdate) SetNillableXPostURL(v *string) *SettingsUpdate {
+	if v != nil {
+		_u.SetXPostURL(*v)
+	}
+	return _u
+}
+
+// ClearXPostURL clears the value of the "x_post_url" field.
+func (_u *SettingsUpdate) ClearXPostURL() *SettingsUpdate {
+	_u.mutation.ClearXPostURL()
+	return _u
+}
+
+// SetXPostText sets the "x_post_text" field.
+func (_u *SettingsUpdate) SetXPostText(v string) *SettingsUpdate {
+	_u.mutation.SetXPostText(v)
+	return _u
+}
+
+// SetNillableXPostText sets the "x_post_text" field if the given value is not nil.
+func (_u *SettingsUpdate) SetNillableXPostText(v *string) *SettingsUpdate {
+	if v != nil {
+		_u.SetXPostText(*v)
+	}
+	return _u
+}
+
+// ClearXPostText clears the value of the "x_post_text" field.
+func (_u *SettingsUpdate) ClearXPostText() *SettingsUpdate {
+	_u.mutation.ClearXPostText()
+	return _u
+}
+
 // Mutation returns the SettingsMutation object of the builder.
 func (_u *SettingsUpdate) Mutation() *SettingsMutation {
 	return _u.mutation
@@ -186,6 +246,24 @@ func (_u *SettingsUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if value, ok := _u.mutation.InvoiceStatus(); ok {
 		_spec.SetField(settings.FieldInvoiceStatus, field.TypeString, value)
 	}
+	if value, ok := _u.mutation.XProfileURL(); ok {
+		_spec.SetField(settings.FieldXProfileURL, field.TypeString, value)
+	}
+	if _u.mutation.XProfileURLCleared() {
+		_spec.ClearField(settings.FieldXProfileURL, field.TypeString)
+	}
+	if value, ok := _u.mutation.XPostURL(); ok {
+		_spec.SetField(settings.FieldXPostURL, field.TypeString, value)
+	}
+	if _u.mutation.XPostURLCleared() {
+		_spec.ClearField(settings.FieldXPostURL, field.TypeString)
+	}
+	if value, ok := _u.mutation.XPostText(); ok {
+		_spec.SetField(settings.FieldXPostText, field.TypeString, value)
+	}
+	if _u.mutation.XPostTextCleared() {
+		_spec.ClearField(settings.FieldXPostText, field.TypeString)
+	}
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{settings.Label}
@@ -273,6 +351,66 @@ func (_u *SettingsUpdateOne) SetNillableInvoiceStatus(v *string) *SettingsUpdate
 	if v != nil {
 		_u.SetInvoiceStatus(*v)
 	}
+	return _u
+}
+
+// SetXProfileURL sets the "x_profile_url" field.
+func (_u *SettingsUpdateOne) SetXProfileURL(v string) *SettingsUpdateOne {
+	_u.mutation.SetXProfileURL(v)
+	return _u
+}
+
+// SetNillableXProfileURL sets the "x_profile_url" field if the given value is not nil.
+func (_u *SettingsUpdateOne) SetNillableXProfileURL(v *string) *SettingsUpdateOne {
+	if v != nil {
+		_u.SetXProfileURL(*v)
+	}
+	return _u
+}
+
+// ClearXProfileURL clears the value of the "x_profile_url" field.
+func (_u *SettingsUpdateOne) ClearXProfileURL() *SettingsUpdateOne {
+	_u.mutation.ClearXProfileURL()
+	return _u
+}
+
+// SetXPostURL sets the "x_post_url" field.
+func (_u *SettingsUpdateOne) SetXPostURL(v string) *SettingsUpdateOne {
+	_u.mutation.SetXPostURL(v)
+	return _u
+}
+
+// SetNillableXPostURL sets the "x_post_url" field if the given value is not nil.
+func (_u *SettingsUpdateOne) SetNillableXPostURL(v *string) *SettingsUpdateOne {
+	if v != nil {
+		_u.SetXPostURL(*v)
+	}
+	return _u
+}
+
+// ClearXPostURL clears the value of the "x_post_url" field.
+func (_u *SettingsUpdateOne) ClearXPostURL() *SettingsUpdateOne {
+	_u.mutation.ClearXPostURL()
+	return _u
+}
+
+// SetXPostText sets the "x_post_text" field.
+func (_u *SettingsUpdateOne) SetXPostText(v string) *SettingsUpdateOne {
+	_u.mutation.SetXPostText(v)
+	return _u
+}
+
+// SetNillableXPostText sets the "x_post_text" field if the given value is not nil.
+func (_u *SettingsUpdateOne) SetNillableXPostText(v *string) *SettingsUpdateOne {
+	if v != nil {
+		_u.SetXPostText(*v)
+	}
+	return _u
+}
+
+// ClearXPostText clears the value of the "x_post_text" field.
+func (_u *SettingsUpdateOne) ClearXPostText() *SettingsUpdateOne {
+	_u.mutation.ClearXPostText()
 	return _u
 }
 
@@ -394,6 +532,24 @@ func (_u *SettingsUpdateOne) sqlSave(ctx context.Context) (_node *Settings, err 
 	}
 	if value, ok := _u.mutation.InvoiceStatus(); ok {
 		_spec.SetField(settings.FieldInvoiceStatus, field.TypeString, value)
+	}
+	if value, ok := _u.mutation.XProfileURL(); ok {
+		_spec.SetField(settings.FieldXProfileURL, field.TypeString, value)
+	}
+	if _u.mutation.XProfileURLCleared() {
+		_spec.ClearField(settings.FieldXProfileURL, field.TypeString)
+	}
+	if value, ok := _u.mutation.XPostURL(); ok {
+		_spec.SetField(settings.FieldXPostURL, field.TypeString, value)
+	}
+	if _u.mutation.XPostURLCleared() {
+		_spec.ClearField(settings.FieldXPostURL, field.TypeString)
+	}
+	if value, ok := _u.mutation.XPostText(); ok {
+		_spec.SetField(settings.FieldXPostText, field.TypeString, value)
+	}
+	if _u.mutation.XPostTextCleared() {
+		_spec.ClearField(settings.FieldXPostText, field.TypeString)
 	}
 	_node = &Settings{config: _u.config}
 	_spec.Assign = _node.assignValues

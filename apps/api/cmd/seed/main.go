@@ -34,6 +34,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net/url"
 	"os"
 	"os/exec"
 	"strings"
@@ -67,6 +68,9 @@ type seedSettings struct {
 	ContractType  string `yaml:"contract_type"`
 	Communication string `yaml:"communication"`
 	InvoiceStatus string `yaml:"invoice_status"`
+	XProfileURL   string `yaml:"x_profile_url"`
+	XPostURL      string `yaml:"x_post_url"`
+	XPostText     string `yaml:"x_post_text"`
 }
 
 // seedUser は users テーブル 1 行分。referral code は plaintext で保持する。
@@ -208,6 +212,14 @@ func validateSeed(s *seedFile) error {
 			return fmt.Errorf("settings: empty %s", kv.k)
 		}
 	}
+	for _, kv := range []struct{ k, v string }{
+		{"x_profile_url", s.Settings.XProfileURL},
+		{"x_post_url", s.Settings.XPostURL},
+	} {
+		if err := validateXURL(kv.v); err != nil {
+			return fmt.Errorf("settings: invalid %s: %w", kv.k, err)
+		}
+	}
 
 	projectIDs := make(map[string]struct{}, len(s.Projects))
 	for _, p := range s.Projects {
@@ -313,6 +325,9 @@ func insertAll(ctx context.Context, tx *ent.Tx, s *seedFile) error {
 		SetContractType(s.Settings.ContractType).
 		SetCommunication(s.Settings.Communication).
 		SetInvoiceStatus(s.Settings.InvoiceStatus).
+		SetNillableXProfileURL(emptyToNil(s.Settings.XProfileURL)).
+		SetNillableXPostURL(emptyToNil(s.Settings.XPostURL)).
+		SetNillableXPostText(emptyToNil(s.Settings.XPostText)).
 		Save(ctx); err != nil {
 		return fmt.Errorf("create settings: %w", err)
 	}
@@ -381,4 +396,31 @@ func insertAll(ctx context.Context, tx *ent.Tx, s *seedFile) error {
 	}
 
 	return nil
+}
+
+func emptyToNil(v string) *string {
+	if v == "" {
+		return nil
+	}
+	return &v
+}
+
+func validateXURL(v string) error {
+	if v == "" {
+		return nil
+	}
+	u, err := url.Parse(v)
+	if err != nil {
+		return err
+	}
+	host := strings.ToLower(u.Hostname())
+	if u.Scheme != "https" {
+		return fmt.Errorf("scheme must be https")
+	}
+	switch host {
+	case "x.com", "www.x.com", "twitter.com", "www.twitter.com":
+		return nil
+	default:
+		return fmt.Errorf("host must be x.com or twitter.com")
+	}
 }

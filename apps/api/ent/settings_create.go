@@ -49,6 +49,48 @@ func (_c *SettingsCreate) SetInvoiceStatus(v string) *SettingsCreate {
 	return _c
 }
 
+// SetXProfileURL sets the "x_profile_url" field.
+func (_c *SettingsCreate) SetXProfileURL(v string) *SettingsCreate {
+	_c.mutation.SetXProfileURL(v)
+	return _c
+}
+
+// SetNillableXProfileURL sets the "x_profile_url" field if the given value is not nil.
+func (_c *SettingsCreate) SetNillableXProfileURL(v *string) *SettingsCreate {
+	if v != nil {
+		_c.SetXProfileURL(*v)
+	}
+	return _c
+}
+
+// SetXPostURL sets the "x_post_url" field.
+func (_c *SettingsCreate) SetXPostURL(v string) *SettingsCreate {
+	_c.mutation.SetXPostURL(v)
+	return _c
+}
+
+// SetNillableXPostURL sets the "x_post_url" field if the given value is not nil.
+func (_c *SettingsCreate) SetNillableXPostURL(v *string) *SettingsCreate {
+	if v != nil {
+		_c.SetXPostURL(*v)
+	}
+	return _c
+}
+
+// SetXPostText sets the "x_post_text" field.
+func (_c *SettingsCreate) SetXPostText(v string) *SettingsCreate {
+	_c.mutation.SetXPostText(v)
+	return _c
+}
+
+// SetNillableXPostText sets the "x_post_text" field if the given value is not nil.
+func (_c *SettingsCreate) SetNillableXPostText(v *string) *SettingsCreate {
+	if v != nil {
+		_c.SetXPostText(*v)
+	}
+	return _c
+}
+
 // Mutation returns the SettingsMutation object of the builder.
 func (_c *SettingsCreate) Mutation() *SettingsMutation {
 	return _c.mutation
@@ -168,6 +210,18 @@ func (_c *SettingsCreate) createSpec() (*Settings, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.InvoiceStatus(); ok {
 		_spec.SetField(settings.FieldInvoiceStatus, field.TypeString, value)
 		_node.InvoiceStatus = value
+	}
+	if value, ok := _c.mutation.XProfileURL(); ok {
+		_spec.SetField(settings.FieldXProfileURL, field.TypeString, value)
+		_node.XProfileURL = &value
+	}
+	if value, ok := _c.mutation.XPostURL(); ok {
+		_spec.SetField(settings.FieldXPostURL, field.TypeString, value)
+		_node.XPostURL = &value
+	}
+	if value, ok := _c.mutation.XPostText(); ok {
+		_spec.SetField(settings.FieldXPostText, field.TypeString, value)
+		_node.XPostText = &value
 	}
 	return _node, _spec
 }

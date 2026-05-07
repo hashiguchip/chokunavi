@@ -77,6 +77,21 @@ func InvoiceStatus(v string) predicate.Settings {
 	return predicate.Settings(sql.FieldEQ(FieldInvoiceStatus, v))
 }
 
+// XProfileURL applies equality check predicate on the "x_profile_url" field. It's identical to XProfileURLEQ.
+func XProfileURL(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEQ(FieldXProfileURL, v))
+}
+
+// XPostURL applies equality check predicate on the "x_post_url" field. It's identical to XPostURLEQ.
+func XPostURL(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEQ(FieldXPostURL, v))
+}
+
+// XPostText applies equality check predicate on the "x_post_text" field. It's identical to XPostTextEQ.
+func XPostText(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEQ(FieldXPostText, v))
+}
+
 // AvailableFromEQ applies the EQ predicate on the "available_from" field.
 func AvailableFromEQ(v string) predicate.Settings {
 	return predicate.Settings(sql.FieldEQ(FieldAvailableFrom, v))
@@ -400,6 +415,231 @@ func InvoiceStatusEqualFold(v string) predicate.Settings {
 // InvoiceStatusContainsFold applies the ContainsFold predicate on the "invoice_status" field.
 func InvoiceStatusContainsFold(v string) predicate.Settings {
 	return predicate.Settings(sql.FieldContainsFold(FieldInvoiceStatus, v))
+}
+
+// XProfileURLEQ applies the EQ predicate on the "x_profile_url" field.
+func XProfileURLEQ(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEQ(FieldXProfileURL, v))
+}
+
+// XProfileURLNEQ applies the NEQ predicate on the "x_profile_url" field.
+func XProfileURLNEQ(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldNEQ(FieldXProfileURL, v))
+}
+
+// XProfileURLIn applies the In predicate on the "x_profile_url" field.
+func XProfileURLIn(vs ...string) predicate.Settings {
+	return predicate.Settings(sql.FieldIn(FieldXProfileURL, vs...))
+}
+
+// XProfileURLNotIn applies the NotIn predicate on the "x_profile_url" field.
+func XProfileURLNotIn(vs ...string) predicate.Settings {
+	return predicate.Settings(sql.FieldNotIn(FieldXProfileURL, vs...))
+}
+
+// XProfileURLGT applies the GT predicate on the "x_profile_url" field.
+func XProfileURLGT(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldGT(FieldXProfileURL, v))
+}
+
+// XProfileURLGTE applies the GTE predicate on the "x_profile_url" field.
+func XProfileURLGTE(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldGTE(FieldXProfileURL, v))
+}
+
+// XProfileURLLT applies the LT predicate on the "x_profile_url" field.
+func XProfileURLLT(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldLT(FieldXProfileURL, v))
+}
+
+// XProfileURLLTE applies the LTE predicate on the "x_profile_url" field.
+func XProfileURLLTE(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldLTE(FieldXProfileURL, v))
+}
+
+// XProfileURLContains applies the Contains predicate on the "x_profile_url" field.
+func XProfileURLContains(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldContains(FieldXProfileURL, v))
+}
+
+// XProfileURLHasPrefix applies the HasPrefix predicate on the "x_profile_url" field.
+func XProfileURLHasPrefix(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldHasPrefix(FieldXProfileURL, v))
+}
+
+// XProfileURLHasSuffix applies the HasSuffix predicate on the "x_profile_url" field.
+func XProfileURLHasSuffix(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldHasSuffix(FieldXProfileURL, v))
+}
+
+// XProfileURLIsNil applies the IsNil predicate on the "x_profile_url" field.
+func XProfileURLIsNil() predicate.Settings {
+	return predicate.Settings(sql.FieldIsNull(FieldXProfileURL))
+}
+
+// XProfileURLNotNil applies the NotNil predicate on the "x_profile_url" field.
+func XProfileURLNotNil() predicate.Settings {
+	return predicate.Settings(sql.FieldNotNull(FieldXProfileURL))
+}
+
+// XProfileURLEqualFold applies the EqualFold predicate on the "x_profile_url" field.
+func XProfileURLEqualFold(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEqualFold(FieldXProfileURL, v))
+}
+
+// XProfileURLContainsFold applies the ContainsFold predicate on the "x_profile_url" field.
+func XProfileURLContainsFold(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldContainsFold(FieldXProfileURL, v))
+}
+
+// XPostURLEQ applies the EQ predicate on the "x_post_url" field.
+func XPostURLEQ(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEQ(FieldXPostURL, v))
+}
+
+// XPostURLNEQ applies the NEQ predicate on the "x_post_url" field.
+func XPostURLNEQ(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldNEQ(FieldXPostURL, v))
+}
+
+// XPostURLIn applies the In predicate on the "x_post_url" field.
+func XPostURLIn(vs ...string) predicate.Settings {
+	return predicate.Settings(sql.FieldIn(FieldXPostURL, vs...))
+}
+
+// XPostURLNotIn applies the NotIn predicate on the "x_post_url" field.
+func XPostURLNotIn(vs ...string) predicate.Settings {
+	return predicate.Settings(sql.FieldNotIn(FieldXPostURL, vs...))
+}
+
+// XPostURLGT applies the GT predicate on the "x_post_url" field.
+func XPostURLGT(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldGT(FieldXPostURL, v))
+}
+
+// XPostURLGTE applies the GTE predicate on the "x_post_url" field.
+func XPostURLGTE(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldGTE(FieldXPostURL, v))
+}
+
+// XPostURLLT applies the LT predicate on the "x_post_url" field.
+func XPostURLLT(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldLT(FieldXPostURL, v))
+}
+
+// XPostURLLTE applies the LTE predicate on the "x_post_url" field.
+func XPostURLLTE(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldLTE(FieldXPostURL, v))
+}
+
+// XPostURLContains applies the Contains predicate on the "x_post_url" field.
+func XPostURLContains(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldContains(FieldXPostURL, v))
+}
+
+// XPostURLHasPrefix applies the HasPrefix predicate on the "x_post_url" field.
+func XPostURLHasPrefix(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldHasPrefix(FieldXPostURL, v))
+}
+
+// XPostURLHasSuffix applies the HasSuffix predicate on the "x_post_url" field.
+func XPostURLHasSuffix(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldHasSuffix(FieldXPostURL, v))
+}
+
+// XPostURLIsNil applies the IsNil predicate on the "x_post_url" field.
+func XPostURLIsNil() predicate.Settings {
+	return predicate.Settings(sql.FieldIsNull(FieldXPostURL))
+}
+
+// XPostURLNotNil applies the NotNil predicate on the "x_post_url" field.
+func XPostURLNotNil() predicate.Settings {
+	return predicate.Settings(sql.FieldNotNull(FieldXPostURL))
+}
+
+// XPostURLEqualFold applies the EqualFold predicate on the "x_post_url" field.
+func XPostURLEqualFold(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEqualFold(FieldXPostURL, v))
+}
+
+// XPostURLContainsFold applies the ContainsFold predicate on the "x_post_url" field.
+func XPostURLContainsFold(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldContainsFold(FieldXPostURL, v))
+}
+
+// XPostTextEQ applies the EQ predicate on the "x_post_text" field.
+func XPostTextEQ(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEQ(FieldXPostText, v))
+}
+
+// XPostTextNEQ applies the NEQ predicate on the "x_post_text" field.
+func XPostTextNEQ(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldNEQ(FieldXPostText, v))
+}
+
+// XPostTextIn applies the In predicate on the "x_post_text" field.
+func XPostTextIn(vs ...string) predicate.Settings {
+	return predicate.Settings(sql.FieldIn(FieldXPostText, vs...))
+}
+
+// XPostTextNotIn applies the NotIn predicate on the "x_post_text" field.
+func XPostTextNotIn(vs ...string) predicate.Settings {
+	return predicate.Settings(sql.FieldNotIn(FieldXPostText, vs...))
+}
+
+// XPostTextGT applies the GT predicate on the "x_post_text" field.
+func XPostTextGT(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldGT(FieldXPostText, v))
+}
+
+// XPostTextGTE applies the GTE predicate on the "x_post_text" field.
+func XPostTextGTE(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldGTE(FieldXPostText, v))
+}
+
+// XPostTextLT applies the LT predicate on the "x_post_text" field.
+func XPostTextLT(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldLT(FieldXPostText, v))
+}
+
+// XPostTextLTE applies the LTE predicate on the "x_post_text" field.
+func XPostTextLTE(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldLTE(FieldXPostText, v))
+}
+
+// XPostTextContains applies the Contains predicate on the "x_post_text" field.
+func XPostTextContains(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldContains(FieldXPostText, v))
+}
+
+// XPostTextHasPrefix applies the HasPrefix predicate on the "x_post_text" field.
+func XPostTextHasPrefix(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldHasPrefix(FieldXPostText, v))
+}
+
+// XPostTextHasSuffix applies the HasSuffix predicate on the "x_post_text" field.
+func XPostTextHasSuffix(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldHasSuffix(FieldXPostText, v))
+}
+
+// XPostTextIsNil applies the IsNil predicate on the "x_post_text" field.
+func XPostTextIsNil() predicate.Settings {
+	return predicate.Settings(sql.FieldIsNull(FieldXPostText))
+}
+
+// XPostTextNotNil applies the NotNil predicate on the "x_post_text" field.
+func XPostTextNotNil() predicate.Settings {
+	return predicate.Settings(sql.FieldNotNull(FieldXPostText))
+}
+
+// XPostTextEqualFold applies the EqualFold predicate on the "x_post_text" field.
+func XPostTextEqualFold(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldEqualFold(FieldXPostText, v))
+}
+
+// XPostTextContainsFold applies the ContainsFold predicate on the "x_post_text" field.
+func XPostTextContainsFold(v string) predicate.Settings {
+	return predicate.Settings(sql.FieldContainsFold(FieldXPostText, v))
 }
 
 // And groups predicates with the AND operator between them.

@@ -179,6 +179,12 @@ components:
           type: string
         workHours:
           type: string
+        xPostText:
+          type: string
+        xPostUrl:
+          type: string
+        xProfileUrl:
+          type: string
       required:
         - availableFrom
         - workHours

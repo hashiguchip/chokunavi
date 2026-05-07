@@ -51,6 +51,8 @@ func TestPostgresRepo_GetAppDataForUser(t *testing.T) {
 	defer conn.Close(ctx)
 
 	stmts := []string{
+		`INSERT INTO settings (available_from, work_hours, contract_type, communication, invoice_status, x_profile_url, x_post_url, x_post_text) VALUES
+			('2026年5月', '週5日', '準委任', 'Slack', '登録済み', 'https://x.com/test', 'https://x.com/test/status/1', 'これはテストです。。食後は☕に限りますなぁ')`,
 		`INSERT INTO pricings (id, label, rate, billing_hours, trial_rate, trial_note) VALUES
 			(1, 'standard', '1円/h', '実稼働', '1円/h', 'お試し')`,
 		`INSERT INTO pricing_patterns (label, trial_flex, trial_period, regular_flex, regular_period, display_order, pricing_id) VALUES
@@ -100,6 +102,18 @@ func TestPostgresRepo_GetAppDataForUser(t *testing.T) {
 	}
 	if len(got.Pricing.Patterns) != 1 || got.Pricing.Patterns[0].Label != "パターンA" {
 		t.Errorf("pricing.patterns = %v", got.Pricing.Patterns)
+	}
+	if got.Settings == nil {
+		t.Fatal("settings should not be nil")
+	}
+	if got.Settings.XProfileURL != "https://x.com/test" {
+		t.Errorf("settings.xProfileUrl = %q", got.Settings.XProfileURL)
+	}
+	if got.Settings.XPostURL != "https://x.com/test/status/1" {
+		t.Errorf("settings.xPostUrl = %q", got.Settings.XPostURL)
+	}
+	if got.Settings.XPostText != "これはテストです。。食後は☕に限りますなぁ" {
+		t.Errorf("settings.xPostText = %q", got.Settings.XPostText)
 	}
 
 	// pricing_id が NULL のユーザーは pricing == nil を返す

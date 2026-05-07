@@ -2383,6 +2383,9 @@ type SettingsMutation struct {
 	contract_type  *string
 	communication  *string
 	invoice_status *string
+	x_profile_url  *string
+	x_post_url     *string
+	x_post_text    *string
 	clearedFields  map[string]struct{}
 	done           bool
 	oldValue       func(context.Context) (*Settings, error)
@@ -2667,6 +2670,153 @@ func (m *SettingsMutation) ResetInvoiceStatus() {
 	m.invoice_status = nil
 }
 
+// SetXProfileURL sets the "x_profile_url" field.
+func (m *SettingsMutation) SetXProfileURL(s string) {
+	m.x_profile_url = &s
+}
+
+// XProfileURL returns the value of the "x_profile_url" field in the mutation.
+func (m *SettingsMutation) XProfileURL() (r string, exists bool) {
+	v := m.x_profile_url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldXProfileURL returns the old "x_profile_url" field's value of the Settings entity.
+// If the Settings object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *SettingsMutation) OldXProfileURL(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldXProfileURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldXProfileURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldXProfileURL: %w", err)
+	}
+	return oldValue.XProfileURL, nil
+}
+
+// ClearXProfileURL clears the value of the "x_profile_url" field.
+func (m *SettingsMutation) ClearXProfileURL() {
+	m.x_profile_url = nil
+	m.clearedFields[settings.FieldXProfileURL] = struct{}{}
+}
+
+// XProfileURLCleared returns if the "x_profile_url" field was cleared in this mutation.
+func (m *SettingsMutation) XProfileURLCleared() bool {
+	_, ok := m.clearedFields[settings.FieldXProfileURL]
+	return ok
+}
+
+// ResetXProfileURL resets all changes to the "x_profile_url" field.
+func (m *SettingsMutation) ResetXProfileURL() {
+	m.x_profile_url = nil
+	delete(m.clearedFields, settings.FieldXProfileURL)
+}
+
+// SetXPostURL sets the "x_post_url" field.
+func (m *SettingsMutation) SetXPostURL(s string) {
+	m.x_post_url = &s
+}
+
+// XPostURL returns the value of the "x_post_url" field in the mutation.
+func (m *SettingsMutation) XPostURL() (r string, exists bool) {
+	v := m.x_post_url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldXPostURL returns the old "x_post_url" field's value of the Settings entity.
+// If the Settings object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *SettingsMutation) OldXPostURL(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldXPostURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldXPostURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldXPostURL: %w", err)
+	}
+	return oldValue.XPostURL, nil
+}
+
+// ClearXPostURL clears the value of the "x_post_url" field.
+func (m *SettingsMutation) ClearXPostURL() {
+	m.x_post_url = nil
+	m.clearedFields[settings.FieldXPostURL] = struct{}{}
+}
+
+// XPostURLCleared returns if the "x_post_url" field was cleared in this mutation.
+func (m *SettingsMutation) XPostURLCleared() bool {
+	_, ok := m.clearedFields[settings.FieldXPostURL]
+	return ok
+}
+
+// ResetXPostURL resets all changes to the "x_post_url" field.
+func (m *SettingsMutation) ResetXPostURL() {
+	m.x_post_url = nil
+	delete(m.clearedFields, settings.FieldXPostURL)
+}
+
+// SetXPostText sets the "x_post_text" field.
+func (m *SettingsMutation) SetXPostText(s string) {
+	m.x_post_text = &s
+}
+
+// XPostText returns the value of the "x_post_text" field in the mutation.
+func (m *SettingsMutation) XPostText() (r string, exists bool) {
+	v := m.x_post_text
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldXPostText returns the old "x_post_text" field's value of the Settings entity.
+// If the Settings object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *SettingsMutation) OldXPostText(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldXPostText is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldXPostText requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldXPostText: %w", err)
+	}
+	return oldValue.XPostText, nil
+}
+
+// ClearXPostText clears the value of the "x_post_text" field.
+func (m *SettingsMutation) ClearXPostText() {
+	m.x_post_text = nil
+	m.clearedFields[settings.FieldXPostText] = struct{}{}
+}
+
+// XPostTextCleared returns if the "x_post_text" field was cleared in this mutation.
+func (m *SettingsMutation) XPostTextCleared() bool {
+	_, ok := m.clearedFields[settings.FieldXPostText]
+	return ok
+}
+
+// ResetXPostText resets all changes to the "x_post_text" field.
+func (m *SettingsMutation) ResetXPostText() {
+	m.x_post_text = nil
+	delete(m.clearedFields, settings.FieldXPostText)
+}
+
 // Where appends a list predicates to the SettingsMutation builder.
 func (m *SettingsMutation) Where(ps ...predicate.Settings) {
 	m.predicates = append(m.predicates, ps...)
@@ -2701,7 +2851,7 @@ func (m *SettingsMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *SettingsMutation) Fields() []string {
-	fields := make([]string, 0, 5)
+	fields := make([]string, 0, 8)
 	if m.available_from != nil {
 		fields = append(fields, settings.FieldAvailableFrom)
 	}
@@ -2716,6 +2866,15 @@ func (m *SettingsMutation) Fields() []string {
 	}
 	if m.invoice_status != nil {
 		fields = append(fields, settings.FieldInvoiceStatus)
+	}
+	if m.x_profile_url != nil {
+		fields = append(fields, settings.FieldXProfileURL)
+	}
+	if m.x_post_url != nil {
+		fields = append(fields, settings.FieldXPostURL)
+	}
+	if m.x_post_text != nil {
+		fields = append(fields, settings.FieldXPostText)
 	}
 	return fields
 }
@@ -2735,6 +2894,12 @@ func (m *SettingsMutation) Field(name string) (ent.Value, bool) {
 		return m.Communication()
 	case settings.FieldInvoiceStatus:
 		return m.InvoiceStatus()
+	case settings.FieldXProfileURL:
+		return m.XProfileURL()
+	case settings.FieldXPostURL:
+		return m.XPostURL()
+	case settings.FieldXPostText:
+		return m.XPostText()
 	}
 	return nil, false
 }
@@ -2754,6 +2919,12 @@ func (m *SettingsMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldCommunication(ctx)
 	case settings.FieldInvoiceStatus:
 		return m.OldInvoiceStatus(ctx)
+	case settings.FieldXProfileURL:
+		return m.OldXProfileURL(ctx)
+	case settings.FieldXPostURL:
+		return m.OldXPostURL(ctx)
+	case settings.FieldXPostText:
+		return m.OldXPostText(ctx)
 	}
 	return nil, fmt.Errorf("unknown Settings field %s", name)
 }
@@ -2798,6 +2969,27 @@ func (m *SettingsMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetInvoiceStatus(v)
 		return nil
+	case settings.FieldXProfileURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetXProfileURL(v)
+		return nil
+	case settings.FieldXPostURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetXPostURL(v)
+		return nil
+	case settings.FieldXPostText:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetXPostText(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Settings field %s", name)
 }
@@ -2827,7 +3019,17 @@ func (m *SettingsMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *SettingsMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(settings.FieldXProfileURL) {
+		fields = append(fields, settings.FieldXProfileURL)
+	}
+	if m.FieldCleared(settings.FieldXPostURL) {
+		fields = append(fields, settings.FieldXPostURL)
+	}
+	if m.FieldCleared(settings.FieldXPostText) {
+		fields = append(fields, settings.FieldXPostText)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -2840,6 +3042,17 @@ func (m *SettingsMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *SettingsMutation) ClearField(name string) error {
+	switch name {
+	case settings.FieldXProfileURL:
+		m.ClearXProfileURL()
+		return nil
+	case settings.FieldXPostURL:
+		m.ClearXPostURL()
+		return nil
+	case settings.FieldXPostText:
+		m.ClearXPostText()
+		return nil
+	}
 	return fmt.Errorf("unknown Settings nullable field %s", name)
 }
 
@@ -2861,6 +3074,15 @@ func (m *SettingsMutation) ResetField(name string) error {
 		return nil
 	case settings.FieldInvoiceStatus:
 		m.ResetInvoiceStatus()
+		return nil
+	case settings.FieldXProfileURL:
+		m.ResetXProfileURL()
+		return nil
+	case settings.FieldXPostURL:
+		m.ResetXPostURL()
+		return nil
+	case settings.FieldXPostText:
+		m.ResetXPostText()
 		return nil
 	}
 	return fmt.Errorf("unknown Settings field %s", name)

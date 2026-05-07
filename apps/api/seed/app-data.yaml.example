@@ -21,6 +21,9 @@ settings:
   contract_type: "準委任契約（請負も相談可 / 法人契約対応可）"
   communication: "Slack / Discord / Google Meet 対応"
   invoice_status: "適格請求書発行事業者 登録済み"
+  x_profile_url: "https://x.com/"
+  x_post_url: "https://x.com/"
+  x_post_text: "これはテストです。。食後は☕に限りますなぁ"
 
 projects:
   - id: project-sample-1

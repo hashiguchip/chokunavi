@@ -68,6 +68,11 @@ func TestAppDataAuth(t *testing.T) {
 	sampleAppData := &repository.AppData{
 		Projects: []repository.Project{{ID: "p1", Title: "Sample"}},
 		Pricing:  &repository.Pricing{Rate: "1円/h"},
+		Settings: &repository.Settings{
+			XProfileURL: "https://x.com/test",
+			XPostURL:    "https://x.com/test/status/1",
+			XPostText:   "これはテストです。。食後は☕に限りますなぁ",
+		},
 	}
 
 	t.Run("missing code", func(t *testing.T) {
@@ -113,6 +118,18 @@ func TestAppDataAuth(t *testing.T) {
 		}
 		if p.Pricing.Rate == "" {
 			t.Fatal("expected pricing.rate to be populated")
+		}
+		if p.Settings == nil {
+			t.Fatal("expected settings to be non-nil")
+		}
+		if p.Settings.XProfileURL != "https://x.com/test" {
+			t.Fatalf("expected settings.xProfileUrl to be populated, got %q", p.Settings.XProfileURL)
+		}
+		if p.Settings.XPostURL != "https://x.com/test/status/1" {
+			t.Fatalf("expected settings.xPostUrl to be populated, got %q", p.Settings.XPostURL)
+		}
+		if p.Settings.XPostText != "これはテストです。。食後は☕に限りますなぁ" {
+			t.Fatalf("expected settings.xPostText to be populated, got %q", p.Settings.XPostText)
 		}
 	})
 

@@ -75,6 +75,9 @@ var (
 		{Name: "contract_type", Type: field.TypeString},
 		{Name: "communication", Type: field.TypeString},
 		{Name: "invoice_status", Type: field.TypeString},
+		{Name: "x_profile_url", Type: field.TypeString, Nullable: true},
+		{Name: "x_post_url", Type: field.TypeString, Nullable: true},
+		{Name: "x_post_text", Type: field.TypeString, Nullable: true},
 	}
 	// SettingsTable holds the schema information for the "settings" table.
 	SettingsTable = &schema.Table{

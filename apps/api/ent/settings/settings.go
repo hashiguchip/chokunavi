@@ -21,6 +21,12 @@ const (
 	FieldCommunication = "communication"
 	// FieldInvoiceStatus holds the string denoting the invoice_status field in the database.
 	FieldInvoiceStatus = "invoice_status"
+	// FieldXProfileURL holds the string denoting the x_profile_url field in the database.
+	FieldXProfileURL = "x_profile_url"
+	// FieldXPostURL holds the string denoting the x_post_url field in the database.
+	FieldXPostURL = "x_post_url"
+	// FieldXPostText holds the string denoting the x_post_text field in the database.
+	FieldXPostText = "x_post_text"
 	// Table holds the table name of the settings in the database.
 	Table = "settings"
 )
@@ -33,6 +39,9 @@ var Columns = []string{
 	FieldContractType,
 	FieldCommunication,
 	FieldInvoiceStatus,
+	FieldXProfileURL,
+	FieldXPostURL,
+	FieldXPostText,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -89,4 +98,19 @@ func ByCommunication(opts ...sql.OrderTermOption) OrderOption {
 // ByInvoiceStatus orders the results by the invoice_status field.
 func ByInvoiceStatus(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldInvoiceStatus, opts...).ToFunc()
+}
+
+// ByXProfileURL orders the results by the x_profile_url field.
+func ByXProfileURL(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldXProfileURL, opts...).ToFunc()
+}
+
+// ByXPostURL orders the results by the x_post_url field.
+func ByXPostURL(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldXPostURL, opts...).ToFunc()
+}
+
+// ByXPostText orders the results by the x_post_text field.
+func ByXPostText(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldXPostText, opts...).ToFunc()
 }

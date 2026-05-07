@@ -133,6 +133,9 @@ export interface components {
       contractType: string;
       invoiceStatus: string;
       workHours: string;
+      xPostText?: string;
+      xPostUrl?: string;
+      xProfileUrl?: string;
     };
   };
   responses: never;
