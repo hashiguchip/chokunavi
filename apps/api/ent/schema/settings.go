@@ -18,5 +18,8 @@ func (Settings) Fields() []ent.Field {
 		field.String("contract_type").NotEmpty(),
 		field.String("communication").NotEmpty(),
 		field.String("invoice_status").NotEmpty(),
+		field.String("x_profile_url").Optional().Nillable(),
+		field.String("x_post_url").Optional().Nillable(),
+		field.String("x_post_text").Optional().Nillable(),
 	}
 }

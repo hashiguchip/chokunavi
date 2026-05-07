@@ -27,6 +27,11 @@ export function trackContactCtaClick(location: string): void {
   window.gtag("event", "contact_cta_click", { location });
 }
 
+export function trackXLinkClick(location: string, url: string): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "x_link_click", { location, link_url: url });
+}
+
 export function trackContactInputStart(): void {
   if (typeof window === "undefined" || !window.gtag) return;
   window.gtag("event", "contact_input_start");

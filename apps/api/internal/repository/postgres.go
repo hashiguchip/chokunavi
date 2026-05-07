@@ -126,13 +126,23 @@ func projectsToRepo(in []*ent.Project) []Project {
 }
 
 func settingsToRepo(in *ent.Settings) Settings {
-	return Settings{
+	out := Settings{
 		AvailableFrom: in.AvailableFrom,
 		WorkHours:     in.WorkHours,
 		ContractType:  in.ContractType,
 		Communication: in.Communication,
 		InvoiceStatus: in.InvoiceStatus,
 	}
+	if in.XProfileURL != nil {
+		out.XProfileURL = *in.XProfileURL
+	}
+	if in.XPostURL != nil {
+		out.XPostURL = *in.XPostURL
+	}
+	if in.XPostText != nil {
+		out.XPostText = *in.XPostText
+	}
+	return out
 }
 
 func pricingToRepo(in *ent.Pricing) Pricing {

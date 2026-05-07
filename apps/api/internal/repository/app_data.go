@@ -50,6 +50,9 @@ type Settings struct {
 	ContractType  string `json:"contractType"`
 	Communication string `json:"communication"`
 	InvoiceStatus string `json:"invoiceStatus"`
+	XProfileURL   string `json:"xProfileUrl,omitempty"`
+	XPostURL      string `json:"xPostUrl,omitempty"`
+	XPostText     string `json:"xPostText,omitempty"`
 }
 
 // AppData は /api/app-data が返す aggregate response。

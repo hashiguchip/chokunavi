@@ -26,7 +26,13 @@ type Settings struct {
 	Communication string `json:"communication,omitempty"`
 	// InvoiceStatus holds the value of the "invoice_status" field.
 	InvoiceStatus string `json:"invoice_status,omitempty"`
-	selectValues  sql.SelectValues
+	// XProfileURL holds the value of the "x_profile_url" field.
+	XProfileURL *string `json:"x_profile_url,omitempty"`
+	// XPostURL holds the value of the "x_post_url" field.
+	XPostURL *string `json:"x_post_url,omitempty"`
+	// XPostText holds the value of the "x_post_text" field.
+	XPostText    *string `json:"x_post_text,omitempty"`
+	selectValues sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -36,7 +42,7 @@ func (*Settings) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case settings.FieldID:
 			values[i] = new(sql.NullInt64)
-		case settings.FieldAvailableFrom, settings.FieldWorkHours, settings.FieldContractType, settings.FieldCommunication, settings.FieldInvoiceStatus:
+		case settings.FieldAvailableFrom, settings.FieldWorkHours, settings.FieldContractType, settings.FieldCommunication, settings.FieldInvoiceStatus, settings.FieldXProfileURL, settings.FieldXPostURL, settings.FieldXPostText:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -89,6 +95,27 @@ func (_m *Settings) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.InvoiceStatus = value.String
 			}
+		case settings.FieldXProfileURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field x_profile_url", values[i])
+			} else if value.Valid {
+				_m.XProfileURL = new(string)
+				*_m.XProfileURL = value.String
+			}
+		case settings.FieldXPostURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field x_post_url", values[i])
+			} else if value.Valid {
+				_m.XPostURL = new(string)
+				*_m.XPostURL = value.String
+			}
+		case settings.FieldXPostText:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field x_post_text", values[i])
+			} else if value.Valid {
+				_m.XPostText = new(string)
+				*_m.XPostText = value.String
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -139,6 +166,21 @@ func (_m *Settings) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("invoice_status=")
 	builder.WriteString(_m.InvoiceStatus)
+	builder.WriteString(", ")
+	if v := _m.XProfileURL; v != nil {
+		builder.WriteString("x_profile_url=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.XPostURL; v != nil {
+		builder.WriteString("x_post_url=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.XPostText; v != nil {
+		builder.WriteString("x_post_text=")
+		builder.WriteString(*v)
+	}
 	builder.WriteByte(')')
 	return builder.String()
 }
