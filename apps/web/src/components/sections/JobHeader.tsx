@@ -22,19 +22,6 @@ const PROFILE_TAGS = [
   "インボイス対応",
 ];
 
-function normalizeXUrl(raw?: string): string | undefined {
-  if (!raw) return undefined;
-  try {
-    const url = new URL(raw);
-    const hostname = url.hostname.toLowerCase();
-    if (url.protocol !== "https:") return undefined;
-    if (!["x.com", "www.x.com", "twitter.com", "www.twitter.com"].includes(hostname)) return undefined;
-    return url.toString();
-  } catch {
-    return undefined;
-  }
-}
-
 function ProfileThoughtBubble({ href, text }: { href: string; text: string }) {
   const handleClick = () => {
     trackXLinkClick("profile_thought_bubble", href);
@@ -96,9 +83,9 @@ function ProfileAvatar({ xProfileUrl }: { xProfileUrl?: string }) {
 
 export function JobHeader() {
   const settings = useAppDataStore((s) => s.data?.settings);
-  const xProfileUrl = normalizeXUrl(settings?.xProfileUrl?.trim());
-  const xPostText = settings?.xPostText?.trim();
-  const xPostUrl = normalizeXUrl(settings?.xPostUrl?.trim());
+  const xProfileUrl = settings?.xProfileUrl;
+  const xPostText = settings?.xPostText;
+  const xPostUrl = settings?.xPostUrl;
 
   return (
     <div className="mb-8 rounded border border-neutral-300 bg-white">

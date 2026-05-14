@@ -1,11 +1,23 @@
 "use client";
 
 import { ApplyButton } from "@/components/layout/ApplyButton";
+import { trackXLinkClick } from "@/libs/analytics";
+import { posthog } from "@/libs/posthog";
+import { useAppDataStore } from "@/stores/app-data";
 import { showDummyPopover } from "@/utils/showDummyPopover";
 
 export function Contact() {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const settings = useAppDataStore((s) => s.data?.settings);
+  const xProfileUrl = settings?.xProfileUrl;
+
+  const handleLinkedInClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     showDummyPopover(e.currentTarget);
+  };
+
+  const handleXClick = () => {
+    if (!xProfileUrl) return;
+    trackXLinkClick("contact_social_link", xProfileUrl);
+    posthog.capture("x_link_click", { location: "contact_social_link", link_url: xProfileUrl });
   };
 
   return (
@@ -27,11 +39,19 @@ export function Contact() {
               <a href="https://github.com/hashiguchip/chokunavi" className="text-primary-500 underline">
                 GitHub
               </a>
-              <button type="button" className="cursor-pointer text-primary-500 underline" onClick={handleClick}>
+              {xProfileUrl && (
+                <a
+                  href={xProfileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-500 underline"
+                  onClick={handleXClick}
+                >
+                  X
+                </a>
+              )}
+              <button type="button" className="cursor-pointer text-primary-500 underline" onClick={handleLinkedInClick}>
                 LinkedIn
-              </button>
-              <button type="button" className="cursor-pointer text-primary-500 underline" onClick={handleClick}>
-                Instagram
               </button>
             </div>
           </div>
