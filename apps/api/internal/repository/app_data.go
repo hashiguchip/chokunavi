@@ -1,6 +1,6 @@
 // Package repository はチョクナビの appData 読み込み層を提供する。
 //
-// DB に置くのは Settings, User, Pricing, Project。
+// seed YAML から memory repository に読み込むのは Settings, User, Pricing, Project。
 // Tech / Phase / FAQ / Benefit / Requirement / PainPoint は
 // frontend の constants に直書きする。
 package repository

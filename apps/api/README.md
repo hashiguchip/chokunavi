@@ -7,8 +7,7 @@
 ## Stack
 
 - Go 1.25 / [huma v2](https://huma.rocks/)
-- [ent](https://entgo.io/) + PostgreSQL 17 ([pgx/v5](https://github.com/jackc/pgx)) + [Atlas](https://atlasgo.io/) versioned migrations
-- [SOPS](https://getsops.io/) binary mode + [age](https://github.com/FiloSottile/age) で seed データを暗号化
+- SOPS binary mode + age で暗号化した seed YAML を起動時に memory store へ読み込む
 
 ## Endpoints
 
@@ -20,32 +19,21 @@
 ## Local setup
 
 ```sh
-# 1. 依存サービスを起動 (Postgres 17)
-docker compose up -d postgres
-
-# 2. migration を適用
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
-  mise run migrate:up
-
-# 3. seed を投入 (referral code を含む users もここで入る)
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
-  mise run seed:apply
-
-# 4. dev server 起動
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
-  mise run dev:api
+# SOPS seed を復号して dev server 起動
+mise run dev:api
 ```
+
+`dev:api` は `apps/api/seed/app-data.sops.bin` を復号し、`APP_DATA_YAML_B64`
+を process env に入れて起動する。Docker Compose や deploy 先で使う `.env` / secret
+を作る場合は `mise run app-data:env >> apps/api/.env` を使う。
 
 ## Commands
 
 | 用途 | mise (ルートから) |
 | --- | --- |
 | dev server | `mise run dev:api` |
-| vet + test | `mise run test:api` (Docker daemon が必要) |
-| ent client 再生成 | `mise run ent:generate` |
-| migration 生成 | `mise run ent:diff <name>` |
-| migration 適用 | `mise run migrate:up` |
-| seed 投入 | `mise run seed:apply` (詳細は下の Seed セクション) |
+| vet + test | `mise run test:api` |
+| APP_DATA_YAML_B64 生成 | `mise run app-data:env` |
 | OpenAPI spec 生成 | `mise run codegen:api` (→ `openapi.yaml`) |
 | OpenAPI → TS schema 一括 | `mise run codegen` (`codegen:api` + `codegen:web`) |
 
@@ -54,21 +42,22 @@ DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disab
 | 変数 | 必須 | 説明 |
 | --- | --- | --- |
 | `PORT` | 任意 | 待受ポート (default `8080`) |
-| `DATABASE_URL` | **必須** | Postgres DSN (e.g. `postgres://user:pass@host/db?sslmode=...`) |
+| `APP_DATA_YAML_B64` | **必須** | SOPS 復号済み seed YAML を base64 化した値 |
 | `CORS_ORIGINS` | 任意 | カンマ区切りの許可 origin (default `https://hashiguchip.github.io`) |
 
 ## Authentication
 
 `/api/app-data` は `X-Referral-Code` header を必須とする。コード (= ユーザー) は
-`users` テーブルに **plaintext で** 格納される。
+seed YAML の `users` セクションに **plaintext で** 格納され、API 起動時に memory
+index (`code -> user`) へ展開される。
 
 - ハッシュ化はしない。本サイトの脅威モデル (チョクナビ閲覧 gate) では plaintext で
   十分と判断した。流出シナリオの最悪は単価情報が見える程度で、operator が許容済み。
 - リポジトリ at-rest は `apps/api/seed/app-data.sops.bin` を SOPS binary mode + age で
   暗号化することで保護する (下の Seed セクション参照)。
-- middleware は `users.code = $1 AND revoked_at IS NULL` で lookup する。一致した
+- middleware は memory index から `code` を lookup し、`revoked_at` があれば 401 にする。一致した
   ユーザーは request context に格納される (`middleware.UserFromContext`)。
-- 各 user は `pricings` の 1 行に紐づく (N:1)。`/api/app-data` は context から
+- 各 user は `pricings` の 1 行に紐づく。`/api/app-data` は context から
   user を取り出し、その user の pricing と全 projects を返す。
 
 サンプル seed (`apps/api/seed/app-data.yaml.example`) には固定の `proto` user
@@ -79,11 +68,11 @@ DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disab
 ```sh
 sops --input-type binary --output-type binary apps/api/seed/app-data.sops.bin
 # users: セクションに新しい label / code を追加 (revoke なら revoked_at を設定)
-mise run seed:apply
+mise run app-data:env
 ```
 
-`cmd/seed` は単一 transaction で全テーブルを delete → insert する idempotent 投入なので、
-seed YAML が DB の単一 source of truth になる。
+seed YAML が API data の single source of truth になる。deploy 先では
+`APP_DATA_YAML_B64` secret を更新して再デプロイする。
 
 ## OpenAPI
 
@@ -95,11 +84,65 @@ PR diff で API 変更を可視化でき、同ファイルを `openapi-typescrip
 mise run codegen        # openapi.yaml 生成 → TS schema 生成 (一括)
 ```
 
-## Schema / migrations
+## Deploy
 
-- `ent/schema/*.go` が schema の single source of truth。変更後は `mise run ent:generate` で client を再生成。
-- `mise run ent:diff <name>` で差分 SQL を `migrations/` に書き出す (atlas 互換フォーマット、`atlas.sum` 付き)。
-- `mise run migrate:up` は atlas CLI を使って `migrations/` を `DATABASE_URL` に流す。
+API は Cloud Run へ deploy する。現状は移行優先のため手動 deploy を暫定運用し、
+後で GitHub Actions からの自動 deploy に置き換える。
+
+公開READMEには project ID や実際の service URL は固定値として書かず、
+必要な値はローカル shell 変数で渡す。
+
+```sh
+PROJECT_ID="<gcp-project-id>"
+REGION="asia-northeast1"
+REPOSITORY="chokunavi"
+SERVICE="chokunavi-api"
+IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/api:latest"
+```
+
+初回のみ Artifact Registry repository を作成する。
+
+```sh
+gcloud artifacts repositories create "${REPOSITORY}" \
+  --repository-format=docker \
+  --location="${REGION}"
+
+gcloud auth configure-docker "${REGION}-docker.pkg.dev"
+```
+
+Apple Silicon から Cloud Run 向けに build する場合は `linux/amd64` を明示する。
+
+```sh
+docker buildx build \
+  --platform linux/amd64 \
+  -f apps/api/Dockerfile \
+  -t "${IMAGE}" \
+  --push \
+  .
+```
+
+deploy 時は復号済み seed を base64 化した値を環境変数として渡す。
+`APP_DATA_YAML_B64` は base64 だが復元可能なので、ログやREADMEには貼らない。
+
+```sh
+APP_DATA_YAML_B64="$(mise run app-data:env | tail -n 1 | sed 's/^APP_DATA_YAML_B64=//')"
+
+gcloud run deploy "${SERVICE}" \
+  --image "${IMAGE}" \
+  --region "${REGION}" \
+  --platform managed \
+  --allow-unauthenticated \
+  --port 8080 \
+  --memory 512Mi \
+  --cpu 1 \
+  --min-instances 0 \
+  --max-instances 1 \
+  --set-env-vars CORS_ORIGINS=https://hashiguchip.github.io \
+  --set-env-vars APP_DATA_YAML_B64="${APP_DATA_YAML_B64}"
+```
+
+deploy 後は `/api/app-data` が referral code なしで `401`、有効な
+`X-Referral-Code` 付きで `200` になることを確認する。
 
 ### Seed データ
 
@@ -146,19 +189,14 @@ sops -e --input-type binary \
 rm /tmp/app-data.yaml
 ```
 
-#### 投入
+#### APP_DATA_YAML_B64 生成
 
 ```sh
-# ローカル DB
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
-  mise run seed:apply
-
-# 本番 (leapcell)
-DATABASE_URL=<leapcell-postgres-dsn> mise run seed:apply
+mise run app-data:env
 ```
 
-`cmd/seed` は idempotent: 1 つの transaction で全テーブルを delete → insert する。
-途中で失敗すれば全てロールバックされ、DB は元の状態に戻る。
+出力された `APP_DATA_YAML_B64=...` を `apps/api/.env` または deploy 先の secret/env
+に設定する。API は起動時にこの値を decode → YAML parse → memory store 構築する。
 
 #### key を失った場合
 
