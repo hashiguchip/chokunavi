@@ -15,20 +15,21 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humago"
 
+	"github.com/hashiguchip/chokunavi/apps/api/internal/appdata"
 	"github.com/hashiguchip/chokunavi/apps/api/internal/handlers"
 	"github.com/hashiguchip/chokunavi/apps/api/internal/middleware"
 	"github.com/hashiguchip/chokunavi/apps/api/internal/repository"
 )
 
 type config struct {
-	DatabaseURL string
-	CORSOrigins []string
+	AppDataYAMLB64 string
+	CORSOrigins    []string
 }
 
 func loadConfig() *config {
 	return &config{
-		DatabaseURL: requireEnv("DATABASE_URL"),
-		CORSOrigins: parseList(envOr("CORS_ORIGINS", "https://hashiguchip.github.io")),
+		AppDataYAMLB64: requireEnv("APP_DATA_YAML_B64"),
+		CORSOrigins:    parseList(envOr("CORS_ORIGINS", "https://hashiguchip.github.io")),
 	}
 }
 
@@ -64,20 +65,14 @@ func newServer(cfg *config, appDataRepo repository.AppDataRepository, userRepo r
 func main() {
 	cfg := loadConfig()
 
-	// 初期接続には 10s の timeout を付ける。Postgres が落ちていると process exit。
-	initCtx, initCancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer initCancel()
-	client, _, closeFn, err := repository.OpenEntClient(initCtx, cfg.DatabaseURL)
+	seed, err := appdata.ParseBase64YAML(cfg.AppDataYAMLB64)
 	if err != nil {
-		slog.Error("failed to init repository", "err", err)
+		slog.Error("failed to load app data", "err", err)
 		os.Exit(1)
 	}
-	defer closeFn()
+	repo := repository.NewMemoryRepo(seed)
 
-	appDataRepo := repository.NewAppDataRepo(client)
-	userRepo := repository.NewUserRepo(client)
-
-	handler, err := newServer(cfg, appDataRepo, userRepo)
+	handler, err := newServer(cfg, repo, repo)
 	if err != nil {
 		slog.Error("failed to build server", "err", err)
 		os.Exit(1)

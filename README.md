@@ -4,14 +4,29 @@
 
 [![CI](https://github.com/hashiguchip/chokunavi/actions/workflows/ci.yml/badge.svg)](https://github.com/hashiguchip/chokunavi/actions/workflows/ci.yml)
 [![Deploy Web](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-web.yml/badge.svg)](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-web.yml)
-[![Deploy API](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-api.yml)
+[![Build API](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-api.yml/badge.svg)](https://github.com/hashiguchip/chokunavi/actions/workflows/deploy-api.yml)
 
 求人票形式のポートフォリオサイト。`mise` で統合管理するモノレポ構成。
 
 ## Apps
 
 - [**apps/web**](apps/web/README.md) — フロントエンド。GitHub Pages にて公開
-- [**apps/api**](apps/api/README.md) — データ API (Leapcell)。表示データを API 経由で配信し、データ更新のたびにコードを触らなくて済む構成にしている
+- [**apps/api**](apps/api/README.md) — データ API。SOPS 暗号化 seed を起動時に memory store へ読み込み、表示データを API 経由で配信する
+
+## Architecture
+
+```mermaid
+flowchart LR
+  user[Browser] --> pages[GitHub Pages<br/>Next.js static export]
+  pages --> api[Cloud Run<br/>Go API]
+  api --> memory[In-memory repository]
+  seed[SOPS encrypted seed<br/>app-data.sops.bin] --> env[APP_DATA_YAML_B64<br/>deploy env]
+  env --> api
+```
+
+`apps/web` は GitHub Pages に静的配信し、`NEXT_PUBLIC_API_BASE_URL` で
+Cloud Run 上の API を参照する。API は DB を持たず、deploy 時に渡した
+`APP_DATA_YAML_B64` を起動時に decode して memory repository を構築する。
 
 ## Monorepo Structure
 
@@ -25,18 +40,18 @@
 ├── hk.pkl                  # Git hooks (pre-commit / commit-msg)
 ├── cog.toml                # Conventional Commits 設定
 ├── .sops.yaml              # SOPS 暗号化設定 (age recipient)
-├── docker-compose.yml      # ローカル開発用 (web + api + postgres)
+├── docker-compose.yml      # ローカル開発用 (web + api)
 └── CLAUDE.md               # Claude Code 向けガイド
 ```
 
 ## Requirements
 
-[mise](https://mise.jdx.dev/) のみ。Node / Go / Biome / hk / cocogitto / pkl / atlas / sops / age は `.mise.toml` で固定されており `mise install` で一括導入できる。
+[mise](https://mise.jdx.dev/) のみ。Node / Go / Biome / hk / cocogitto / pkl / sops / age は `.mise.toml` で固定されており `mise install` で一括導入できる。
 
 ## Setup
 
 ```sh
-# 1. ホストツール一式をインストール (Node / Go / Biome / hk / cocogitto / pkl / atlas / sops / age)
+# 1. ホストツール一式をインストール (Node / Go / Biome / hk / cocogitto / pkl / sops / age)
 mise install
 
 # 2. Web 依存関係をインストール (host で lint / test / typecheck を走らせる場合)
@@ -47,14 +62,9 @@ cp apps/web/.env.example apps/web/.env
 cp apps/api/.env.example apps/api/.env
 # ⚠ コピー後、必ず実値を埋めること:
 #   - apps/web/.env: NEXT_PUBLIC_GA_ID, NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
-#   - apps/api/.env: DATABASE_URL (Docker Compose 経由なら自動注入されるので不要)
 
-# 4. DB セットアップ (Docker Compose を使わない場合)
-docker compose up -d postgres
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
-  mise run migrate:up
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disable \
-  mise run seed:apply
+# 4. Docker Compose / deploy 用の API data secret を生成
+mise run app-data:env >> apps/api/.env
 ```
 
 ここまでが共通の前準備。実際の起動方法は次の `## Run` を参照。
@@ -70,9 +80,9 @@ DATABASE_URL=postgres://postgres:postgres@localhost:5432/chokunavi?sslmode=disab
 docker compose up
 ```
 
-- `web` (3000)、`api` (8080)、`postgres` (5432) を同時起動
+- `web` (3000)、`api` (8080) を同時起動
 - web は `NEXT_PUBLIC_API_BASE_URL=http://localhost:8080` を **自動で受け取る** (compose の `environment:` で注入済) ので `.env` への手書き不要
-- api は `DATABASE_URL` を compose の `environment:` で自動注入される
+- api は `apps/api/.env` の `APP_DATA_YAML_B64` を起動時に読み込む
 - `apps/web/src` を bind mount してホットリロード (`next.config.ts` 等の設定ファイルは反映されないので変更時は再起動)
 - 個別の `apps/web/.env` / `apps/api/.env` はあれば自動読み込み (`env.ts` / `main.go` の必須項目は事前に埋めておくこと)
 - **コンテナ内の Node / Go バージョンは host と同じ [`.mise.toml`](.mise.toml) から解決される** — Dockerfile は `debian:13-slim` をベースに mise を組み込み、`mise install` で `.mise.toml` を読む単一情報源パターン (参考: [mise + Docker cookbook](https://mise.jdx.dev/mise-cookbook/docker.html))
@@ -89,7 +99,7 @@ mise run dev:api   # api → http://localhost:8080
 
 - ホストの Node / Go (mise 管理) を直接使うので Docker オーバーヘッドなし
 - web から api を呼ぶ場合は `apps/web/.env` に `NEXT_PUBLIC_API_BASE_URL=http://localhost:8080` を **手動で**設定する必要あり (compose 経由と違い自動セットされない)
-- api は `DATABASE_URL` が必要。Postgres を `docker compose up -d postgres` で起動し、migration / seed を事前に済ませておく
+- api は `dev:api` 内で SOPS seed を復号して `APP_DATA_YAML_B64` を生成するため、`SOPS_AGE_KEY_FILE` が必要
 
 ## Branching
 
@@ -111,7 +121,7 @@ Conventional Commits ([cocogitto](https://docs.cocogitto.io/) で検証)。
 | -------- | ------ | ---- |
 | [`ci.yml`](.github/workflows/ci.yml) | PR (→ main) | web: `biome check` / `typecheck` / `test` / `build`、api: `go vet` / `go test` |
 | [`deploy-web.yml`](.github/workflows/deploy-web.yml) | `main` push (`apps/web/**`) | 静的ビルドして GitHub Pages へデプロイ |
-| [`deploy-api.yml`](.github/workflows/deploy-api.yml) | `main` push (`apps/api/**`) | ビルド検証 + Leapcell へデプロイ |
+| [`deploy-api.yml`](.github/workflows/deploy-api.yml) | `main` push (`apps/api/**`) | API ビルド検証 (Cloud Run deploy は暫定で手動。後で自動 deploy に置き換える) |
 
 ## Stack
 
@@ -131,10 +141,10 @@ Conventional Commits ([cocogitto](https://docs.cocogitto.io/) で検証)。
 
 - **Language**: Go 1.25
 - **HTTP**: [huma v2](https://huma.rocks/) (net/http adapter)
-- **ORM / Migration**: [ent](https://entgo.io/) + [Atlas](https://atlasgo.io/) versioned migrations
-- **DB**: PostgreSQL 17 ([pgx/v5](https://github.com/jackc/pgx))
+- **Data source**: SOPS encrypted YAML → in-memory repository
+- **Runtime**: Cloud Run (manual deploy for now, automated deploy later)
 - **Logging**: `log/slog`
-- **Auth**: DB ベース referral code lookup (`users` テーブル + middleware)
+- **Auth**: seed YAML ベース referral code lookup (memory index + middleware)
 - **Seed 暗号化**: [SOPS](https://getsops.io/) binary mode + [age](https://github.com/FiloSottile/age)
 
 ### Toolchain
