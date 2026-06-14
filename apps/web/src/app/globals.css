@@ -76,3 +76,84 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes source-bubble-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.08, 0.18);
+  }
+
+  46% {
+    opacity: 1;
+    transform: translateY(1px) scale(1.08, 1.04);
+  }
+
+  72% {
+    transform: translateY(0) scale(0.97, 1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes source-bubble-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  36% {
+    opacity: 1;
+    transform: translateY(1px) scale(1.03, 0.96);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.08, 0.18);
+  }
+}
+
+.source-bubble {
+  transform-origin: calc(100% - 16px) 0;
+  will-change: opacity, transform;
+}
+
+.source-bubble[data-state="visible"] {
+  animation: source-bubble-in 620ms cubic-bezier(0.2, 0.9, 0.18, 1.08) both;
+}
+
+.source-bubble[data-state="hidden"] {
+  pointer-events: none;
+  animation: source-bubble-out 260ms ease-in both;
+}
+
+@media (width < 48rem) {
+  .source-bubble[data-mobile-menu="open"] {
+    pointer-events: none;
+    opacity: 0;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .source-bubble {
+    transition: none;
+  }
+
+  .source-bubble[data-state="visible"],
+  .source-bubble[data-state="hidden"] {
+    animation: none;
+  }
+
+  .source-bubble[data-state="visible"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .source-bubble[data-state="hidden"] {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.08, 0.18);
+  }
+}
