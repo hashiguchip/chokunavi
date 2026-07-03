@@ -32,6 +32,11 @@ export function trackXLinkClick(location: string, url: string): void {
   window.gtag("event", "x_link_click", { location, link_url: url });
 }
 
+export function trackPricingInterestClick(location: string): void {
+  if (typeof window === "undefined" || !window.gtag) return;
+  window.gtag("event", "pricing_interest_click", { location });
+}
+
 export function trackContactInputStart(): void {
   if (typeof window === "undefined" || !window.gtag) return;
   window.gtag("event", "contact_input_start");
